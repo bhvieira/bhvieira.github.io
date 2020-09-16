@@ -60,3 +60,47 @@ function hfun_blogposts()
     r = Franklin.fd2html(String(take!(io)), internal=true)
     return r
 end
+
+"""
+    {{publications}}
+
+Plug in the list of publications contained in the `/publications/` folder.
+"""
+function hfun_publications()
+    curyear = year(Dates.today())
+    io = IOBuffer()
+    for year in curyear:-1:2017
+        ys = "$year"
+        # year < curyear && write(io, "\n**$year**\n")
+        for month in 12:-1:1
+            ms = "0"^(month < 10) * "$month"
+            base = joinpath("publications", ys, ms)
+            isdir(base) || continue
+            posts = filter!(p -> endswith(p, ".md"), readdir(base))
+            days  = zeros(Int, length(posts))
+            lines = Vector{String}(undef, length(posts))
+            for (i, post) in enumerate(posts)
+                ps  = splitext(post)[1]
+                url = "/publications/$ys/$ms/$ps/"
+                surl = strip(url, '/')
+                title = pagevar(surl, :title)
+                pubdate = pagevar(surl, :published)
+                if isnothing(pubdate)
+                    date    = "$ys-$ms-01"
+                    days[i] = 1
+                else
+                    date    = Date(pubdate, dateformat"d U Y")
+                    days[i] = day(date)
+                end
+                lines[i] = "\n[$title]($url) $date \n"
+            end
+            # sort by day
+            foreach(line -> write(io, line), lines[sortperm(days, rev=true)])
+        end
+    end
+    # markdown conversion adds `<p>` beginning and end but
+    # we want to  avoid this to avoid an empty separator
+    r = Franklin.fd2html(String(take!(io)), internal=true)
+    return r
+end
+
