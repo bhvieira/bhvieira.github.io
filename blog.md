@@ -9,7 +9,7 @@
 <style>
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  grid-template-rows: repeat(auto-fill, 1fr);
   grid-gap: 1rem;
 }
 
