@@ -31,14 +31,14 @@ function hfun_blogposts()
         year < curyear && write(io, "\n**$year**\n")
         for month in 12:-1:1
             ms = "0"^(month < 10) * "$month"
-            base = joinpath("posts", ys, ms)
+            base = joinpath("blog", ys, ms)
             isdir(base) || continue
             posts = filter!(p -> endswith(p, ".md"), readdir(base))
             days  = zeros(Int, length(posts))
             lines = Vector{String}(undef, length(posts))
             for (i, post) in enumerate(posts)
                 ps  = splitext(post)[1]
-                url = "/posts/$ys/$ms/$ps/"
+                url = "/blog/$ys/$ms/$ps/"
                 surl = strip(url, '/')
                 title = pagevar(surl, :title)
                 pubdate = pagevar(surl, :published)
