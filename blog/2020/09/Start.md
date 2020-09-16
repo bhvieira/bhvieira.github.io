@@ -1,6 +1,6 @@
 @def rss_pubdate = Date(2020, 9, 16)
-@def rss = """ The start of the Weblog """
-@def published = "27 February 2012"
+@def rss = """ The start of the Weblog - Today marks the start of the site and the Weblog"""
+@def published = "16 September 2020"
 @def title = "The start of the Weblog"
 
 # The start of the Weblog
