@@ -25,9 +25,11 @@ Amateur mandolinist in the spare time.
     - Acquisition
     - Pre-processing
     - Analysis
-- Data analysis
+- Data science
     - Statistical modelling
     - Hypothesis testing
     - Data visualization
     - Machine learning
-
+- Programming
+    - Fluent in Julia, R, Matlab
+    - Moderate experience with Python and Java
