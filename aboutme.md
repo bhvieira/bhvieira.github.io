@@ -7,11 +7,13 @@
 ## Personal
 
 Born in the city of Araraquara, São Paulo but obtained my higher education in Ribeirão Preto, where I have lived ever since.
-Occasional Wikipedian.
 History & fantasy geek.
 Progressive music fan.
 Machine-learning enthusiast.
 Amateur mandolinist in the spare time.
+Frequent Cross-Validater.
+Occasional Wikipedian.
+
 
 ## Education
 
