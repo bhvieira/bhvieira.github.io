@@ -1,9 +1,8 @@
 @def title = "The Weblog"
 @def author = "Bruno Hebling Vieira"
 
-I decided to add a Weblog[^1] to my site for a few reasons.
 
-[^1]: Blog is a shortened form of web-log, see [Wiktionary](https://en.wiktionary.org/wiki/blog)
+
 \\
 
 ~~~
@@ -37,3 +36,4 @@ I decided to add a Weblog[^1] to my site for a few reasons.
 ~~~
 </div>
 ~~~
+

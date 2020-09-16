@@ -10,5 +10,6 @@ This page was generated using [Franklin.jl](franklinjl.org) v0.9.16 with the `mi
 
 You can see the source code in my [GitHub](github.com/bhvieira/bhvieira.github.io).
 
-
+I decided to add a Weblog[^1] to my site for a few reasons.
+[^1]: Blog is a shortened form of web-log, see [Wiktionary](https://en.wiktionary.org/wiki/blog)
 
