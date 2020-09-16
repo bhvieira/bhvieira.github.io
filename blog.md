@@ -1,5 +1,7 @@
 @def title = "The Weblog"
 @def author = "Bruno Hebling Vieira"
+@def date = Date(2020, 9, 16)
+
 
 
 
