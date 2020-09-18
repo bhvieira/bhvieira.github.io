@@ -86,7 +86,17 @@ function hfun_publications()
                 title = pagevar(surl, :title)
                 pubdate = pagevar(surl, :published)
                 journal = pagevar(surl, :journal)
-                authors = pagevar(surl, :authors)
+                authorspre = pagevar(surl, :authors_pre)
+                authorspos = pagevar(surl, :authors_post)
+                if isnothing(authorspre) && isnothing(authorspos)
+                    authors = "**B.H. Vieira**"
+                elseif isnothing(authorspos)
+                    authors = string(authorspre, ", **B.H. Vieira**")
+                elseif isnothing(authorspre)
+                    authors = string("**B.H. Vieira**, ", authorspos)
+                else
+                    authors = string(authorspre, ", **B.H. Vieira**, ", authorspos)
+                end
                 if isnothing(pubdate)
                     date    = "$ys-$ms-01"
                     days[i] = 1
@@ -94,7 +104,7 @@ function hfun_publications()
                     date    = Date(pubdate, dateformat"d U Y")
                     days[i] = day(date)
                 end
-                lines[i] = "\n[$title]($url) *$journal* - $date \n"
+                lines[i] = "\n[$title]($url) \n $authors \n -- *$journal* - $date \n"
             end
             # sort by day
             foreach(line -> write(io, line), lines[sortperm(days, rev=true)])
