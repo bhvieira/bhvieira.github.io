@@ -88,15 +88,13 @@ function hfun_publications()
                 journal = pagevar(surl, :journal)
                 authorspre = pagevar(surl, :authors_pre)
                 authorspos = pagevar(surl, :authors_post)
-                if isnothing(authorspre) && isnothing(authorspos)
-                    authors = "**B.H. Vieira**"
-                elseif isnothing(authorspos)
-                    authors = string(authorspre, ", **B.H. Vieira**")
-                elseif isnothing(authorspre)
-                    authors = string("**B.H. Vieira**, ", authorspos)
-                else
-                    authors = string(authorspre, ", **B.H. Vieira**, ", authorspos)
+                if isnothing(authorspre)
+                    authorspre = ""
                 end
+                if isnothing(authorspos)
+                    authorspos = ""
+                end
+                    authors = string(authorspre, "**B.H. Vieira**", authorspos)
                 if isnothing(pubdate)
                     date    = "$ys-$ms-01"
                     days[i] = 1
