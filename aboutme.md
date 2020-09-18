@@ -8,7 +8,7 @@
 
 Born in the city of Araraquara, São Paulo but obtained my higher education in Ribeirão Preto, where I have lived ever since.
 History & fantasy geek.
-Progressive music fan.
+All-around music fan.
 Machine-learning enthusiast.
 Amateur mandolinist in the spare time.
 Frequent Cross-Validater.
