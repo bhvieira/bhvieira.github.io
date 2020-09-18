@@ -2,26 +2,18 @@
 @def rss = """ Pattern recognition of abscesses and brain tumors through MR spectroscopy: Comparison of experimental conditions and radiological findings """
 @def published = "17 August 2017"
 @def title = "Pattern recognition of abscesses and brain tumors through MR spectroscopy: Comparison of experimental conditions and radiological findings"
-@def authors_post = "A.C. dos Santos, C.E.G. Salmon"
+@def authors_post = ", A.C. dos Santos, C.E.G. Salmon"
+@def authors_pre = ""
 @def journal = "Research on Biomedical Engineering"
 
 ## {{title}}
 ~~~<sup>~~~
-{{if {{isdef authors_pre}}}}
-{{if {{isdef authors_post}}}}
-    {{authors_pre}}, **B.H. Vieira**, {{authors_post}}
-{{else}}
-    {{authors_pre}}, **B.H. Vieira**
-{{end}}
-{{else}}
-{{if {{isdef authors_post}}}}
-    **B.H. Vieira**, {{authors_post}}
-{{else}}
-    **B.H. Vieira**
-{{end}}
-{{end}}
+{{authors_pre}}
+**B.H. Vieira**
+{{authors_post}}
 , _{{journal}}_, {{rss_pubdate}}
 ~~~</sup>~~~
+
 
 <!-- 
 The interpretation of brain tumors and abscesses MR spectra is complex and subjective. In clinical practice, different experimental conditions such as field strength or echo time (TE) reveal different metabolite information. Our study aims to show in which scenarios magnetic resonance spectroscopy can differentiate among brain tumors, normal tissue and abscesses using classification algorithms.
