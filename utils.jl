@@ -94,7 +94,7 @@ function hfun_publications()
                     date    = Date(pubdate, dateformat"d U Y")
                     days[i] = day(date)
                 end
-                lines[i] = "\n[$title]($url) $date \n"
+                lines[i] = "\n[$title]($url) *$journal* - $date \n"
             end
             # sort by day
             foreach(line -> write(io, line), lines[sortperm(days, rev=true)])
