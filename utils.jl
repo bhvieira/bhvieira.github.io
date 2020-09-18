@@ -85,6 +85,8 @@ function hfun_publications()
                 surl = strip(url, '/')
                 title = pagevar(surl, :title)
                 pubdate = pagevar(surl, :published)
+                journal = pagevar(surl, :journal)
+                authors = pagevar(surl, :authors)
                 if isnothing(pubdate)
                     date    = "$ys-$ms-01"
                     days[i] = 1
