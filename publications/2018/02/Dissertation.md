@@ -2,7 +2,7 @@
 @def rss = """ Brain functional connectivity in regions with cortical thinning linked to healthy aging """
 @def published = "22 February 2017"
 @def title = "Brain functional connectivity in regions with cortical thinning linked to healthy aging (Dissertation)"
-@def authors = "B.H. Vieira"
+@def authors = "<b>B.H. Vieira</b>"
 @def journal = "University of São Paulo"
 
 ## {{title}}
