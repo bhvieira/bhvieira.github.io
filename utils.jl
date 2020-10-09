@@ -83,7 +83,7 @@ function hfun_publications()
                 url = "/publications/$ys/$ms/$ps/"
                 surl = strip(url, '/')
                 title = pagevar(surl, :title)
-                pubdate = pagevar(surl, :published)
+                date    = pagevar(surl, :rss_pubdate)
                 journal = pagevar(surl, :journal)
                 authorspre = pagevar(surl, :authors_pre)
                 authorspos = pagevar(surl, :authors_post)
@@ -94,11 +94,10 @@ function hfun_publications()
                     authorspos = ""
                 end
                     authors = string(authorspre, "**B.H. Vieira**", authorspos)
-                if isnothing(pubdate)
+                if isnothing(date)
                     date    = "$ys-$ms-01"
                     days[i] = 1
                 else
-                    date    = Date(pubdate, dateformat"d U Y")
                     days[i] = day(date)
                 end
                 lines[i] = "\n[$title]($url) \n $authors \n -- *$journal* - $date \n"
