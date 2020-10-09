@@ -112,3 +112,17 @@ function hfun_publications()
     return r
 end
 
+"""
+    {{shortref rpath}}
+
+Use elements in rpath to build a simple shortref to be reused.
+"""
+function hfun_shortref(rpath)
+    path = rpath[1]
+    surl = strip(path, '/')
+    title = pagevar(surl, :title)
+    journal = pagevar(surl, :journal)
+    date = pagevar(surl, :rss_pubdate)
+    Franklin.fd2html("""[$title](/$surl), $journal, $date""", internal = true, nop = true)
+end
+
