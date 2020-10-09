@@ -41,12 +41,11 @@ function hfun_blogposts()
                 url = "/blog/$ys/$ms/$ps/"
                 surl = strip(url, '/')
                 title = pagevar(surl, :title)
-                pubdate = pagevar(surl, :published)
-                if isnothing(pubdate)
+                date    = pagevar(surl, :rss_pubdate)
+                if isnothing(date)
                     date    = "$ys-$ms-01"
                     days[i] = 1
                 else
-                    date    = Date(pubdate, dateformat"d U Y")
                     days[i] = day(date)
                 end
                 lines[i] = "\n[$title]($url) $date \n"
