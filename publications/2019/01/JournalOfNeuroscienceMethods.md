@@ -22,7 +22,7 @@ The GPDC is a multivariate measure of directed connectivity in the frequency dom
 It has parallels to Multivariate Granger Causality and the Directed Transfer Function.
 One of it's most interesting properties is that, for a given frequency, the GPDC from a node (source) to all other nodes (sinks) sums to one, _i.e._ the GPDC measures the proportion of information being sent.
 
-That interesting property, however, makes it's study more complex and prone to bias, specially due to the appearance of these ratios.
+That interesting property, however, makes its study more complex and prone to bias, specially due to the appearance of these ratios.
 We make an identification between the squared GPDC from each node with the Dirichlet distribution, which is a multivariate generalization of the Beta distribution.
 This opens the possibility of employing the Dirichlet Regression to the problem, taking into account the multivariate character of the dependent variable.
 
