@@ -3450,8 +3450,8 @@ a.reversefootnote:hover {
 
 .page__hero--overlay {
   position: relative;
-  margin-bottom: 2em;
-  padding: 3em 0;
+  margin-bottom: 0;
+  padding: 1em 0 0;
   clear: both;
   background-size: cover;
   background-repeat: no-repeat;
