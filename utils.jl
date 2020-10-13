@@ -125,8 +125,11 @@ end
 Retrieve publication details and make it into text.
 """
 function hfun_publidetails(rpath)
+    authors = locvar(:authors)
+    authors = replace(authors, "B.H. Vieira" => "**B.H. Vieira**")
+
     Franklin.fd2html("""## {{title}}
     ~~~<sup>~~~
-    {{authors}}, _{{journal}}_, {{rss_pubdate}}
+    $authors, _{{journal}}_, {{rss_pubdate}}
     ~~~</sup>~~~""", internal = true, nop = true)
 end
