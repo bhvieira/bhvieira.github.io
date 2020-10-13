@@ -85,15 +85,8 @@ function hfun_publications()
                 title = pagevar(surl, :title)
                 date    = pagevar(surl, :rss_pubdate)
                 journal = pagevar(surl, :journal)
-                authorspre = pagevar(surl, :authors_pre)
-                authorspos = pagevar(surl, :authors_post)
-                if isnothing(authorspre)
-                    authorspre = ""
-                end
-                if isnothing(authorspos)
-                    authorspos = ""
-                end
-                    authors = string(authorspre, "**B.H. Vieira**", authorspos)
+                authors = pagevar(surl, :authors)
+                authors = replace(authors, "B.H. Vieira" => "**B.H. Vieira**")
                 if isnothing(date)
                     date    = "$ys-$ms-01"
                     days[i] = 1
@@ -134,9 +127,6 @@ Retrieve publication details and make it into text.
 function hfun_publidetails(rpath)
     Franklin.fd2html("""## {{title}}
     ~~~<sup>~~~
-    {{authors_pre}}
-    **B.H. Vieira**
-    {{authors_post}}
-    , _{{journal}}_, {{rss_pubdate}}
+    {{authors}}, _{{journal}}_, {{rss_pubdate}}
     ~~~</sup>~~~""", internal = true, nop = true)
 end
