@@ -6,11 +6,4 @@
 @def authors_post = ", F. Scharnowski, C.E.G. Salmon"
 @def journal = "Neuroinformatics"
 
-## {{title}}
-~~~<sup>~~~
-{{authors_pre}}
-**B.H. Vieira**
-{{authors_post}}
-, _{{journal}}_, {{rss_pubdate}}
-~~~</sup>~~~
-
+{{publidetails .}}

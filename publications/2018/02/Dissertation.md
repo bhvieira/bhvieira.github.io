@@ -6,13 +6,7 @@
 @def authors_pre = ""
 @def authors_post = ""
 
-## {{title}}
-~~~<sup>~~~
-{{authors_pre}}
-**B.H. Vieira**
-{{authors_post}}
-, _{{journal}}_, {{rss_pubdate}}
-~~~</sup>~~~
+{{publidetails .}}
 
 This dissertation was written for the completion of my MSc in Physics Applied to Medicine and Biology,
 under the ever productive supervision of Prof. Carlos E. G. Salmon at the University of São Paulo, Ribeirão Preto, Brazil.

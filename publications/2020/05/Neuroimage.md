@@ -6,13 +6,7 @@
 @def authors_post = ", C. Rondinoni, C.E.G. Salmon"
 @def journal = "NeuroImage"
 
-## {{title}}
-~~~<sup>~~~
-{{authors_pre}}
-**B.H. Vieira**
-{{authors_post}}
-, _{{journal}}_, {{rss_pubdate}}
-~~~</sup>~~~
+{{publidetails .}}
 
 This paper stems from my Master's dissertation[^1], completed in 2018.
 The main motivator for this paper (and the dissertation as well) was the fact that the macroscopical effects of aging on the brain are well understood, but the relationships between several such phenomena are yet unclear.

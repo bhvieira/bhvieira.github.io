@@ -6,14 +6,7 @@
 @def authors_pre = ""
 @def journal = "Research on Biomedical Engineering"
 
-## {{title}}
-~~~<sup>~~~
-{{authors_pre}}
-**B.H. Vieira**
-{{authors_post}}
-, _{{journal}}_, {{rss_pubdate}}
-~~~</sup>~~~
-
+{{publidetails .}}
 
 <!-- 
 The interpretation of brain tumors and abscesses MR spectra is complex and subjective. In clinical practice, different experimental conditions such as field strength or echo time (TE) reveal different metabolite information. Our study aims to show in which scenarios magnetic resonance spectroscopy can differentiate among brain tumors, normal tissue and abscesses using classification algorithms.

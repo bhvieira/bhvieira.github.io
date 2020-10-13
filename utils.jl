@@ -126,3 +126,17 @@ function hfun_shortref(rpath)
     Franklin.fd2html("""[$title](/$surl), $journal, $date""", internal = true, nop = true)
 end
 
+"""
+    {{publidetails}}
+
+Retrieve publication details and make it into text.
+"""
+function hfun_publidetails(rpath)
+    Franklin.fd2html("""## {{title}}
+    ~~~<sup>~~~
+    {{authors_pre}}
+    **B.H. Vieira**
+    {{authors_post}}
+    , _{{journal}}_, {{rss_pubdate}}
+    ~~~</sup>~~~""", internal = true, nop = true)
+end

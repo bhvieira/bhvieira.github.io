@@ -7,13 +7,7 @@
 
 @def journal = "Journal of Neuroscience Methods"
 
-## {{title}}
-~~~<sup>~~~
-{{authors_pre}}
-**B.H. Vieira**
-{{authors_post}}
-, _{{journal}}_, {{rss_pubdate}}
-~~~</sup>~~~
+{{publidetails .}}
 
 This is the first paper derived from my Master's dissertation[^1].
 It is a methodological paper that was created out of the necessity of a principled method to study the Generalized Partial Directed Coherence (GPDC) between subjects.
