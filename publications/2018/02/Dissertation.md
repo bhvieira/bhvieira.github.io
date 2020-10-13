@@ -3,8 +3,8 @@
 @def published = "22 February 2017"
 @def title = "Brain functional connectivity in regions with cortical thinning linked to healthy aging (Dissertation)"
 @def journal = "University of São Paulo"
-@def authors_pre = ""
-@def authors_post = ""
+@def authors = "B.H. Vieira"
+
 
 {{publidetails .}}
 

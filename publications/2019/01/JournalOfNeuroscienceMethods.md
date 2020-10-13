@@ -2,8 +2,7 @@
 @def rss = """ A principled multivariate intersubject analysis of Generalized Partial Directed Coherence with Dirichlet Regression: application to healthy aging in areas exhibiting cortical thinning """
 @def published = "1 January 2019"
 @def title = "A principled multivariate intersubject analysis of Generalized Partial Directed Coherence with Dirichlet Regression: application to healthy aging in areas exhibiting cortical thinning"
-@def authors_post = ", C.E.G. Salmon"
-@def authors_pre = ""
+@def authors = "B.H. Vieira, C.E.G. Salmon"
 
 @def journal = "Journal of Neuroscience Methods"
 

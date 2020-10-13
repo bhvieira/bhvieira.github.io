@@ -2,8 +2,7 @@
 @def rss = """ Personode: A Toolbox for ICA Map Classification and Individualized ROI Definition """
 @def published = "3 January 2020"
 @def title = "Personode: A Toolbox for ICA Map Classification and Individualized ROI Definition"
-@def authors_pre = "G.S.P. Pamplona, "
-@def authors_post = ", F. Scharnowski, C.E.G. Salmon"
+@def authors = "G.S.P. Pamplona, B.H. Vieira, F. Scharnowski, C.E.G. Salmon"
 @def journal = "Neuroinformatics"
 
 {{publidetails .}}
