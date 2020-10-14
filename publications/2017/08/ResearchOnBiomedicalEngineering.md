@@ -11,11 +11,12 @@ This was my first paper, based on research I performed while an undergrad in Med
 One of the major subjects in Medical Physics is the diagnosis and treatment of tumors.
 Brain tumors, specifically, require special care due to their characteristics.
 
+<!-- 
 Brain tumors are either primary (originating within the brain) or secondary (originating outside the brain).
 Primary tumors may originate from different cells.
 The most common, however, originate in glial, _i.e._ support cells, and are therefore called gliomas.
 Gliomas can be further subdivided depending on their specific tissue of origin.
-Glioma grading is based on cell appearance and clinical evaluation, where severe cases are graded III-IV (for example, anaplastic astrocytomas or glioblastomas multiformes), and less severe ones are graded I-II.
+Glioma grading is based on cell appearance and clinical evaluation, where severe cases are graded III-IV (for example, anaplastic astrocytomas or glioblastomas multiformes), and less severe ones are graded I-II. -->
 
 The golden-standard diagnosis is given by an invasive biopsy.
 To decrease delays in diagnosis (due to the laboratorial nature of biopsies) and invasiveness (biopsies may need to be performed multiple times), alternative techniques can be used to support diagnosis.
