@@ -8,23 +8,8 @@
 .grid {
   display: grid;
   grid-template-rows: repeat(auto-fill, 1fr);
-  grid-gap: 0.3rem;
+  grid-gap: 1rem;
 }
-
-.grid > h2, .grid > p {
-  background: #f2f2f2;
-  padding: 0.5rem 0.5rem 0.5rem 0.5rem;
-  font-size: 0.9em;
-  line-height: 1.1rem;
-  border-radius: 5px;
-  text-align:left;
-}
-
-.grid > p a {
-  display: block;
-  padding-bottom: 0.5em;
-}
-
 
 .container {
   background: #f2f2f2;
@@ -33,27 +18,26 @@
   height: 100%;
   grid-template-areas: "header-0 header-1"
   "right right";
-  padding: 0.5rem 0.5rem 0.5rem 0.5rem;
   font-size: 0.9em;
   line-height: 1.1rem;
   border-radius: 5px;
   text-align:left;
   grid-template-columns: 1fr 15fr;
   grid-template-rows: repeat(auto-fill, 1fr);
-  padding-bottom: 0.5em;
-  grid-gap: 0.3rem;
 }
 
 .header-0 {
   grid-area: header-0;
   align-self: center;
+  padding: 0.5rem 0.5rem 0.5rem 0.5rem;
 }
 .header-1 {
   grid-area: header-1;
+  padding: 0.5rem 0.5rem 0.5rem 0.5rem;
 }
 .right {
   grid-area: right;
-  padding-bottom: 0.5em;
+  padding: 0.5rem 0.5rem 0.5rem 0.5rem;
 }
 
 </style>

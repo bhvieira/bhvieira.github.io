@@ -105,11 +105,12 @@ function hfun_publications()
     end
     # markdown conversion adds `<p>` beginning and end but
     # we want to  avoid this to avoid an empty separator
-    r = Franklin.fd2html(String(take!(io)), internal=true, nop = true)
+    r = Franklin.fd2html(String(take!(io)), internal=true)
     return r
 end
 
-publiline(plumx_badge, title, url, authors, journal, date) = """~~~<div class="container"><div class="header-0">$plumx_badge</div>
+publiline(plumx_badge, title, url, authors, journal, date) = """~~~<div class="container">
+                <div class="header-0">$plumx_badge</div>
                 <div class="header-1">~~~ [$title]($url) ~~~</div>
                 <div class="right">~~~ $authors -- *$journal* - $date ~~~</div></div>~~~"""
 
