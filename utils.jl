@@ -138,8 +138,8 @@ function hfun_publidetails(rpath)
         oa = """<span title="Closed Access"><i class="ai ai-fw ai-closed-access"></i></a></span>~~~"""
     end
 
-    Franklin.fd2html("""## {{title}} $doi$oa
+    Franklin.fd2html("""## {{title}}
     ~~~<sup>~~~
-    $authors, _{{journal}}_, {{rss_pubdate}}
+    $authors, _{{journal}}_, {{rss_pubdate}} $doi$oa
     ~~~</sup>~~~""", internal = true, nop = true)
 end
