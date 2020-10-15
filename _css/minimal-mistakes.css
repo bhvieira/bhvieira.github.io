@@ -4266,7 +4266,8 @@ a.reversefootnote:hover {
 }
 
 .sidebar {
-  clear: both
+  clear: both;
+  z-index: 999
 }
 
 .sidebar::after {
