@@ -105,7 +105,7 @@ function hfun_publications()
     end
     # markdown conversion adds `<p>` beginning and end but
     # we want to  avoid this to avoid an empty separator
-    r = Franklin.fd2html(String(take!(io)), internal=true)
+    r = Franklin.fd2html(String(take!(io)), internal=true, nop = true)
     return r
 end
 

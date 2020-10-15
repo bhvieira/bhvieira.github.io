@@ -2,6 +2,7 @@
 @def date = Date(2020, 9, 16)
 @def rss = ""
 
+\\
 
 ~~~
 <style>
@@ -29,15 +30,15 @@
 .header-0 {
   grid-area: header-0;
   align-self: center;
-  padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+  padding: 0.5rem 0.5rem 0rem 0.5rem;
 }
 .header-1 {
   grid-area: header-1;
-  padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+  padding: 0.5rem 0.5rem 0rem 0.5rem;
 }
 .right {
   grid-area: right;
-  padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+  padding: 0.5rem 0.5rem 1rem 0.5rem;
 }
 
 </style>
