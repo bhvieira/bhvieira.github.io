@@ -83,6 +83,7 @@ function hfun_publications()
                 url = "/publications/$ys/$ms/$ps/"
                 surl = strip(url, '/')
                 title = pagevar(surl, :title)
+                doi = pagevar(surl, :doi)
                 date    = pagevar(surl, :rss_pubdate)
                 journal = pagevar(surl, :journal)
                 authors = pagevar(surl, :authors)
@@ -93,7 +94,10 @@ function hfun_publications()
                 else
                     days[i] = day(date)
                 end
-                lines[i] = "\n[$title]($url) \n $authors \n -- *$journal* - $date \n"
+                
+                plumx_badge = retrieve_plumx_badge(doi)
+
+                lines[i] = """\n[$title]($url) \n$authors -- *$journal* - $date \n ~~~$plumx_badge~~~\n """
             end
             # sort by day
             foreach(line -> write(io, line), lines[sortperm(days, rev=true)])
@@ -133,16 +137,18 @@ function hfun_publidetails(rpath)
 
     doi_line = """<span title="DOI"><i class="ai ai-fw ai-doi"></i><a href="https://dx.doi.org/$(doi)" rel="nofollow noopener noreferrer">$(doi)</a></span>"""
     if isopenaccess
-        oa = """<span title="Open Access"><i class="ai ai-fw ai-open-access"></i></a></span>"""
+        oa_status = """<span title="Open Access"><i class="ai ai-fw ai-open-access"></i></a></span>"""
     else
-        oa = """<span title="Closed Access"><i class="ai ai-fw ai-closed-access"></i></a></span>"""
+        oa_status = """<span title="Closed Access"><i class="ai ai-fw ai-closed-access"></i></a></span>"""
     end
-    plum = """<a href="https://plu.mx/plum/a/?doi=$(doi)" data-popup="bottom" data-size="small" data-badge="true" class="plumx-plum-print-popup plum-bigben-theme" data-site="plum" data-hide-when-empty="true"></a>"""
+    plumx_badge = retrieve_plumx_badge(doi)
     Franklin.fd2html("""## {{title}}
     ~~~<sup>~~~
     $authors, _{{journal}}_, {{rss_pubdate}}
-    ~~~$oa$doi_line
-    $plum
+    ~~~$oa_status$doi_line
+    $plumx_badge
     </sup>~~~
     """, internal = true, nop = true)
 end
+
+retrieve_plumx_badge(doi) = """<span style="inline;"><a href="https://plu.mx/plum/a/?doi=$(doi)" data-popup="bottom" data-size="small" data-badge="false" class="plumx-plum-print-popup plum-bigben-theme" data-site="plum" data-hide-when-empty="true"></a></span>"""
