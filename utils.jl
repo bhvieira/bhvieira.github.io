@@ -128,7 +128,17 @@ function hfun_publidetails(rpath)
     authors = locvar(:authors)
     authors = replace(authors, "B.H. Vieira" => "**B.H. Vieira**")
 
-    Franklin.fd2html("""## {{title}}
+    doi = locvar(:doi)
+    isopenaccess = locvar(:isopenaccess)
+
+    doi = """~~~<span title="DOI"><a href="https://dx.doi.org/$(doi)" rel="nofollow noopener noreferrer"><i class="ai ai-fw ai-doi"></i></a></span>"""
+    if isopenaccess
+        oa = """<span title="Open Access"><i class="ai ai-fw ai-open-access"></i></a></span>~~~"""
+    else
+        oa = """<span title="Closed Access"><i class="ai ai-fw ai-closed-access"></i></a></span>~~~"""
+    end
+
+    Franklin.fd2html("""## {{title}} $doi$oa
     ~~~<sup>~~~
     $authors, _{{journal}}_, {{rss_pubdate}}
     ~~~</sup>~~~""", internal = true, nop = true)
