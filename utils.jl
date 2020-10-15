@@ -131,15 +131,18 @@ function hfun_publidetails(rpath)
     doi = locvar(:doi)
     isopenaccess = locvar(:isopenaccess)
 
-    doi = """<span title="DOI"><i class="ai ai-fw ai-doi"></i><a href="https://dx.doi.org/$(doi)" rel="nofollow noopener noreferrer">$(doi)</a></span>"""
+    doi_line = """<span title="DOI"><i class="ai ai-fw ai-doi"></i><a href="https://dx.doi.org/$(doi)" rel="nofollow noopener noreferrer">$(doi)</a></span>"""
     if isopenaccess
         oa = """<span title="Open Access"><i class="ai ai-fw ai-open-access"></i></a></span>"""
     else
         oa = """<span title="Closed Access"><i class="ai ai-fw ai-closed-access"></i></a></span>"""
     end
-
+    plum = """<a href="https://plu.mx/plum/a/?doi=$(doi)" data-popup="bottom" data-size="small" data-badge="true" class="plumx-plum-print-popup plum-bigben-theme" data-site="plum" data-hide-when-empty="true"></a>"""
     Franklin.fd2html("""## {{title}}
     ~~~<sup>~~~
     $authors, _{{journal}}_, {{rss_pubdate}}
-    ~~~$oa$doi</sup>~~~""", internal = true, nop = true)
+    ~~~$oa$doi_line
+    $plum
+    </sup>~~~
+    """, internal = true, nop = true)
 end
