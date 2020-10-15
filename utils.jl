@@ -96,8 +96,8 @@ function hfun_publications()
                 end
                 
                 plumx_badge = retrieve_plumx_badge(doi)
-
-                lines[i] = """\n[$title]($url) \n$authors -- *$journal* - $date \n ~~~$plumx_badge~~~\n """
+                
+                lines[i] = publiline(plumx_badge, title, url, authors, journal, date)
             end
             # sort by day
             foreach(line -> write(io, line), lines[sortperm(days, rev=true)])
@@ -105,9 +105,13 @@ function hfun_publications()
     end
     # markdown conversion adds `<p>` beginning and end but
     # we want to  avoid this to avoid an empty separator
-    r = Franklin.fd2html(String(take!(io)), internal=true)
+    r = Franklin.fd2html(String(take!(io)), internal=true, nop = true)
     return r
 end
+
+publiline(plumx_badge, title, url, authors, journal, date) = """~~~<div class="container"><div class="header-0">$plumx_badge</div>
+                <div class="header-1">~~~ [$title]($url) ~~~</div>
+                <div class="right">~~~ $authors -- *$journal* - $date ~~~</div></div>~~~"""
 
 """
     {{shortref rpath}}
