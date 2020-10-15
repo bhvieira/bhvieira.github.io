@@ -4,6 +4,8 @@
 @def title = "Evidence of regional associations between age-related inter-individual differences in resting-state functional connectivity and cortical thinning revealed through a multi-level analysis"
 @def authors = "B.H. Vieira, C. Rondinoni, C.E.G. Salmon"
 @def journal = "NeuroImage"
+@def doi = "10.1016/j.neuroimage.2020.116662"
+@def isopenaccess = true
 
 {{publidetails .}}
 

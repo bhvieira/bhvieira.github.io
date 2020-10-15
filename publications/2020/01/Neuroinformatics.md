@@ -4,6 +4,8 @@
 @def title = "Personode: A Toolbox for ICA Map Classification and Individualized ROI Definition"
 @def authors = "G.S.P. Pamplona, B.H. Vieira, F. Scharnowski, C.E.G. Salmon"
 @def journal = "Neuroinformatics"
+@def doi = "10.1007/s12021-019-09449-4"
+@def isopenaccess = false
 
 {{publidetails .}}
 

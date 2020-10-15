@@ -4,6 +4,8 @@
 @def title = "Pattern recognition of abscesses and brain tumors through MR spectroscopy: Comparison of experimental conditions and radiological findings"
 @def authors = "B.H. Vieira, A.C. dos Santos, C.E.G. Salmon"
 @def journal = "Research on Biomedical Engineering"
+@def doi = "10.1590/2446-4740.00617"
+@def isopenaccess = true
 
 {{publidetails .}}
 
