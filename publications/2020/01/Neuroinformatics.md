@@ -22,7 +22,7 @@ It can be a tool for reproducibility in neuroimaging.
 
 Gustavo envisioned the project, developed the tool, wrote the paper and ran all experiments.
 My role in the paper was solely rounding off some rough edges, documentation, distribution and reviewing.
-Personode is open-source, and can be extended in the future.
+Personode is open-source, and can be extended in the future depending on the community necessities.
 
 
 ## Abstract
