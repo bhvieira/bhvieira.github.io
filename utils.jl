@@ -140,11 +140,7 @@ function hfun_publidetails(rpath)
     end
     plumx_badge = retrieve_plumx_badge(doi)
     Franklin.fd2html("""## {{title}}
-    ~~~<sup>~~~
-    $authors, _{{journal}}_, {{rss_pubdate}}
-    ~~~$oa_status$doi_line
-    $plumx_badge
-    </sup>~~~
+    \\publidetails{$authors}{journal}{rss_pubdate}{$oa_status}{$doi_line}{$plumx_badge}
     """, internal = true, nop = true)
 end
 
