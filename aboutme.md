@@ -7,9 +7,23 @@
 ## Personal
 
 Born in the city of Araraquara, São Paulo but obtained my higher education in Ribeirão Preto, where I have lived ever since.
-My interests include history, fantasy, music theory, machine learning and neuroscience.
+My personal interests include history, fantasy (in gaming, literature and worldbuilding), music theory, machine learning and neuroscience.
 When not working, I spend quite some time browsing & answering questions in [Cross-Validated](https://stats.stackexchange.com/users/60613/firebug?tab=profile), occasionally in [Wikipedia](https://en.wikipedia.org/wiki/Special:Contributions/Bruno_H_Vieira).
 Amateur mandolinist in the spare time.
+
+## Research interests
+
+I also have a deep interest in describing, understanding and predicting brain dynamics in vivo through neuroimaging and statistical analyses.
+
+I have a particular interest in fusing modern machine learning with brain imaging.
+Machine learning has made many in-roads into neuroscience, and probably will continue to do so in the following years.
+On the other hand of the spectrum, in neuroradiology the first machine learning-based solutions are starting to be approved for clinical uses.
+
+Particularly, I believe there are promising results in a few areas of research that warrant more attention: 
+1. Physics-informed model-based inversion (to accelerate acquisition and processing)
+2. Deeper models in the study of individual differences in behavior & cognition
+3. Architectures tailored to neuroimaging data 
+4. Optimal control and neuroimaging fusion in autonomous diagnostic/theranostic systems
 
 ## Education
 
