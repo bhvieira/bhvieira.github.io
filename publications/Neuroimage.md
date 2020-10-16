@@ -6,6 +6,8 @@
 @def journal = "NeuroImage"
 @def doi = "10.1016/j.neuroimage.2020.116662"
 @def isopenaccess = true
+@def tags = ["aging", "functional connectivity", "fMRI", "master's", "dissertation", "cortical thickness", "fALFF", "cortical atrophy", "atrophy"]
+
 
 {{publidetails .}}
 

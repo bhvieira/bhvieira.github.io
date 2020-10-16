@@ -6,6 +6,7 @@
 @def authors = "B.H. Vieira"
 @def doi = "10.11606/D.59.2018.tde-17042018-130342"
 @def isopenaccess = true
+@def tags = ["aging", "functional connectivity", "fMRI", "master's", "dissertation", "cortical thickness", "fALFF"]
 
 {{publidetails .}}
 

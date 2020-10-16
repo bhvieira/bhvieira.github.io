@@ -16,3 +16,7 @@
   grid-area: publright;
   align-self: center;
 }
+
+p.tags {
+  font-size: smaller;
+}

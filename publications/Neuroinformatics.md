@@ -6,6 +6,7 @@
 @def journal = "Neuroinformatics"
 @def doi = "10.1007/s12021-019-09449-4"
 @def isopenaccess = false
+@def tags = ["collaboration", "ICA", "resting state", "RSNs", "networks", "fMRI", "open source"]
 
 {{publidetails .}}
 

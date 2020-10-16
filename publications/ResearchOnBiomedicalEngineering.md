@@ -6,6 +6,7 @@
 @def journal = "Research on Biomedical Engineering"
 @def doi = "10.1590/2446-4740.00617"
 @def isopenaccess = true
+@def tags = ["brain tumors", "MRS", "spectroscopy", "undergrad", "machine learning", "prediction"]
 
 {{publidetails .}}
 

@@ -5,6 +5,8 @@
 @def authors = "B.H. Vieira, C.E.G. Salmon"
 @def doi = "10.1016/j.jneumeth.2018.10.033"
 @def isopenaccess = false
+@def tags = ["aging", "functional connectivity", "fMRI", "master's", "dissertation", "cortical thickness", "GPDC", "partial directed coherence", "granger causality"]
+
 
 @def journal = "Journal of Neuroscience Methods"
 
