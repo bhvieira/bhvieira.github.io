@@ -133,7 +133,8 @@ function hfun_publidetails(rpath)
     isopenaccess = locvar(:isopenaccess)
 
     tags = locvar(:tags)
-    tags = join(map(t -> "[$t](/tag/$t)", tags), "; ")
+    tags = join(map(t -> """<a href="/tag/$t" rel="nofollow noopener noreferrer">$t</a>""", tags), "; ")
+    
 
     doi_line = """<span title="DOI"><i class="ai ai-fw ai-doi"></i><a href="https://dx.doi.org/$(doi)" rel="nofollow noopener noreferrer">$(doi)</a></span>"""
     if isopenaccess
@@ -142,7 +143,7 @@ function hfun_publidetails(rpath)
         oa_status = """<span title="Closed Access"><i class="ai ai-fw ai-closed-access"></i>Closed Access</a></span>"""
     end
     plumx_badge = retrieve_plumx_badge(doi, "medium")
-    Franklin.fd2html("""~~~<p class="tags">~~~ tags: $tags ~~~</p>~~~
+    """<p class="tags"><sub>tags: $tags</sub></p>"""*Franklin.fd2html("""
     ## {{title}}
     \\publidetails{$authors}{journal}{rss_pubdate}{$oa_status}{$doi_line}{$plumx_badge}
     """, internal = true, nop = true)
