@@ -73,11 +73,11 @@ function hfun_publications()
     days  = Vector{Date}(undef, length(posts))
     lines = Vector{String}(undef, length(posts))
     for (i, post) in enumerate(posts)
-        ps  = splitext(post)[1]
-        url = "/publications/$ps/"
-        surl = strip(url, '/')
-        title = pagevar(surl, :title)
-        doi = pagevar(surl, :doi)
+        ps      = splitext(post)[1]
+        url     = "/publications/$ps/"
+        surl    = strip(url, '/')
+        title   = pagevar(surl, :title)
+        doi     = pagevar(surl, :doi)
         date    = pagevar(surl, :rss_pubdate)
         journal = pagevar(surl, :journal)
         authors = pagevar(surl, :authors)
