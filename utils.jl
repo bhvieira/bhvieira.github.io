@@ -104,7 +104,7 @@ end
 publiline(plumx_badge, title, url, authors, journal, date) = """~~~<div class="container">
                 <div class="header-0">$plumx_badge</div>
                 <div class="header-1">~~~ [$title]($url) ~~~</div>
-                <div class="right">~~~ $authors -- *$journal* - $date ~~~</div></div>~~~"""
+                <div class="right"><sub>~~~ $authors -- *$journal* - $date ~~~</sub></div></div>~~~"""
 
 """
     {{shortref rpath}}

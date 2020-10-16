@@ -18,7 +18,7 @@
   width: 100%;
   height: 100%;
   grid-template-areas: "header-0 header-1"
-  "right right";
+  "header-0 right";
   font-size: 0.9em;
   line-height: 1.1rem;
   border-radius: 5px;
@@ -34,11 +34,11 @@
 }
 .header-1 {
   grid-area: header-1;
-  padding: 0.5rem 0.5rem 0rem 1rem;
+  padding: 0.5rem 1rem 0rem 1rem;
 }
 .right {
   grid-area: right;
-  padding: 0.5rem 0.5rem 1rem 1rem;
+  padding: 0rem 1rem 1rem 1rem;
 }
 
 </style>
