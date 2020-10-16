@@ -151,3 +151,24 @@ end
 
 retrieve_plumx_badge(doi) = """<a href="https://plu.mx/plum/a/?doi=$(doi)" data-popup="bottom" data-size="small" data-badge="false" class="plumx-plum-print-popup plum-bigben-theme" data-site="plum" data-hide-when-empty="true"></a><"""
 retrieve_plumx_badge(doi, size) = """<a href="https://plu.mx/plum/a/?doi=$(doi)" data-popup="bottom" data-size="$(size)" data-badge="false" class="plumx-plum-print-popup plum-bigben-theme" data-site="plum" data-hide-when-empty="true"></a>"""
+
+"""
+    {{blogdetails}}
+
+Retrieve blog publication details and make it into text.
+"""
+function hfun_blogdetails(rpath)
+    tags = locvar(:tags)
+    tags = join(map(t -> """<a href="/tag/$t" rel="nofollow noopener noreferrer">$t</a>""", tags), "; ")
+    date = locvar(:rss_pubdate)
+    title = locvar(:title)
+
+    """<p class="tags"><sub>tags: $tags</sub></p>
+    <h2 id="title">
+    <a href="#title">$title</a>
+    <span style="float:right;">
+        <small>$date</small>
+    </span>
+    </h2>
+    """
+end
