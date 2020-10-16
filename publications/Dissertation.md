@@ -17,5 +17,5 @@ The main motivation behind this work was the fact that, while the literature on 
 
 Parts of this dissertation were modified and subsequently published:
 
-- {{shortref publications/2019/01/JournalOfNeuroscienceMethods}}
-- {{shortref publications/2020/05/Neuroimage}}
+- {{shortref publications/JournalOfNeuroscienceMethods}}
+- {{shortref publications/Neuroimage}}
