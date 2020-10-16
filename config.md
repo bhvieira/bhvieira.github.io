@@ -24,7 +24,13 @@ pages. It can be math commands but does not need to be.
 For instance:
 * \newcommand{\phrase}{This is a long phrase to copy.}
 -->
-\newcommand{\publidetails}[6]{~~~<sup>~~~
-    #1, _{{#2}}_, {{#3}}
-    ~~~#4#5#6
-    </sup>~~~}
+\newcommand{\publidetails}[6]{
+                ~~~
+                <sup>
+                <div class="publidetailscontainer">
+                    <div class="publleft"> #6 </div>
+                    <div class="publright"> ~~~#1, _{{#2}}_, {{#3}} ~~~ <br> #4#5 </div>
+                </div>
+                </sup>
+                ~~~}
+

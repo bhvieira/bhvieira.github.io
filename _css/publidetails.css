@@ -1,0 +1,18 @@
+.publidetailscontainer {
+  display: grid;
+  grid-template-areas: "publleft publright";
+  font-size: 0.9em;
+  line-height: 1.1rem;
+  border-radius: 5px;
+  text-align:left;
+  grid-template-columns: 1fr 12fr;
+}
+
+.publleft {
+  grid-area: publleft;
+  align-self: center;
+}
+.publright {
+  grid-area: publright;
+  align-self: center;
+}

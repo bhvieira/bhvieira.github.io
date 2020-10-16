@@ -89,7 +89,7 @@ function hfun_publications()
             days[i] = date
         end
         
-        plumx_badge = retrieve_plumx_badge(doi)
+        plumx_badge = retrieve_plumx_badge(doi, "medium")
         
         lines[i] = publiline(plumx_badge, title, url, authors, journal, date)
     end
@@ -134,14 +134,15 @@ function hfun_publidetails(rpath)
 
     doi_line = """<span title="DOI"><i class="ai ai-fw ai-doi"></i><a href="https://dx.doi.org/$(doi)" rel="nofollow noopener noreferrer">$(doi)</a></span>"""
     if isopenaccess
-        oa_status = """<span title="Open Access"><i class="ai ai-fw ai-open-access"></i></a></span>"""
+        oa_status = """<span title="Open Access"><i class="ai ai-fw ai-open-access"></i>Open Access</a></span>"""
     else
-        oa_status = """<span title="Closed Access"><i class="ai ai-fw ai-closed-access"></i></a></span>"""
+        oa_status = """<span title="Closed Access"><i class="ai ai-fw ai-closed-access"></i>Closed Access</a></span>"""
     end
-    plumx_badge = retrieve_plumx_badge(doi)
+    plumx_badge = retrieve_plumx_badge(doi, "medium")
     Franklin.fd2html("""## {{title}}
     \\publidetails{$authors}{journal}{rss_pubdate}{$oa_status}{$doi_line}{$plumx_badge}
     """, internal = true, nop = true)
 end
 
 retrieve_plumx_badge(doi) = """<span style="inline;"><a href="https://plu.mx/plum/a/?doi=$(doi)" data-popup="bottom" data-size="small" data-badge="false" class="plumx-plum-print-popup plum-bigben-theme" data-site="plum" data-hide-when-empty="true"></a></span>"""
+retrieve_plumx_badge(doi, size) = """<span style="inline;"><a href="https://plu.mx/plum/a/?doi=$(doi)" data-popup="bottom" data-size="$(size)" data-badge="false" class="plumx-plum-print-popup plum-bigben-theme" data-site="plum" data-hide-when-empty="true"></a></span>"""
