@@ -13,9 +13,9 @@ Amateur mandolinist in the spare time.
 
 ## Research interests
 
-I also have a deep interest in describing, understanding and predicting brain dynamics in vivo through neuroimaging and statistical analyses.
+I have a deep interest in describing, understanding and predicting brain dynamics in vivo through neuroimaging and statistical analyses.
 
-I have a particular interest in fusing modern machine learning with brain imaging.
+I alsohave a particular interest in fusing modern machine learning with brain imaging.
 Machine learning has made many in-roads into neuroscience, and probably will continue to do so in the following years.
 On the other hand of the spectrum, in neuroradiology the first machine learning-based solutions are starting to be approved for clinical uses.
 
