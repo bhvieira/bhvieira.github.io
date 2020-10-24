@@ -143,6 +143,10 @@ A few interesting conclusions can be extracted from this:
 2. Increasing $n$, the number of samples, inflates $F$ (we kind of expect this, it becomes easier to reject point-nulls with larger sample sizes)
 3. Following from the previous point, huge, significant, values of $F$ can be attained with the tiniest, non-zero, $R^2$s.
 
+An unanswered question, that I might answer in a later post, is:
+if we know the distribution, $RSS_\text{null}-RSS_\text{model} \sim \chi^2_{p_\text{model}-p_\text{null}}$, why don't we test it directly using that information?
+But a simple answer is that we do, under specific conditions.
+
 This was an interesting topic to talk about and one that time and time again pops up.
 If you spot any inaccuracies, I would be extremely grateful if you let me know and I'll credit you on corrections.
 Until the next one!
