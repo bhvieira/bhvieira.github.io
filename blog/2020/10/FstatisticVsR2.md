@@ -64,9 +64,11 @@ In the case of linear regression optimized by ordinary least squares, it is poss
 
 $$R^2 = \operatorname{Cor}^2(\mathbf{Y}, \hat \mathbf{Y})$$
 
+@@colbox-blue
 **Word of caution**: if your model does not include an intercept, that means that the intercept-only null model is not nested within it, i.e. it doesn't correspond to a subset of it.
 Therefore, it's very possible that $R^2$ is negative in this scenario if the data does not conform to that model.
 [Statistical packages will often quietly change the null model without telling you](https://stats.stackexchange.com/a/26205/60613), changing it for a model where everything is zero!
+@@
 
 So, what if we wanted to attach a test-statistic to $R^2$?
 Enter the F-test.
@@ -82,7 +84,7 @@ H_A: \operatorname{MSE}_{model}-\operatorname{MSE}_{null}\neq0
 $$
 
 Under the null hypothesis, the MSE is a sum of squared standard normal variables, divided by the number of variables.
-This again entails the assumption that our dependent variable, $\mathbf Y$ is normally distributed.
+This again entails the assumption that our dependent variable, $\mathbf Y$ has normal conditional distribution.
 A sum of $k$ squared standard normals is Chi-squared distributed, with $k$ degrees of freedom (see [Wiki](https://en.wikipedia.org/wiki/Chi-square_distribution#Definitions)).
 
 Thus we define the sum of squared residuals (SSR) :
@@ -139,7 +141,7 @@ $$F =
 \right)$$
 
 A few interesting conclusions can be extracted from this:
-1. The F-test comparing an intercept-only null model with an alternative model tests for the difference in residual sum of squares, ergo tests for $R^2 = 0$
+1. The F-test comparing an intercept-only null model with an alternative model tests for the difference in residual sum of squares, ergo tests for $R^2 = 0$, a joint test for all coefficients in the model other than the intercept
 2. Increasing $n$, the number of samples, inflates $F$ (we kind of expect this, it becomes easier to reject point-nulls with larger sample sizes)
 3. Following from the previous point, huge, significant, values of $F$ can be attained with the tiniest, non-zero, $R^2$s.
 
