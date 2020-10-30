@@ -97,6 +97,7 @@ $$X = \left(\frac{Z_1}{Z_2}\right)/\left(\frac{d_1}{d_2}\right) \sim F(d_1, d_2)
 
 With all that information, we can see that the RSS of our alternative and our null models are Chi-squared distributed under the null.
 In fact, the ratio of variances (which is proportional to the sum of squared normal variables) is F-distributed.
+The F-test is commonly employed to test for equality of variances under the assumption of normality.
 If we can arrange our RSSs into variances, we can derive the F-statistics.
 
 So let's define the explained and unexplained variances.
@@ -111,7 +112,8 @@ $$
 \end{cases}
 $$
 
-With that definition, we can derive the F-statistic and perform our test:
+With that definition, we can derive the F-statistic and perform our test.
+Under the null (i.e. assuming $SS_\text{null}-RSS_\text{model} =0$) the general form of F can be stated as: 
 
 $$F = 
 \left(
