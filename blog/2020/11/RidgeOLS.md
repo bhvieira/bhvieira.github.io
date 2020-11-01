@@ -1,6 +1,6 @@
 @def rss_pubdate = Date(2020, 10, 23)
-@def rss = """ Enter the ridge: derivation and properties """
-@def title = "Enter the ridge: derivation and properties"
+@def rss = """ Enter the Ridge: derivation and properties """
+@def title = "Enter the Ridge: derivation and properties"
 @def tags = ["linear regression", "statistics", "regularization", "ridge", "machine learning"]
 
 {{blogdetails .}}
@@ -10,7 +10,7 @@
 ## Intro
 
 Ridge regression is a linear (on parameters) regression technique.
-It was popularized in machine learning circles by Friedman, Hastie, Tibshirani and company, with the introduction of the elastic-net, that generalizes the ridge when the LASSO weighting is set to zero.
+It was popularized in machine learning circles by Friedman, Hastie, Tibshirani and company, with the introduction of the elastic-net, that generalizes the Ridge when the LASSO weighting is set to zero.
 It's often taken as the benchmark that other algorithms are compared to, since it's a powerful yet simple technique that gives good results in practice.
 But it's root lay on deeper grounds.
 It's an estimation technique that trades reductions in variance for tolerable increases in bias.
@@ -45,7 +45,7 @@ Solving for $\beta$:
 
 $$\beta = yX^T(XX^T)^{-1}$$
 
-## The ridge regression problem statement
+## The Ridge Regression problem statement
 
 We obtained an estimator for the OLS coefficients.
 As all estimators, it has associated variance (the precision, the spread of the estimate's distribution) and bias (the accuracy, or the difference between the estimate and the true parameter).
