@@ -1,7 +1,7 @@
 @def rss_pubdate = Date(2020, 10, 23)
 @def rss = """ The F-test and R²: an introduction from the ground up"""
 @def title = "The F-test and R²: an introduction from the ground up"
-@def tags = ["linear regression", "statistics"]
+@def tags = ["linear-regression", "statistics"]
 
 {{blogdetails .}}
 

@@ -2,7 +2,7 @@
 @def rss = """ The start of the site and the Weblog - Today marks the start of the site and the Weblog"""
 @def published = "16 September 2020"
 @def title = "The start of the site and the Weblog"
-@def tags = ["first post"]
+@def tags = ["first-post"]
 
 {{blogdetails .}}
 
