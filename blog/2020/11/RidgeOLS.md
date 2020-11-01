@@ -1,4 +1,4 @@
-@def rss_pubdate = Date(2020, 10, 23)
+@def rss_pubdate = Date(2020, 11, 01)
 @def rss = """ Enter the Ridge: derivation and properties """
 @def title = "Enter the Ridge: derivation and properties"
 @def tags = ["linear regression", "statistics", "regularization", "ridge", "machine learning"]
