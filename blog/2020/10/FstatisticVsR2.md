@@ -87,9 +87,9 @@ Under the null hypothesis, the MSE is a sum of squared standard normal variables
 This again entails the assumption that our dependent variable, $\mathbf Y$ has normal conditional distribution.
 A sum of $k$ squared standard normals is Chi-squared distributed, with $k$ degrees of freedom (see [Wiki](https://en.wikipedia.org/wiki/Chi-square_distribution#Definitions)).
 
-Thus we define the sum of squared residuals (SSR) :
+Thus we define the residual sum of squares (RSS) :
 
-$$\operatorname{SSR} = k \operatorname{MSE} = \sum_i^k (Y_i-\hat Y_i)^2 \sim \chi^2_k$$
+$$\operatorname{RSS} = k \operatorname{MSE} = \sum_i^k (Y_i-\hat Y_i)^2 \sim \chi^2_k$$
 
 The ratio of two independent Chi-squared variables is F-distributed:
 
