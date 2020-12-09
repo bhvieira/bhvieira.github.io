@@ -1,4 +1,4 @@
-@def rss_pubdate = Date(2020, 11, 11)
+@def rss_pubdate = Date(2020, 12, 9)
 @def rss = """ What is (not) a Generalized Linear Model? """
 @def title = "What is (not) a Generalized Linear Model?"
 @def tags = ["linear-regression", "statistics", "glm"]
