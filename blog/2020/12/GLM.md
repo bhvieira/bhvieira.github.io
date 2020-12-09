@@ -15,7 +15,7 @@ We all know (we kinda do, not gonna lie) what are, properly, generalized linear 
 But when we find something that looks like a GLM and find out it isn't, it makes me wonder:
 how to define what actually *is* a GLM?
 
-So I'll break down this post into what is a GLM, then I'll give an example that left me scratching my head and then I'll close with an authoritative refence.
+So I'll break down this post into what is a GLM, then I'll give an example that left me scratching my head and then I'll close with an authoritative reference.
 
 ## The Generalized Linear Model
 
