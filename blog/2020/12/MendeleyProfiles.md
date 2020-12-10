@@ -3,6 +3,8 @@
 @def title = "Mendeley profiles were deprecated (among other things)"
 @def tags = ["Mendeley", "references", "academia"]
 
+{{blogdetails .}}
+
 You might have noticed (who am I kidding, obviously you didn't) I removed the Mendeley link in my profile tab.
 Mendeley finally deprecated profiles and several other features of their platform.
 
