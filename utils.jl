@@ -167,9 +167,6 @@ function hfun_blogdetails(rpath)
     # <meta name="twitter:data1" value="{{ content.post_body|wordcount|divide(300) }} Minutes" />"""
 
     """
-    <meta name="twitter:title" content="$title" />
-    <meta name="twitter:creator" content="@HeblingVieira" />
-    <meta name="twitter:domain" content="bhvieira.github.io" />
     <meta property="article:published_time" content="$date" />
     <p class="tags"><sub>tags: $tags</sub></p>
     <h2 id="title">
