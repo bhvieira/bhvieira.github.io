@@ -163,7 +163,13 @@ function hfun_blogdetails(rpath)
     date = locvar(:rss_pubdate)
     title = locvar(:title)
 
-    """<p class="tags"><sub>tags: $tags</sub></p>
+    """
+    <meta name="twitter:label1" value="Time To Read" />
+    <meta name="twitter:data1" value="{{ content.post_body|wordcount|divide(300) }} Minutes" />
+    <meta name="twitter:title" content="$title" />
+    <meta name="twitter:creator" content="@HeblingVieira" />
+    <meta name="twitter:domain" content="bhvieira.github.io" />
+    <p class="tags"><sub>tags: $tags</sub></p>
     <h2 id="title">
     <a href="#title">$title</a>
     <span style="float:right;">
