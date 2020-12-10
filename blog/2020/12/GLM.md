@@ -144,4 +144,4 @@ See you in the next one!
 
 
 [^1]: see [betareg](https://cran.r-project.org/web/packages/betareg/index.html) and [DirichletReg](https://cran.r-project.org/web/packages/DirichletReg/index.html) for R, for example.
-[^2]: Ferrari, S., & Cribari-Neto, F. (2004). Beta regression for modelling rates and proportions. Journal of Applied Statistics, 31(7), 799-815.
+[^2]: Ferrari, S., & Cribari-Neto, F. (2004). [Beta regression for modelling rates and proportions](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.473.8394&rep=rep1&type=pdf). Journal of Applied Statistics, 31(7), 799-815.
