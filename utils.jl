@@ -164,8 +164,9 @@ function hfun_blogdetails(rpath)
     title = locvar(:title)
 
     """
+    <!––
     <meta name="twitter:label1" value="Time To Read" />
-    <meta name="twitter:data1" value="{{ content.post_body|wordcount|divide(300) }} Minutes" />
+    <meta name="twitter:data1" value="{{ content.post_body|wordcount|divide(300) }} Minutes" />––>
     <meta name="twitter:title" content="$title" />
     <meta name="twitter:creator" content="@HeblingVieira" />
     <meta name="twitter:domain" content="bhvieira.github.io" />
