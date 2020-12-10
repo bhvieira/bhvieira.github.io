@@ -92,7 +92,7 @@ The Beta distribution arises naturally as the ratio of independent Gamma distrib
 
 $$\frac{X}{X+Y} \sim \operatorname{Beta}(\alpha, \beta), \qquad X \sim \operatorname{Gamma}(\alpha, \theta), \qquad Y \sim \operatorname{Gamma}(\beta, \theta)$$
 
-The Dichlet distribution generalizes the Beta distribution to a multivariate ratio.
+The Dirichlet distribution generalizes the Beta distribution to a multivariate ratio.
 
 So... what's the problem?
 
