@@ -88,7 +88,7 @@ $$
 \text{RSS} = \epsilon\epsilon^T = (y - \hat y)(y - \hat y)^T = (y - yH)(y - yH)^T \\= y(I - H)^2y^T = y(I - H)y^T
 $$
 
-Because  $(I - H)^2 = I^2 + 2H - H^2 = I - 2H + H = I - H$.
+Because  $(I - H)^2 = I^2 - 2H + H^2 = I - 2H + H = I - H$.
 
 $$
 \text{ESS} = (\hat y - 1\mu)(\hat y - 1\mu)^T= \hat y\hat y^T - \mu 1^T \hat y - \mu \hat y 1^T + \mu^2 11^T\\
