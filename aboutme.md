@@ -48,5 +48,4 @@ Particularly, I believe there are promising results in a few areas of research t
     - Data visualization
     - Machine learning
 - Programming
-    - Fluent in Julia, R, Matlab
-    - Moderate experience with Python and Java
+    - Fluent in Julia, R, Matlab, Python
