@@ -8,7 +8,7 @@
 
 Born in the city of Araraquara, São Paulo but obtained my higher education in Ribeirão Preto, where I have lived ever since.
 My personal interests include history, fantasy (in gaming, literature and worldbuilding), music theory, machine learning and neuroscience.
-When not working, I spend quite some time browsing & answering questions in [Cross-Validated](https://stats.stackexchange.com/users/60613/firebug?tab=profile), occasionally in [Wikipedia](https://en.wikipedia.org/wiki/Special:Contributions/Bruno_H_Vieira).
+When not working, I spend quite some time browsing & answering questions in [Cross-Validated](https://stats.stackexchange.com/users/60613/firebug?tab=profile), occasionally in [Wikipedia](https://en.wikipedia.org/wiki/Special:Contributions/Bruno_H_Vieira), but not so much these days.
 Amateur mandolinist in the spare time.
 
 ## Research interests
