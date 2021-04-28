@@ -2,7 +2,7 @@
 @def rss = """  Linking brain biology to intellectual endowment: a review on the associations between human intelligence and neuroimaging data  """
 @def published = "1 January 2021"
 @def title = "Linking brain biology to intellectual endowment: a review on the associations between human intelligence and neuroimaging data"
-@def authors = "A.S. Dizaji, B.H. Vieira, M.-R. Khodaei, M. Ashrafi, E. Parham, G.-A. Hossein-Zadeh, C.E.G. Salmon, H. Soltanian-Zadeh"
+@def authors = "A.S. Dizaji*, B.H. Vieira*, M.-R. Khodaei, M. Ashrafi, E. Parham, G.-A. Hossein-Zadeh, C.E.G. Salmon, H. Soltanian-Zadeh"
 @def journal = "Basic and Clinical Neuroscience"
 @def doi = "10.32598/bcn.12.1.574.1"
 @def isopenaccess = true
