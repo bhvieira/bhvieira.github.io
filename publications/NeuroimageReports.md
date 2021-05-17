@@ -1,10 +1,10 @@
 @def rss_pubdate = Date(2021, 5, 1)
 @def rss = """  Sublinear association between cortical thickness at the onset of the adult lifespan and age-related annual atrophy parallels spatial patterns of laminar organization in the adult cerebral cortex  """
-@def published = "1 May 2021"
+@def published = "17 May 2021"
 @def title = "Sublinear association between cortical thickness at the onset of the adult lifespan and age-related annual atrophy parallels spatial patterns of laminar organization in the adult cerebral cortex"
 @def authors = "B.H. Vieira, C.E.G. Salmon"
 @def journal = "NeuroImage: Reports"
-@def doi = ""
+@def doi = "10.1016/j.ynirp.2021.100011"
 @def isopenaccess = true
 @def tags = ["aging", "sMRI", "master's", "dissertation", "cortical thickness", "cortical atrophy", "atrophy"]
 

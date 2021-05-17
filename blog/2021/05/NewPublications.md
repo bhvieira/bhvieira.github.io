@@ -1,4 +1,4 @@
-@def rss_pubdate = Date(2021, 03, 05)
+@def rss_pubdate = Date(2021, 05, 17)
 @def rss = """ New publications in Neuroimage: Reports, Basic and Clinical Neuroscience """
 @def title = "New publications in Neuroimage: Reports, Basic and Clinical Neuroscience"
 @def tags = ["academia", "publications"]
