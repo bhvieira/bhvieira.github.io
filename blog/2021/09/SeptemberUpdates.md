@@ -13,7 +13,7 @@ Having said this, I am pleased to announce the publication of:
 
 - {{shortref publications/HumanBrainMapping}}
 
-For this work I counted on the amazing collaboration of Professors Julien Dubois, Vince Calhoun and Carlos E.G. Salmon, my advisor, as well as resources from the Center for Translational Research in Neuroimaging and Data Science (TReNDS Center), in Atlanta, GA, where I spent the first semester of 2020 as a visiting scholar, before the pandemic struck.
+For this work I counted on the amazing collaboration of Professors Julien Dubois, Vince Calhoun and Carlos E.G. Salmon, my advisor, as well as resources from the Center for Translational Research in Neuroimaging and Data Science ([TReNDS Center](trendscenter.org)), in Atlanta, GA, where I spent the first semester of 2020 as a visiting scholar under Professor Vince Calhoun, before the pandemic struck.
 This is also the first part of my Thesis to be published, with other two parts soon to come (stay tuned).
 
 For this paper, we deviate from the current paradigm on the literature in performing prediction of general intelligence differences based on resting-state functional connectivity and most commonly linear models.
