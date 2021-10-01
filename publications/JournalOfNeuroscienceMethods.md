@@ -10,7 +10,7 @@
 
 {{publidetails .}}
 
-This is the first paper derived from my Master's dissertation.
+This is the first paper derived from my Master's dissertation[^1].
 It is a methodological paper that was created out of the necessity of a principled method to study the Generalized Partial Directed Coherence (GPDC) between subjects.
 
 The GPDC is a multivariate measure of directed connectivity in the frequency domain.
@@ -37,6 +37,4 @@ A few approaches can be used to study positive ratios and we compare ours with o
 > ### Conclusions
 > Dirichlet Regression allows the study of continuous or discrete variables as predictors for the analysis of GPDC, enabling a wider adoption of this measure of connectivity.
 
-
-
-
+[^1]: {{shortref publications/Dissertation}}
