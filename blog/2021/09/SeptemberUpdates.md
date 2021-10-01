@@ -13,6 +13,10 @@ Having said this, I am pleased to announce the publication of:
 
 - {{shortref publications/HumanBrainMapping}}
 
+~~~
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Very happy to announce that our paper &quot;A deep learning based approach identifies regions more relevant than resting-state networks to the prediction of general intelligence from resting-state fMRI&quot; has been published at <a href="https://twitter.com/hashtag/HumanBrainMapping?src=hash&amp;ref_src=twsrc%5Etfw">#HumanBrainMapping</a>! <a href="https://twitter.com/InbrainL?ref_src=twsrc%5Etfw">@InbrainL</a><a href="https://t.co/CYP6wVEIia">https://t.co/CYP6wVEIia</a></p>&mdash; Bruno Hebling Vieira (@HeblingVieira) <a href="https://twitter.com/HeblingVieira/status/1443627437632466948?ref_src=twsrc%5Etfw">September 30, 2021</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+~~~
+
 For this work I counted on the amazing collaboration of Professors Julien Dubois, Vince Calhoun and Carlos E.G. Salmon, my advisor, as well as resources from the Center for Translational Research in Neuroimaging and Data Science ([TReNDS Center](trendscenter.org)), in Atlanta, GA, where I spent the first semester of 2020 as a visiting scholar under Professor Vince Calhoun, before the pandemic struck.
 This is also the first part of my Thesis to be published, with other two parts soon to come (stay tuned).
 
