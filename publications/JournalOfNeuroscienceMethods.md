@@ -6,13 +6,11 @@
 @def doi = "10.1016/j.jneumeth.2018.10.033"
 @def isopenaccess = false
 @def tags = ["aging", "functional connectivity", "fMRI", "master's", "dissertation", "cortical thickness", "GPDC", "partial directed coherence", "granger causality"]
-
-
 @def journal = "Journal of Neuroscience Methods"
 
 {{publidetails .}}
 
-This is the first paper derived from my Master's dissertation[^1].
+<!-- This is the first paper derived from my Master's dissertation[^1]. -->
 It is a methodological paper that was created out of the necessity of a principled method to study the Generalized Partial Directed Coherence (GPDC) between subjects.
 
 The GPDC is a multivariate measure of directed connectivity in the frequency domain.
@@ -38,9 +36,9 @@ A few approaches can be used to study positive ratios and we compare ours with o
 > Our methodology identifies alterations in GPDC in more connections than a naïve approach based on linear regression and centered log-ratio analysis. We also studied alternative connectivity indices between the same ROIs, uncovering no effect of age on the time-domain predictive-causality metrics for any connection, while for Pearson correlation five connections displayed significant effects of age, with parallels to the results pertaining to GPDC.
 > ### Conclusions
 > Dirichlet Regression allows the study of continuous or discrete variables as predictors for the analysis of GPDC, enabling a wider adoption of this measure of connectivity.
-
+<!-- 
 [^1]: {{shortref publications/Dissertation}}
-
+ -->
 
 
 
