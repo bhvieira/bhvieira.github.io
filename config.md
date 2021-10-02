@@ -29,7 +29,7 @@ For instance:
                 <sup>
                 <div class="publidetailscontainer">
                     <div class="publleft"> #6 </div>
-                    <div class="publright"> ~~~#1, _{{#2}}_, {{#3}} ~~~ <br> #4#5 </div>
+                    <div class="publright"> #1, <i>#2</i>, #3 <br> #4#5 </div>
                 </div>
                 </sup>
                 ~~~}

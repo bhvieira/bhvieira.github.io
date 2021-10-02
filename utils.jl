@@ -128,8 +128,11 @@ end
 Retrieve publication details and make it into text.
 """
 function hfun_publidetails(rpath)
+    title = locvar(:title)
+    journal = locvar(:journal)
+    rss_pubdate = locvar(:rss_pubdate)
     authors = locvar(:authors)
-    authors = replace(authors, "B.H. Vieira" => "**B.H. Vieira**")
+    authors = replace(authors, "B.H. Vieira" => "<b>B.H. Vieira</b>")
 
     doi = locvar(:doi)
     isopenaccess = locvar(:isopenaccess)
@@ -146,8 +149,8 @@ function hfun_publidetails(rpath)
     end
     plumx_badge = retrieve_plumx_badge(doi, "medium")
     """<p class="tags"><sub>tags: $tags</sub></p>"""*Franklin.fd2html("""
-    ## {{title}}
-    \\publidetails{$authors}{journal}{rss_pubdate}{$oa_status}{$doi_line}{$plumx_badge}
+    ## $title
+    \\publidetails{$authors}{$journal}{$rss_pubdate}{$oa_status}{$doi_line}{$plumx_badge}
     """, internal = true, nop = true)
 end
 
