@@ -7,8 +7,8 @@
 
 Just wanted to take the opportunity to bring to attention that these two new publications were added to the site 🥳
 
-- {{shortref publications/NeuroimageReports}}
-- {{shortref publications/BasicAndClinicalNeuroscience}}
+- {{shortref NeuroimageReports}}
+- {{shortref BasicAndClinicalNeuroscience}}
 
 The first one stems from my Master's dissertation, on neural correlates of brain aging.
 It's in fact the last paper out of it.
