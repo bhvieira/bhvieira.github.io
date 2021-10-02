@@ -7,8 +7,8 @@
 
 Just wanted to take the opportunity to bring to attention that these two new publications were added to the site 🥳
 
-- {{shortref NeuroimageReports}}
-- {{shortref BasicAndClinicalNeuroscience}}
+- [Sublinear association between cortical thickness at the onset of the adult lifespan and age-related annual](/publications/NeuroimageReports) atrophy parallels spatial patterns of laminar organization in the adult cerebral cortex, NeuroImage: Reports, 2021-05-01
+- [Linking brain biology to intellectual endowment: a review on the associations between human intelligence and neuroimaging data](/publications/BasicAndClinicalNeuroscience), Basic and Clinical Neuroscience, 2021-01-01
 
 The first one stems from my Master's dissertation, on neural correlates of brain aging.
 It's in fact the last paper out of it.

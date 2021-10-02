@@ -11,7 +11,7 @@ Things are settling down now.
 
 Having said this, I am pleased to announce the publication of:
 
-- {{shortref HumanBrainMapping}}
+- [A deep learning based approach identifies regions more relevant than resting-state networks to the prediction of general intelligence from resting-state fMRI](/publications/HumanBrainMapping), Human Brain Mapping, 2021-09-29
 
 ~~~
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Very happy to announce that our paper &quot;A deep learning based approach identifies regions more relevant than resting-state networks to the prediction of general intelligence from resting-state fMRI&quot; has been published at <a href="https://twitter.com/hashtag/HumanBrainMapping?src=hash&amp;ref_src=twsrc%5Etfw">#HumanBrainMapping</a>! <a href="https://twitter.com/InbrainL?ref_src=twsrc%5Etfw">@InbrainL</a><a href="https://t.co/CYP6wVEIia">https://t.co/CYP6wVEIia</a></p>&mdash; Bruno Hebling Vieira (@HeblingVieira) <a href="https://twitter.com/HeblingVieira/status/1443627437632466948?ref_src=twsrc%5Etfw">September 30, 2021</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
