@@ -113,11 +113,13 @@ Use elements in rpath to build a simple shortref to be reused.
 """
 function hfun_shortref(rpath)
     path = rpath[1]
-    surl = strip(path, '/')
+    # surl = strip(path, '/')
+    surl = "publications/"*path
     title = pagevar(surl, :title)
     journal = pagevar(surl, :journal)
     date = pagevar(surl, :rss_pubdate)
-    Franklin.fd2html("""[$title](/$surl), $journal, $date""", internal = true, nop = true)
+    r = Franklin.fd2html("""[$title](/$surl), $journal, $date""", internal=true, nop = true)
+    return r
 end
 
 """

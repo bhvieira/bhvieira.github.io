@@ -37,4 +37,4 @@ A few approaches can be used to study positive ratios and we compare ours with o
 > ### Conclusions
 > Dirichlet Regression allows the study of continuous or discrete variables as predictors for the analysis of GPDC, enabling a wider adoption of this measure of connectivity.
 
-[^1]: {{shortref publications/Dissertation}}
+[^1]: {{shortref Dissertation}}

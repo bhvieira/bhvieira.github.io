@@ -18,6 +18,6 @@ The main motivation behind this work was the fact that, while the literature on 
 
 Parts of this dissertation were modified and subsequently published:
 
-- {{shortref publications/JournalOfNeuroscienceMethods}}
-- {{shortref publications/Neuroimage}}
-- {{shortref publications/NeuroimageReports}}
+- {{shortref JournalOfNeuroscienceMethods}}
+- {{shortref Neuroimage}}
+- {{shortref NeuroimageReports}}
