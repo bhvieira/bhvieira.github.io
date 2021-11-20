@@ -65,7 +65,7 @@ end
 
 Plug in the list of publications contained in the `/publications/` folder.
 """
-function hfun_publicationlist()
+@delay function hfun_publicationlist()
     curyear = year(Dates.today())
     io = IOBuffer()
     # year < curyear && write(io, "\n**$year**\n")
