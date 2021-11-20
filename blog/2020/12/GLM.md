@@ -124,7 +124,7 @@ In any case, this means that we cannot decouple $\beta$ and $\phi$, and this is 
 
 As [Achim Zeileis (author of R's `betareg`) put it](https://stats.stackexchange.com/questions/304538/why-beta-dirichlet-regression-are-not-considered-generalized-linear-models#comment578958_304545):
 
-> The orthogonality requirement in GLMs is important: It means that you can estimate the equation $g(μ)=x^⊤β$ without worrying about misspecifying the rest of the likelihood. Parameter estimates are consistent if the mean equation above is correctly specified. Inference is valid if additionally the variance is correctly specified. However, in beta regression you cannot separate the two model equations in this way, even if ϕ is just a constant. For consistent results everything has to be specified correctly.
+> The orthogonality requirement in GLMs is important: It means that you can estimate the equation $g(μ)=x^Tβ$ without worrying about misspecifying the rest of the likelihood. Parameter estimates are consistent if the mean equation above is correctly specified. Inference is valid if additionally the variance is correctly specified. However, in beta regression you cannot separate the two model equations in this way, even if ϕ is just a constant. For consistent results everything has to be specified correctly.
 > [CC SA-BY 3.0](https://creativecommons.org/licenses/by-sa/3.0/)
 
 Surely, the distinction is important, but it alludes to the history of GLMs.
