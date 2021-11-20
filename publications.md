@@ -43,7 +43,7 @@
 <div class="grid">
 ~~~
 
-{{publications}}
+{{publicationlist}}
 
 ~~~
 </div>

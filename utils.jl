@@ -61,11 +61,11 @@ function hfun_blogposts()
 end
 
 """
-    {{publications}}
+    {{publicationlist}}
 
 Plug in the list of publications contained in the `/publications/` folder.
 """
-function hfun_publications()
+function hfun_publicationlist()
     curyear = year(Dates.today())
     io = IOBuffer()
     # year < curyear && write(io, "\n**$year**\n")
