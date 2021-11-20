@@ -1,5 +1,5 @@
 @def title = "About me"
-@def date = Date(2020, 9, 16)
+@def date = Date(2021, 11, 20)
 @def rss = ""
 
 \toc
@@ -29,7 +29,7 @@ Particularly, I believe there are promising results in a few areas of research t
 
 - Bachelor's in Medical Physics (2012-2015) -- University of São Paulo (USP), Ribeirão Preto, Brazil.
 - Master's in Physics Applied to Medicine and Biology (2016-2017) -- University of São Paulo (USP), Ribeirão Preto, Brazil.
-- Doctorate in Physics Applied to Medicine and Biology (2018-current) -- University of São Paulo (USP), Ribeirão Preto, Brazil.
+- Doctorate in Physics Applied to Medicine and Biology (2018-2021) -- University of São Paulo (USP), Ribeirão Preto, Brazil.
 
 ## Awards
 
