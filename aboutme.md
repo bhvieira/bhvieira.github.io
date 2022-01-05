@@ -1,12 +1,13 @@
 @def title = "About me"
-@def date = Date(2021, 11, 20)
+@def date = Date(2022, 01, 05)
 @def rss = ""
 
 \toc
 
 ## Personal
 
-Born in the city of Araraquara, São Paulo but obtained my higher education in Ribeirão Preto, where I have lived ever since.
+Currently working as a Postdoctoral researcher at the University of Zurich with Professor Nicolas Langer.
+Born in Brazil, in the city of Araraquara, I obtained my higher education in Ribeirão Preto, both in the state of São Paulo.
 My personal interests include history, fantasy (in gaming, literature and worldbuilding), music theory, machine learning and neuroscience.
 When not working, I spend quite some time browsing & answering questions in [Cross-Validated](https://stats.stackexchange.com/users/60613/firebug?tab=profile), occasionally in [Wikipedia](https://en.wikipedia.org/wiki/Special:Contributions/Bruno_H_Vieira), but not so much these days.
 Amateur mandolinist in the spare time.
