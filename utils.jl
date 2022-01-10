@@ -154,8 +154,8 @@ function hfun_publidetails(rpath)
     """, internal = true, nop = true)
 end
 
-retrieve_plumx_badge(doi) = """<a href="https://plu.mx/plum/a/?doi=$(doi)" data-popup="bottom" data-size="small" data-badge="false" class="plumx-plum-print-popup plum-bigben-theme" data-site="plum" data-hide-when-empty="true"></a><"""
-retrieve_plumx_badge(doi, size) = """<a href="https://plu.mx/plum/a/?doi=$(doi)" data-popup="bottom" data-size="$(size)" data-badge="false" class="plumx-plum-print-popup plum-bigben-theme" data-site="plum" data-hide-when-empty="true"></a>"""
+retrieve_plumx_badge(doi) = """<a href="https://plu.mx/plum/a/?doi=$(doi)" data-popup="bottom" data-size="small" data-badge="false" class="plumx-plum-print-popup plum-bigben-theme" data-site="plum" data-hide-when-empty="false"></a><"""
+retrieve_plumx_badge(doi, size) = """<a href="https://plu.mx/plum/a/?doi=$(doi)" data-popup="bottom" data-size="$(size)" data-badge="false" class="plumx-plum-print-popup plum-bigben-theme" data-site="plum" data-hide-when-empty="false"></a>"""
 
 """
     {{blogdetails}}
