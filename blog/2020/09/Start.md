@@ -8,7 +8,7 @@
 
 Today marks the start of the site and the Weblog!
 This page was generated using [Franklin.jl](franklinjl.org) v0.9.16 with the `minimal-mistakes` theme, which I edited slightly.
-Currently, Franklin v0.10.3 is being used.
+Currently, Franklin v0.10.64 is being used.
 
 I decided to add a Weblog[^1] to my site for a few reasons.
 For one, I wanted to collect useful resources I find elsewhere, and my thoughts on it.
