@@ -76,15 +76,15 @@ Plug in the list of publications contained in the `/publications/` folder.
         ps      = splitext(post)[1]
         url     = "/publications/$ps/"
         surl    = strip(url, '/')
-        title   = pagevar(surl, :title)
-        doi     = pagevar(surl, :doi)
-        date    = pagevar(surl, :rss_pubdate)
-        journal = pagevar(surl, :journal)
-        authors = pagevar(surl, :authors)
+        title   = pagevar(surl, "title")
+        doi     = pagevar(surl, "doi")
+        date    = pagevar(surl, "rss_pubdate")
+        journal = pagevar(surl, "journal")
+        authors = pagevar(surl, "authors")
         authors = replace(authors, "B.H. Vieira" => "**B.H. Vieira**")
         if isnothing(date)
             date    = ""
-            days[i] = 1
+            days[i] = Date(1)
         else
             days[i] = date
         end
