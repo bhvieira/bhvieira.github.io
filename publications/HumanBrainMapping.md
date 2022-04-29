@@ -11,7 +11,7 @@
 
 {{publidetails .}}
 
-This paper stems from my Doctoral thesis, which should be completed by the end of 2021.
+This paper stems from my Doctoral thesis, which passed defense in November 2021.
 
 For this work I counted on the amazing collaboration of Professors Julien Dubois, Vince Calhoun and Carlos E.G. Salmon, my advisor, as well as resources from the Center for Translational Research in Neuroimaging and Data Science (TReNDS Center), in Atlanta, GA, where I spent the first semester of 2020 as a visiting scholar, before the pandemic struck.
 This is also the first part of my Thesis to be published, with other two parts soon to come.
