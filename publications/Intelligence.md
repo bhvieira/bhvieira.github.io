@@ -1,10 +1,10 @@
-@def rss_pubdate = Date(2022, 05, 31)
+@def rss_pubdate = Date(2022, 05, 12)
 @def rss = """ On the prediction of human intelligence from neuroimaging: A systematic review of methods and reporting """
 @def published = "31 May 2022"
 @def title = "On the prediction of human intelligence from neuroimaging: A systematic review of methods and reporting"
 @def authors = "B.H. Vieira, G.S.P. Pamplona, K. Fachinello, A.K. Silva, M.P. Foss, C.E.G. Salmon"
 @def journal = "Intelligence"
-@def doi = ""
+@def doi = "10.1016/j.intell.2022.101654"
 @def isopenaccess = true
 @def tags = ["behavior", "fMRI", "resting-state", "deep learning", "intelligence", "prediction", "systematic review"]
 
