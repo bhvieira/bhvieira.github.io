@@ -12,6 +12,12 @@ Read more in:
 
 - [On the prediction of human intelligence from neuroimaging: A systematic review of methods and reporting](/publications/Intelligence), Intelligence, 2022-05-12, doi: [10.1016/j.intell.2022.101654](dx.doi.org/10.1016/j.intell.2022.101654)
 
+Or get the TLDR on Twitter:
+
+~~~
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">We are delighted to announce the publication of our paper &quot;On the prediction of human intelligence from neuroimaging: A systematic review of methods and reporting&quot; in Intelligence! It&#39;s still undergoing editing, so sorry for some inaccuracies! <a href="https://t.co/zf65m4SJpz">https://t.co/zf65m4SJpz</a></p>&mdash; Bruno Hebling Vieira (@HeblingVieira) <a href="https://twitter.com/HeblingVieira/status/1525482363425267714?ref_src=twsrc%5Etfw">May 14, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+~~~
+
 The idea for this project was born during the first submission of ["Linking brain biology to intellectual endowment: a review on the associations between human intelligence and neuroimaging data"](/publications/BasicAndClinicalNeuroscience).
 One of the anonymous reviewers suggested that we perform a systematic search for articles.
 While we did not feel the systematic aspect would fit the broad and narrative scope of that first review, the growing field of brain-based predictive modeling applied to behavior seemed like a good candidate.
