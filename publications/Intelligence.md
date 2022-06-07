@@ -12,7 +12,7 @@
 {{publidetails .}}
 
 This paper stems from my Doctoral thesis, which was completed in November 2021.
-Human intelligence differences are a frequente object of study in neuroscience, particularly in neuroimaging studies.
+Human intelligence differences are a frequent object of study in neuroscience, particularly in neuroimaging studies.
 Along the years, the application of machine learning to the prediction of traits, e.g., behavior, phenotypes and demographics, became a widespread methodology to the study of neural bases of interindividual differences.
 From the earliest applications, the prediction of intelligence differences was already often included.
 Today, there is a large corpus of studies that corroborate that this prediction is, in fact, possible, with moderate levels of accuracy.
@@ -26,9 +26,9 @@ Due to the number of studies, we performed meta-analysis only on papers using fM
 We show that, on average, results on general intelligence are significantly higher than results on the prediction of fluid intelligence, which hints towards the moderating effect of measurement quality, which has been reported in other instances[^1].
 We follow the PRISMA reporting guidelines throughout the paper.
 
-We describe several methodological aspects of the studies, starting from the earliest one, in 2008, such as datasets, sample sizes, machine learning models employed, evaluation of performance.
+Not only that, but we describe several methodological aspects of the studies, starting from the earliest one, in 2008, such as datasets, sample sizes, machine learning models employed, evaluation of performance.
 This application of machine learning to cognition demonstrates exponential growth.
-For this reason, we believe that the time for this review is oportune, and we hope to foment better practices in the field, as well as foundations for future reviews and neurobiological theories of intelligence differences.
+For this reason, we believe that the time for this review is opportune, and we hope to foment better practices in the field, as well as foundations for future reviews and neurobiological theories of intelligence differences.
 
 
 ## Abstract

@@ -10,7 +10,7 @@
 
 {{publidetails .}}
 
-This dissertation was written for the completion of my MSc in Physics Applied to Medicine and Biology,
+This dissertation was written for the completion of my M.Sc. in Physics Applied to Medicine and Biology,
 under the ever productive supervision of Prof. Carlos E. G. Salmon at the University of São Paulo, Ribeirão Preto, Brazil.
 A special thanks to Professors Gabriela Castellano (IFGW - Unicamp), Koichi Sameshima (FM - USP) and João R. Sato (NINA, CMCC - UFABC) for accepting my invitation to compose my dissertation defense committee.
 

@@ -10,15 +10,15 @@
 
 {{publidetails .}}
 
-This paper is a spin off of Gustavo's PhD thesis.
+This paper is a spin-off of Gustavo's PhD thesis.
 Gustavo's thesis proposal focused primarily on network-based neurofeedback training of attention[^1].
-The assignment of ICA spatial-components into Resting-State networks could be facilitated by an easy to use tool.
+The assignment of ICA spatial-components into Resting-State networks could be facilitated by an easy-to-use tool.
 That's the gap Personode[^2] was created to fill.
 
 Personode is written in MATLAB and basically helps you to match ICA components with resting-state networks templates.
 The matching is supervised, meaning that you get a hint based on spatial similarity, but the final choice is user-informed.
 After matching, Personode can be used to extract personalized ROI definitions, either as thresholded clusters or as spheres centered on maximal likelihood, at the group- or individual-level.
-Personode removes some of the ambiguity in RSNs identification.
+Personode removes some ambiguity in RSNs identification.
 It can be a tool for reproducibility in neuroimaging.
 
 Gustavo envisioned the project, developed the tool, wrote the paper and ran all experiments.

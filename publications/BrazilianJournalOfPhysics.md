@@ -10,7 +10,7 @@
 
 {{publidetails .}}
 
-This work was idealized by Professor George Cunha Cardoso, back in the first first wave of the Covid-19 pandemic, as an exercise for a course.
+This work was idealized by Professor George Cunha Cardoso, back in the first wave of the Covid-19 pandemic, as an exercise for a course.
 Nathalia, who was a student in the class, retrieved all the data used.
 My contribution was to implement all the analysis using Professor Cardoso's ideas and Nathalia's data.
 After preparing a preprint and releasing the code as open-source, I have to add that my participation in publishing the work became quite reduced due to several personal reasons.

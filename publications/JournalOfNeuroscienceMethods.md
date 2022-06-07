@@ -15,14 +15,14 @@ It is a methodological paper that was created out of the necessity of a principl
 
 The GPDC is a multivariate measure of directed connectivity in the frequency domain.
 It has parallels to Multivariate Granger Causality and the Directed Transfer Function.
-One of it's most interesting properties is that, for a given frequency, the GPDC from a node (source) to all other nodes (sinks) sums to one, _i.e._ the GPDC measures the proportion of information being sent.
+One of its most interesting properties is that, for a given frequency, the GPDC from a node (source) to all other nodes (sinks) sums to one, _i.e._ the GPDC measures the proportion of information being sent.
 
 That interesting property, however, makes its study more complex and prone to bias, specially due to the appearance of these ratios.
 We make an identification between the squared GPDC from each node with the Dirichlet distribution, which is a multivariate generalization of the Beta distribution.
 This opens the possibility of employing the Dirichlet Regression to the problem, taking into account the multivariate character of the dependent variable.
 
 As an application, we study the inter-individual differences of squared GPDC during aging in regions that display cortical thinning.
-A few approaches can be used to study positive ratios and we compare ours with other two, showing promising results.
+A few approaches can be used to study positive ratios, and we compare ours with other two, showing promising results.
 
 ## Abstract
 
