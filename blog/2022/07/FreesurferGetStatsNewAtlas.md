@@ -1,4 +1,4 @@
-@def rss_pubdate = Date(2022, 07, 31)
+@def rss_pubdate = Date(2022, 07, 20)
 @def rss = """ HOWTO: Get morphometrical statistics in Freesurfer with a new atlas """
 @def title = "HOWTO: get morphometrical statistics in Freesurfer with a new atlas"
 @def tags = ["mri", "freesurfer", "thickness", "processing", "howto"]
