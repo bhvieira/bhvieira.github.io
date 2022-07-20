@@ -25,8 +25,8 @@ You might want to enable the `--cortex` argument so that the `{hemi}.cortex.labe
 Then
 
 ```bash
-mris_anatomical_stats -a subjid/label/lh.YOURATLAS.annot -b subjid lh
-mris_anatomical_stats -a subjid/label/rh.YOURATLAS.annot -b subjid rh
+mris_anatomical_stats -a subjid/label/lh.YOURATLAS.annot -f subjid/stats/lh.YOURATLAS.stats -b subjid lh
+mris_anatomical_stats -a subjid/label/rh.YOURATLAS.annot -f subjid/stats/lh.YOURATLAS.stats -b subjid rh
 ```
 
 And finally
@@ -116,9 +116,13 @@ Here's how it looks like project to the subject's brain pial surface:
 We will use the `mris_anatomical_stats` command to calculate the atlas statistics for one individual subject.
 
 ```bash
-mris_anatomical_stats -a $SUBJECTS_DIR/subjid/label/lh.HCP-MMP1.annot -b subjid lh
-mris_anatomical_stats -a $SUBJECTS_DIR/subjid/label/rh.HCP-MMP1.annot -b subjid rh
+mris_anatomical_stats -th3 -mgz -cortex $SUBJECTS_DIR/subjid/label/lh.cortex.label -f $SUBJECTS_DIR/subjid/stats/lh.HCP-MMP1.stats -b -a $SUBJECTS_DIR/subjid/label/lh.HCP-MMP1.annot subjid lh white 
+mris_anatomical_stats -th3 -mgz -cortex $SUBJECTS_DIR/subjid/label/rh.cortex.label -f $SUBJECTS_DIR/subjid/stats/rh.HCP-MMP1.stats -b -a $SUBJECTS_DIR/subjid/label/rh.HCP-MMP1.annot subjid rh white 
 ```
+
+The `-th3` option is used to "Compute vertex-wise volume by dividing each obliquely truncated trilateral pyramid into three tetrahedra".
+The surface option is set to `white`, i.e., the innermost surface of the cortex adjoining white-matter.
+These are the defaults in the `recon-all` routine.
 
 ### Step 5: Gather the atlas statistics for all subjects
 
