@@ -92,7 +92,7 @@ mv rh.HCP-MMP1.annot $SUBJECTS_DIR/fsaverage/label/rh.HCP-MMP1.annot
 ### Step 3: Project the atlas to the subject's brain
 
 For the standard atlases included in recon-all, `mris_ca_label` is used to obtain subject-space labels.
-`mris_ca_label` is based on a trained model.
+`mris_ca_label` is based on a probabilistic model[^2] based on the Iterated Conditional Modes (ICM), which is trained with `mris_ca_train`.
 Since we don't have the train dataset for the HCP-MMP atlas, we will project the atlas to the subject's brain instead using `mri_surf2surf`.
 
 `mri_surf2surf` is a tool for projecting surface-based data to a different surface.
@@ -135,3 +135,4 @@ This is a simple example of how to obtain statistics for a new atlas in a group 
 There are some other ways to do this, but this is a good starting point for you to get familiarized with the commands.
 
 [^1]: Glasser, et al. (2016). A multi-modal parcellation of human cerebral cortex. Nature. [doi:10.1038/nature18933](https://dx.doi.org/10.1038/nature18933)
+[^2]: Fischl, et al. (2004). Automatically Parcellating the Human Cerebral Cortex. Cerebral Cortex. [doi:10.1093/cercor/bhg087](https://dx.doi.org/10.1093/cercor/bhg087)
