@@ -32,8 +32,8 @@ mris_anatomical_stats -a subjid/label/rh.YOURATLAS.annot -b subjid rh
 And finally
 
 ```bash
-aparcstats2table --subjectsfile subject_list.txt --hemi lh --meas thickness --tablefile lh.aparc_stats.txt
-aparcstats2table --subjectsfile subject_list.txt --hemi rh --meas thickness --tablefile rh.aparc_stats.txt
+aparcstats2table --parc YOURATLAS --subjectsfile subject_list.txt --hemi lh --meas thickness --tablefile lh.aparc_stats.txt
+aparcstats2table --parc YOURATLAS --subjectsfile subject_list.txt --hemi rh --meas thickness --tablefile rh.aparc_stats.txt
 ```
 
 I prefer to use the `--subjectsfile` argument, but there are other ways of specifying these.
@@ -125,8 +125,8 @@ mris_anatomical_stats -a $SUBJECTS_DIR/subjid/label/rh.HCP-MMP1.annot -b subjid 
 After running the above commands for each subject (I recommend you to write a bash script for that), we can gather the atlas statistics for all subjects.
 
 ```bash
-aparcstats2table --subjectsfile subject_list.txt --hemi lh --meas thickness --tablefile lh.aparc_stats.txt
-aparcstats2table --subjectsfile subject_list.txt --hemi rh --meas thickness --tablefile rh.aparc_stats.txt
+aparcstats2table --parc HCP-MMP1 --subjectsfile subject_list.txt --hemi lh --meas thickness --tablefile lh.HCP-MMP1_stats.txt
+aparcstats2table --parc HCP-MMP1 --subjectsfile subject_list.txt --hemi rh --meas thickness --tablefile rh.HCP-MMP1_stats.txt
 ```
 
 ## Conclusion
