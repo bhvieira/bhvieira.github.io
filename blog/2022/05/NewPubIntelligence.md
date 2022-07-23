@@ -10,7 +10,7 @@ This is the second work from my Thesis (which is not online yet!).
 
 Read more in:
 
-- [On the prediction of human intelligence from neuroimaging: A systematic review of methods and reporting](/publications/Intelligence), Intelligence, 2022-05-12, doi: [10.1016/j.intell.2022.101654](dx.doi.org/10.1016/j.intell.2022.101654)
+- [On the prediction of human intelligence from neuroimaging: A systematic review of methods and reporting](/publications/Intelligence), Intelligence, 2022-05-12, doi: [10.1016/j.intell.2022.101654](https://dx.doi.org/10.1016/j.intell.2022.101654)
 
 Or get the TLDR on Twitter:
 

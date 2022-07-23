@@ -11,7 +11,7 @@ We were added later into the project to continue it, and worked to see it throug
 
 Read more in:
 
-- [Predicting future cognitive decline from non-brain and multimodal brain imaging data in healthy and pathological aging](/publications/NeurobiologyOgAging), Neurobiology of Aging, 2022-07-22, doi: [10.1016/j.neurobiolaging.2022.06.008](dx.doi.org/10.1016/j.neurobiolaging.2022.06.008)
+- [Predicting future cognitive decline from non-brain and multimodal brain imaging data in healthy and pathological aging](/publications/NeurobiologyOfAging), Neurobiology of Aging, 2022-07-22, doi: [10.1016/j.neurobiolaging.2022.06.008](https://dx.doi.org/10.1016/j.neurobiolaging.2022.06.008)
 
 Or get the TLDR on Twitter:
 
