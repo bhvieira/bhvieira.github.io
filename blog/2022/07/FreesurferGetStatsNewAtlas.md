@@ -47,7 +47,8 @@ It's also a good idea to get acquainted with the
 ## Example
 
 @@colbox-blue
-This has been tested in Freesurfer version 7.2.3 (`freesurfer-linux-ubuntu20_x86_64-7.3.2-20220804-6354275`)
+This has been tested in Freesurfer version 7.3.2:
+- `freesurfer-linux-ubuntu20_x86_64-7.3.2-20220804-6354275`
 @@
 
 All the info above can be found in the ["recon-all"](https://surfer.nmr.mgh.harvard.edu/fswiki/recon-all) wiki.
