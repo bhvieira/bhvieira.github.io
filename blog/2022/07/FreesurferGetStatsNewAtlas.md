@@ -46,6 +46,10 @@ It's also a good idea to get acquainted with the
 
 ## Example
 
+@@colbox-blue
+This has been tested in Freesurfer version 7.2.3 (`freesurfer-linux-ubuntu20_x86_64-7.3.2-20220804-6354275`)
+@@
+
 All the info above can be found in the ["recon-all"](https://surfer.nmr.mgh.harvard.edu/fswiki/recon-all) wiki.
 You might want to check the [source code for "surf2surf"](https://github.com/freesurfer/freesurfer/blob/dev/mri_surf2surf/mri_surf2surf.cpp) where all the arguments are explained (some of which are not described in the wiki).
 
@@ -81,7 +85,7 @@ unzip HCP-MMP1_0_projected_on_fsaverage.zip
 ```
 
 This will get you two files: `lh.HCP-MMP1.annot` and `rh.HCP-MMP1.annot`.
-These are project on the `fsaverage` space, so move them to the `fsaverage` directory.
+These are projected on the `fsaverage` space, so move them to the `fsaverage` directory.
 For example, you can do this with `mv`:
 
 ```bash
@@ -107,7 +111,7 @@ mri_surf2surf --srcsubject fsaverage --trgsubject subjid --hemi rh \
     --tval       $SUBJECTS_DIR/subjid/label/rh.HCP-MMP1.annot
 ```
 
-Here's how it looks like project to the subject's brain pial surface:
+Here's how it looks like projected to the subject's brain pial surface:
 
 ![](/blog/2022/07/HCP_MMP1_subject.png)
 
