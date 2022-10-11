@@ -30,13 +30,12 @@ Using Xming in another machine, I was not able to reproduce the problem, thus di
 ## Solution
 
 Xming used to have a version called Xming-mesa, which provides support for OpenGL.
-Version 6.9.0.31 was released back in 2007, and it is the last release not to require a license (``Donor Password``) to use[^1].
-I was using the OpenGL version previously.
+The Xming (non-mesa) version supports application that rely on X calls, but not OpenGL.
+Version 6.9.0.31 was released back in 2007, and it is the last release that does not require a license ("Donor Password") to use[^1].
 Using Xming-mesa the problem was solved:
 
 ![](/blog/2022/10/XMing_Freeview_1.png)
 
-The Xming (non-mesa) version supports application that rely on X calls, but not OpenGL.
 
 ## References
 
