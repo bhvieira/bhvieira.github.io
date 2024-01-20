@@ -48,7 +48,7 @@ jobs:
             Pkg.activate("."); Pkg.instantiate();
             optimize(prerender=false, minify=false)'
     - name: Build and Deploy
-      uses: JamesIves/github-pages-deploy-action@releases/v3
+      uses: JamesIves/github-pages-deploy-action@releases/v4
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         # SSH: true
