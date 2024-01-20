@@ -52,8 +52,5 @@ jobs:
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         # SSH: true
-        # NOTE
-        #   Set this to `BRANCH: gh-pages` for a **project** page and to
-        #   `BRANCH: master` for a **personal** page
-        BRANCH: master
+        BRANCH: gh-pages
         FOLDER: __site
