@@ -53,4 +53,5 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
         # SSH: true
         branch: master
+        single-commit: true
         folder: __site
