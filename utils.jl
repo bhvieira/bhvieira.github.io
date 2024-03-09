@@ -23,7 +23,7 @@ end
 Plug in the list of blog posts contained in the `/posts/` folder.
 Copied directly from https://github.com/JuliaLang/www.julialang.org, under the MIT license
 """
-function hfun_blogposts()
+@delay function hfun_blogposts()
     curyear = year(Dates.today())
     io = IOBuffer()
     for year in curyear:-1:2020
