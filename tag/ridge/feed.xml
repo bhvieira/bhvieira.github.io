@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<rss version="2.0"
+  xmlns:content="http://purl.org/rss/1.0/modules/content/"
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
+  xmlns:media="http://search.yahoo.com/mrss/"
+  xmlns:atom="http://www.w3.org/2005/Atom"
+  xmlns:georss="http://www.georss.org/georss">
+
+  <channel>
+    <title>
+      <![CDATA[  Bruno Hebling Vieira  ]]>
+    </title>
+    <link> https://bhvieira.github.io/ </link>
+    <description>
+      <![CDATA[  Bruno Hebling Vieira personal page  ]]>
+    </description>
+    <atom:link
+      href="https://bhvieira.github.io/feed.xml"
+      rel="self"
+      type="application/rss+xml" />
+
+
+<item>
+  <title>
+    <![CDATA[  Enter the Ridge: derivation and properties  ]]>
+  </title>
+  <link> https://bhvieira.github.io/blog/2020/11/RidgeOLS/index.html </link>
+  <guid> https://bhvieira.github.io/blog/2020/11/RidgeOLS/index.html </guid>
+  <description>
+    <![CDATA[  Enter the Ridge: derivation and properties   ]]>
+  </description>  
+    
+  <pubDate>Sun, 01 Nov 2020 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Bruno Hebling Vieira</atom:name>
+  </atom:author>
+        
+</item>
+</channel></rss>
