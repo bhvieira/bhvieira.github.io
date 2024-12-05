@@ -1,4 +1,4 @@
-@def rss_pubdate = Date(2024, 28, 11)
+@def rss_pubdate = Date(2024, 11, 28)
 @def rss = """ A deep learning approach for automated scoring of the Rey-Osterrieth complex figure """
 @def published = "11 Mar 2024"
 @def title = "A deep learning approach for automated scoring of the Rey-Osterrieth complex figure"
