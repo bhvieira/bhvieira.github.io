@@ -49,10 +49,6 @@ jobs:
             using Franklin;
             Pkg.activate("."); Pkg.instantiate();
             optimize(minify=false)'
-    - name: Ensure .well_known directory exists
-      run: mkdir -p __site/.well_known && cp -r .well_known/* __site/.well_known/
-    - name: Copy .well_known directory
-      run: cp -r .well_known __site/.well_known
     - name: Build and Deploy
       uses: JamesIves/github-pages-deploy-action@v4.5.0
       with:
