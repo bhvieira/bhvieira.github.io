@@ -49,10 +49,6 @@ jobs:
             using Franklin;
             Pkg.activate("."); Pkg.instantiate();
             optimize(minify=false)'
-    - name: Create atproto-did file
-      run: |
-        mkdir -p __site/.well_known
-        echo "did:plc:bnvkhn42zjfoaxsqajoyria4" > __site/.well_known/atproto-did
     - name: Build and Deploy
       uses: JamesIves/github-pages-deploy-action@v4.5.0
       with:
