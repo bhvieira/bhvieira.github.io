@@ -328,8 +328,10 @@
         // --- Drag Handler ---
         function handleDrag(event, d, xScale, yScale, xMax, yMax, plotType) {
             
-            // 1. Convert the event's D3-calculated screen coordinates back to data values
-            // event.x/event.y are the D3-calculated positions relative to the <g> element's origin.
+            // event.x and event.y are now the mouse position in the coordinate space of the <g> element
+            // thanks to the .subject() configuration, these already account for where you grabbed the point
+            
+            // Convert screen coordinates to data values
             let newXData = xScale.invert(event.x);
             let newYData = yScale.invert(event.y);
 
@@ -365,12 +367,11 @@
                 // to keep the point visually on the correct line.
             }
 
-            // 2. CRITICAL FIX: Update the visual position of the circle directly 
-            //    using D3's calculated event coordinates (event.x, event.y).
-            //    This bypasses the double-conversion issue and ensures smooth tracking.
-            d3.select(event.sourceEvent.target)
-                .attr("cx", event.x)
-                .attr("cy", event.y);
+            // Update the visual position using the clamped data values
+            // Use d3.select(this) to get the current circle element
+            d3.select(this)
+                .attr("cx", xScale(d.x))
+                .attr("cy", yScale(d.y));
         }
 
         // --- D3 Plotting Functions ---
@@ -457,6 +458,10 @@
             let drag;
             if (plotType === 'regression' || plotType === 'binary') {
                 drag = d3.drag()
+                    .subject(function(event, d) {
+                        // Set the drag subject to the current data point's screen coordinates
+                        return { x: xScale(d.x), y: yScale(d.y) };
+                    })
                     .on("drag", function(event, d) {
                         // Pass D3's drag event and plot details
                         handleDrag(event, d, xScale, yScale, xMax, yMax, plotType);
