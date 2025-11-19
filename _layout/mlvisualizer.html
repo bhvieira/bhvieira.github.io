@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ML Metric Visualizer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        :root {
+            --color-primary: #2C3E50; /* Dark Blue/Grey - Points */
+            --color-secondary: #E74C3C; /* Red - Error */
+            --color-accent: #27AE60; /* Green - Concordant/Calibration */
+            --color-diag: #95A5A6; /* Grey - Diagonal */
+            --font-family: 'Inter', sans-serif;
+        }
+        body {
+            font-family: var(--font-family);
+            background-color: #ecf0f1;
+        }
+        .plot-container {
+            width: 100%;
+            height: 400px; /* Fixed height for consistent plot size */
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            padding: 1rem;
+        }
+        .plot-title {
+            font-weight: 700;
+            font-size: 1.125rem; /* text-lg */
+            margin-bottom: 0.5rem;
+            color: var(--color-primary);
+        }
+        .svg-chart text {
+            fill: #333;
+            font-size: 10px;
+        }
+        .svg-chart .axis line, .svg-chart .axis path {
+            stroke: #ddd;
+        }
+        .svg-chart .axis path {
+            stroke-width: 0.5;
+        }
+        .data-point {
+            cursor: grab;
+        }
+        .data-point:active {
+            cursor: grabbing;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+    <div class="max-w-7xl mx-auto">
+        <header class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-extrabold text-gray-800 mb-2">
+                ML Model Performance Visualizer
+            </h1>
+            <p class="text-lg text-gray-600">
+                Data is randomly generated to demonstrate various regression and classification metrics. **Try dragging the points!**
+            </p>
+            <button id="generateButton" 
+                    class="mt-4 px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-lg 
+                           hover:bg-blue-700 transition duration-300 transform hover:scale-[1.02] active:scale-95">
+                Generate New Data & Re-Run Metrics
+            </button>
+        </header>
+
+        <!-- Regression Metrics -->
+        <h2 class="text-2xl font-bold text-gray-700 mt-10 mb-6 border-b pb-2">Regression Performance (Continuous Predictions)</h2>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="plot-container" id="plot-mae">
+                <div class="plot-title" id="title-mae">Mean Absolute Error (MAE)</div>
+                <svg class="svg-chart"></svg>
+            </div>
+            <div class="plot-container" id="plot-mse">
+                <div class="plot-title" id="title-mse">Mean Squared Error (MSE)</div>
+                <svg class="svg-chart"></svg>
+            </div>
+            <div class="plot-container" id="plot-cindex">
+                <div class="plot-title" id="title-cindex">Concordance Index (C-index)</div>
+                <svg class="svg-chart"></svg>
+            </div>
+        </div>
+
+        <!-- Classification Metrics -->
+        <h2 class="text-2xl font-bold text-gray-700 mt-10 mb-6 border-b pb-2">Classification Performance (Probabilities)</h2>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="plot-container" id="plot-brier">
+                <div class="plot-title" id="title-brier">Brier Score (Squared Error on Probabilities)</div>
+                <svg class="svg-chart"></svg>
+            </div>
+            <div class="plot-container" id="plot-ece">
+                <div class="plot-title" id="title-ece">Expected Calibration Error (ECE)</div>
+                <svg class="svg-chart"></svg>
+            </div>
+            <div class="plot-container" id="plot-auc">
+                <div class="plot-title" id="title-auc">AUC (Ranking Consistency)</div>
+                <svg class="svg-chart"></svg>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const MARGIN = { top: 30, right: 30, bottom: 40, left: 50 };
+        const BINARY_MAX = 1; // Binary plots are always 0 to 1
+        const BINARY_JITTER_AMOUNT = 0.08; // Small jitter for visual separation of classification points
+
+        // Global State
+        let regressionDataState = []; // Stores {id, x, y} for regression (Z-scored)
+        let binaryDataState = [];     // Stores {id, x: trueClass, y: predictedProb}
+        let REGRESSION_PLOT_MAX = 5;
+
+        // --- Utility Functions ---
+
+        // Simple approximation of a skewed distribution for binary predictions
+        function getPredictedProbability(trueClass) {
+            let y;
+            if (trueClass === 1) {
+                // Skewed towards 1 (Higher chance of good prediction for True=1)
+                y = Math.min(1.0, Math.max(0.01, 0.5 + Math.random() * 0.5 * Math.random() * Math.random() * 2));
+            } else {
+                // Skewed towards 0 (Higher chance of good prediction for True=0)
+                y = Math.min(0.99, Math.max(0.0, Math.random() * 0.5 * Math.random() * Math.random()));
+            }
+            return y;
+        }
+
+        function calculateStats(values) {
+            const mean = values.reduce((sum, v) => sum + v, 0) / values.length;
+            const stdDev = Math.sqrt(
+                values.reduce((sum, v) => sum + Math.pow(v - mean, 2), 0) / values.length
+            );
+            return { mean, stdDev: stdDev === 0 ? 1 : stdDev }; // Prevent division by zero
+        }
+        
+        function generateRawRegressionData() {
+            const N = 25;
+            const data = [];
+            for (let i = 0; i < N; i++) {
+                // Generate raw data over a larger arbitrary range
+                const x_raw = Math.random() * 100; 
+                // Correlated prediction with noise
+                const y_raw = 0.6 * x_raw + 0.4 * (Math.random() * 100) + (Math.random() * 10);
+                data.push({ id: i, x: x_raw, y: y_raw });
+            }
+            return data;
+        }
+
+        // --- Data Generation Functions ---
+
+        function generateRegressionData() {
+            const rawData = generateRawRegressionData();
+            const x_values = rawData.map(d => d.x);
+            const y_values = rawData.map(d => d.y);
+
+            const x_stats = calculateStats(x_values);
+            const y_stats = calculateStats(y_values);
+            
+            // Normalize both independently to have mean 0 and std 1 (Z-Score)
+            const normalizedData = rawData.map((d, i) => ({
+                id: i,
+                x: (d.x - x_stats.mean) / x_stats.stdDev,
+                y: (d.y - y_stats.mean) / y_stats.stdDev
+            }));
+            
+            // Determine max plot range (symmetric around 0, e.g., 3-4 standard deviations)
+            const maxAbsValue = d3.max(normalizedData, d => Math.max(Math.abs(d.x), Math.abs(d.y)));
+            const newMaxRange = Math.ceil(maxAbsValue) + 1;
+            
+            regressionDataState = normalizedData;
+            REGRESSION_PLOT_MAX = newMaxRange;
+            return normalizedData;
+        }
+
+        function generateBinaryData() {
+            const N = 25;
+            const data = [];
+            for (let i = 0; i < N; i++) {
+                const x = Math.random() > 0.5 ? 1 : 0; // True Class
+                const y = getPredictedProbability(x); // Predicted Probability
+                data.push({ id: i, x, y }); // { id, x: True Class, y: Predicted Probability }
+            }
+            binaryDataState = data;
+            return data;
+        }
+
+        // --- Metric Calculation Functions ---
+
+        function calculateRegressionMetrics(data) {
+            let sumAbsError = 0;
+            let sumSqError = 0;
+            
+            data.forEach(d => {
+                sumAbsError += Math.abs(d.y - d.x);
+                sumSqError += Math.pow(d.y - d.x, 2);
+            });
+
+            const mae = sumAbsError / data.length;
+            const mse = sumSqError / data.length;
+
+            // C-index calculation (Concordance Index)
+            let concordant = 0;
+            let totalPairs = 0;
+            const cIndexPairs = [];
+
+            for (let i = 0; i < data.length; i++) {
+                for (let j = i + 1; j < data.length; j++) {
+                    const d1 = data[i];
+                    const d2 = data[j];
+
+                    // Only compare if true values are different (x1 < x2 or x1 > x2)
+                    if (d1.x !== d2.x) {
+                        totalPairs++;
+                        let indicator;
+
+                        // Case 1: x1 < x2 (d1's true value is smaller)
+                        if (d1.x < d2.x) {
+                            if (d1.y <= d2.y) {
+                                concordant++;
+                                indicator = 'Concordant';
+                            } else {
+                                indicator = 'Discordant';
+                            }
+                        } 
+                        // Case 2: x1 > x2 (d1's true value is larger)
+                        else { 
+                            if (d1.y >= d2.y) {
+                                concordant++;
+                                indicator = 'Concordant';
+                            } else {
+                                indicator = 'Discordant';
+                            }
+                        }
+
+                        // Store for plotting (always plot from smaller x to larger x for consistency)
+                        if (d1.x < d2.x) {
+                           cIndexPairs.push({ x1: d1.x, y1: d1.y, x2: d2.x, y2: d2.y, indicator });
+                        } else {
+                            cIndexPairs.push({ x1: d2.x, y1: d2.y, x2: d1.x, y2: d1.y, indicator });
+                        }
+                    }
+                }
+            }
+
+            const cIndex = totalPairs > 0 ? concordant / totalPairs : 0.5;
+
+            return { mae, mse, cIndex, cIndexPairs };
+        }
+
+        function calculateBinaryMetrics(data) {
+            let sumSqError = 0; // Brier Score
+            
+            data.forEach(d => {
+                // d.x is True Class (0/1), d.y is Predicted Prob (0-1)
+                sumSqError += Math.pow(d.y - d.x, 2);
+            });
+
+            const brier = sumSqError / data.length;
+
+            // AUC (using C-index concept on binary data: check if P(positive) > P(negative))
+            let concordant = 0;
+            let totalPairs = 0;
+            const aucPairs = [];
+
+            const positives = data.filter(d => d.x === 1);
+            const negatives = data.filter(d => d.x === 0);
+
+            // Total pairs = N_pos * N_neg
+            totalPairs = positives.length * negatives.length;
+
+            positives.forEach(p => {
+                negatives.forEach(n => {
+                    // True: n.x=0, p.x=1 
+                    // Concordant if: p.y > n.y (Predicted prob of positive > Predicted prob of negative)
+                    if (p.y > n.y) {
+                        concordant++;
+                        // The AUC segments connect the predicted probabilities of the pair.
+                        // x1/y1 is the negative point, x2/y2 is the positive point.
+                        // In the state data: x=True Class, y=Predicted Prob.
+                        aucPairs.push({ x1: n.y, y1: n.x, x2: p.y, y2: p.x, indicator: 'Concordant' });
+                    } else {
+                        // Discordant if p.y <= n.y 
+                        aucPairs.push({ x1: n.y, y1: n.x, x2: p.y, y2: p.x, indicator: 'Discordant' });
+                    }
+                });
+            });
+
+            const auc = totalPairs > 0 ? concordant / totalPairs : 0.5;
+
+            // ECE (Expected Calibration Error)
+            const n_bins = 5;
+            const sortedData = [...data].sort((a, b) => a.y - b.y);
+            
+            // Simple equal-width binning
+            const binSize = 1.0 / n_bins;
+            const calibrationData = [];
+
+            for (let i = 0; i < n_bins; i++) {
+                const lowerBound = i * binSize;
+                const upperBound = (i + 1) * binSize;
+
+                const binPoints = sortedData.filter(d => d.y >= lowerBound && d.y < upperBound);
+                if (i === n_bins - 1) { // Include 1.0 in the last bin
+                    binPoints.push(...sortedData.filter(d => d.y === 1.0));
+                }
+
+                if (binPoints.length > 0) {
+                    const mean_pred = binPoints.reduce((sum, d) => sum + d.y, 0) / binPoints.length;
+                    const mean_true = binPoints.reduce((sum, d) => sum + d.x, 0) / binPoints.length;
+                    const count = binPoints.length;
+                    
+                    calibrationData.push({
+                        mean_pred,
+                        mean_true,
+                        count,
+                        weight: count / data.length
+                    });
+                }
+            }
+
+            const ece = calibrationData.reduce((sum, d) => 
+                sum + d.weight * Math.abs(d.mean_pred - d.mean_true), 0);
+
+            return { brier, auc, aucPairs, ece, calibrationData };
+        }
+
+        // --- Drag Handler ---
+        function handleDrag(event, d, xScale, yScale, xMax, yMax, plotType) {
+            
+            // 1. Convert the event's D3-calculated screen coordinates back to data values
+            // event.x/event.y are the D3-calculated positions relative to the <g> element's origin.
+            let newXData = xScale.invert(event.x);
+            let newYData = yScale.invert(event.y);
+
+            if (plotType === 'regression') {
+                // Clamp regression values to the plot's calculated bounds
+                newXData = Math.max(-xMax, Math.min(xMax, newXData)); 
+                newYData = Math.max(-yMax, Math.min(yMax, newYData)); 
+
+                // Update the state (used for metric recalculation on drag end)
+                const sourcePoint = regressionDataState.find(p => p.id === d.id);
+                if (sourcePoint) {
+                    sourcePoint.x = newXData;
+                    sourcePoint.y = newYData;
+                }
+                // Update the *plotted* data point's X/Y values immediately for visual feedback
+                d.x = newXData;
+                d.y = newYData;
+                
+            } else if (plotType === 'binary') { // Brier, AUC
+                // X-axis is Predicted Probability (0 to 1)
+                newXData = Math.max(0, Math.min(1, newXData)); 
+                
+                // Y-axis (True Class) is fixed (0 or 1). We only update the X-value (Predicted Prob).
+                const sourcePoint = binaryDataState.find(p => p.id === d.id);
+                if (sourcePoint) {
+                    // In binaryDataState, 'y' is the Predicted Probability
+                    sourcePoint.y = newXData; 
+                }
+                
+                // Update the *plotted* data point's X value immediately for visual feedback
+                d.x = newXData;
+                // Note: d.y (the jittered True Class) remains constant during drag 
+                // to keep the point visually on the correct line.
+            }
+
+            // 2. CRITICAL FIX: Update the visual position of the circle directly 
+            //    using D3's calculated event coordinates (event.x, event.y).
+            //    This bypasses the double-conversion issue and ensures smooth tracking.
+            d3.select(event.sourceEvent.target)
+                .attr("cx", event.x)
+                .attr("cy", event.y);
+        }
+
+        // --- D3 Plotting Functions ---
+
+        /**
+         * Renders a D3 scatter plot.
+         */
+        function renderScatterPlot(id, titleId, title, data, xMax, yMax, plotType, customRender, xLabel, yLabel) {
+            const container = d3.select(`#${id}`);
+            const svg = container.select("svg").html("");
+            const width = container.node().clientWidth - MARGIN.left - MARGIN.right;
+            const height = container.node().clientHeight - MARGIN.top - MARGIN.bottom - 20;
+
+            d3.select(`#${titleId}`).text(title);
+
+            svg.attr("width", width + MARGIN.left + MARGIN.right)
+               .attr("height", height + MARGIN.top + MARGIN.bottom);
+
+            const g = svg.append("g")
+                .attr("transform", `translate(${MARGIN.left},${MARGIN.top})`);
+
+            // Determine domain based on plot type 
+            const xDomain = xMax === BINARY_MAX ? [0, xMax] : [-xMax, xMax];
+            const yDomain = yMax === BINARY_MAX ? [0, yMax] : [-yMax, yMax];
+            
+            // Scales
+            const xScale = d3.scaleLinear().domain(xDomain).range([0, width]);
+            const yScale = d3.scaleLinear().domain(yDomain).range([height, 0]);
+
+            // Axes
+            const isBinary = xMax === BINARY_MAX;
+            // For binary, place axes at 0/height to use the full 0-1 square. 
+            // For regression (Z-score), place them at the 0 data mark.
+            const xAxisY = isBinary ? height : yScale(0); 
+            const yAxisX = isBinary ? 0 : xScale(0);
+
+            const tickStep = isBinary ? 0.5 : 2; 
+            const xAxis = d3.axisBottom(xScale).ticks(xMax / tickStep).tickSize(3);
+            const yAxis = d3.axisLeft(yScale).ticks(yMax / tickStep).tickSize(3);
+
+            g.append("g")
+                .attr("class", "axis x-axis")
+                .attr("transform", `translate(0,${xAxisY})`) 
+                .call(xAxis);
+
+            g.append("g")
+                .attr("class", "axis y-axis")
+                .attr("transform", `translate(${yAxisX},0)`) 
+                .call(yAxis);
+
+            // Axis Labels
+            g.append("text")
+                .attr("class", "x-label")
+                .attr("text-anchor", "middle")
+                .attr("x", width / 2)
+                .attr("y", height + MARGIN.bottom - 5)
+                .text(xLabel);
+
+            g.append("text")
+                .attr("class", "y-label")
+                .attr("text-anchor", "middle")
+                .attr("transform", "rotate(-90)")
+                .attr("y", -MARGIN.left + 15)
+                .attr("x", -height / 2)
+                .text(yLabel);
+
+            // Diagonal Line (Perfect Prediction)
+            g.append("line")
+                .attr("x1", xScale(xDomain[0]))
+                .attr("y1", yScale(yDomain[0]))
+                .attr("x2", xScale(xDomain[1]))
+                .attr("y2", yScale(yDomain[1]))
+                .attr("stroke", "var(--color-diag)")
+                .attr("stroke-dasharray", "4 4")
+                .attr("stroke-width", 1.5);
+                
+            // Custom Error Visualization (Segments, Rects, etc.)
+            if (customRender) {
+                // Pass width and height to custom render function
+                customRender(g, xScale, yScale, width, height);
+            }
+
+            // Drag behavior is only applied to regression and binary scatter plots
+            let drag;
+            if (plotType === 'regression' || plotType === 'binary') {
+                drag = d3.drag()
+                    .on("drag", function(event, d) {
+                        // Pass D3's drag event and plot details
+                        handleDrag(event, d, xScale, yScale, xMax, yMax, plotType);
+                    })
+                    .on("end", () => generateDataAndRender(false)); // Recalculate/redraw everything on drag end
+            }
+
+
+            // Data Points
+            let points = g.selectAll(".data-point")
+                .data(data)
+                .enter().append("circle")
+                .attr("class", "data-point")
+                .attr("data-id", d => d.id)
+                .attr("cx", d => xScale(d.x))
+                .attr("cy", d => yScale(d.y))
+                .attr("r", 4)
+                .attr("fill", "var(--color-primary)")
+                .attr("stroke", "white")
+                .attr("stroke-width", 1);
+                
+            if (drag) {
+                points.call(drag);
+            }
+        }
+
+        // --- Regression Renderers ---
+
+        function renderMAE(g, xScale, yScale, width, height, data) {
+            // Error segments for MAE
+            g.selectAll(".error-segment-mae")
+                .data(data)
+                .enter().append("line")
+                .attr("class", "error-segment-mae")
+                // x-coordinate is constant (true value x)
+                .attr("x1", d => xScale(d.x))
+                .attr("y1", d => yScale(d.y))
+                .attr("x2", d => xScale(d.x))
+                .attr("y2", d => yScale(d.x)) // The diagonal line y=x
+                .attr("stroke", "var(--color-secondary)")
+                .attr("stroke-width", 3)
+                .attr("opacity", 0.5);
+        }
+
+        function renderMSE(g, xScale, yScale, width, height, data) {
+            // Error rectangles (squared error) for MSE
+            g.selectAll(".error-rect-mse")
+                .data(data)
+                .enter().append("rect")
+                .attr("class", "error-rect-mse")
+                .attr("x", d => xScale(Math.min(d.x, d.y)))
+                .attr("y", d => yScale(Math.max(d.x, d.y)))
+                .attr("width", d => Math.abs(xScale(d.x) - xScale(d.y)))
+                .attr("height", d => Math.abs(yScale(d.x) - yScale(d.y)))
+                .attr("fill", "var(--color-secondary)")
+                .attr("opacity", 0.15);
+        }
+
+        function renderCIndex(g, xScale, yScale, width, height, cIndexPairs) {
+            const colorScale = d3.scaleOrdinal()
+                .domain(["Concordant", "Discordant"])
+                .range(["var(--color-accent)", "var(--color-secondary)"]);
+
+            // Segments connecting two points
+            g.selectAll(".cindex-segment")
+                .data(cIndexPairs)
+                .enter().append("line")
+                .attr("class", "cindex-segment")
+                .attr("x1", d => xScale(d.x1))
+                .attr("y1", d => yScale(d.y1))
+                .attr("x2", d => xScale(d.x2))
+                .attr("y2", d => yScale(d.y2))
+                .attr("stroke", d => colorScale(d.indicator))
+                .attr("stroke-width", 1.5)
+                .attr("opacity", 0.3);
+        }
+
+        // --- Classification Renderers ---
+        
+        function renderBrier(g, xScale, yScale, width, height, data) {
+            // Error rectangles (squared error) for Brier Score
+            // Data d is {x: True Class (0/1), y: Predicted Prob (0-1)}
+            // Scales are X=Predicted Prob, Y=True Class
+            g.selectAll(".error-rect-brier")
+                .data(data)
+                .enter().append("rect")
+                .attr("class", "error-rect-brier")
+                // Positioning and size calculation remains correct for the distance to the diagonal (y=x)
+                .attr("x", d => xScale(Math.min(d.y, d.x))) 
+                .attr("y", d => yScale(Math.max(d.y, d.x)))
+                .attr("width", d => Math.abs(xScale(d.y) - xScale(d.x)))
+                .attr("height", d => Math.abs(yScale(d.y) - yScale(d.x)))
+                .attr("fill", "var(--color-secondary)")
+                .attr("opacity", 0.15);
+                
+            // Horizontal reference lines for y=0 and y=1
+            g.append("line").attr("x1", xScale(0)).attr("y1", yScale(0)).attr("x2", xScale(1)).attr("y2", yScale(0)).attr("stroke", "var(--color-diag)").attr("stroke-width", 1);
+            g.append("line").attr("x1", xScale(0)).attr("y1", yScale(1)).attr("x2", xScale(1)).attr("y2", yScale(1)).attr("stroke", "var(--color-diag)").attr("stroke-width", 1);
+        }
+
+        function renderECE(g, xScale, yScale, width, height, calibrationData) {
+            // ECE segments (difference between mean_pred and mean_true)
+            g.selectAll(".ece-segment")
+                .data(calibrationData)
+                .enter().append("line")
+                .attr("class", "ece-segment")
+                .attr("x1", d => xScale(d.mean_pred))
+                .attr("y1", d => yScale(d.mean_true))
+                .attr("x2", d => xScale(d.mean_pred))
+                .attr("y2", d => yScale(d.mean_pred)) // Distance to the diagonal
+                .attr("stroke", "var(--color-secondary)")
+                .attr("stroke-width", d => Math.max(2, d.count * 1.5)) // Width based on count
+                .attr("opacity", 0.7);
+
+            // Points for calibration bins
+            g.selectAll(".ece-point")
+                .data(calibrationData)
+                .enter().append("circle")
+                .attr("class", "ece-point")
+                .attr("cx", d => xScale(d.mean_pred))
+                .attr("cy", d => yScale(d.mean_true))
+                .attr("r", d => 4 + d.count * 0.5) // Radius based on count
+                .attr("fill", "var(--color-primary)")
+                .attr("stroke", "white")
+                .attr("stroke-width", 1);
+
+            // Points on the diagonal for comparison
+            g.selectAll(".diagonal-point")
+                .data(calibrationData)
+                .enter().append("circle")
+                .attr("class", "diagonal-point")
+                .attr("cx", d => xScale(d.mean_pred))
+                .attr("cy", d => yScale(d.mean_pred))
+                .attr("r", 2.5)
+                .attr("fill", "var(--color-accent)");
+        }
+        
+        function renderAUC(g, xScale, yScale, width, height, aucPairs) {
+            const colorScale = d3.scaleOrdinal()
+                .domain(["Concordant", "Discordant"])
+                .range(["var(--color-accent)", "var(--color-secondary)"]);
+
+            // Segments connecting the negative (x=0) and positive (x=1) points
+            g.selectAll(".auc-segment")
+                .data(aucPairs)
+                .enter().append("line")
+                .attr("class", "auc-segment")
+                // x1, y1 is the negative point (P_neg, True_neg=0)
+                .attr("x1", d => xScale(d.x1)) 
+                .attr("y1", d => yScale(d.y1))
+                // x2, y2 is the positive point (P_pos, True_pos=1)
+                .attr("x2", d => xScale(d.x2)) 
+                .attr("y2", d => yScale(d.y2))
+                .attr("stroke", d => colorScale(d.indicator))
+                .attr("stroke-width", 1.5)
+                .attr("opacity", 0.1); // Keep opacity very low as there are many pairs
+                
+            // Horizontal reference lines for y=0 and y=1
+            g.append("line").attr("x1", xScale(0)).attr("y1", yScale(0)).attr("x2", xScale(1)).attr("y2", yScale(0)).attr("stroke", "var(--color-diag)").attr("stroke-width", 1);
+            g.append("line").attr("x1", xScale(0)).attr("y1", yScale(1)).attr("x2", xScale(1)).attr("y2", yScale(1)).attr("stroke", "var(--color-diag)").attr("stroke-width", 1);
+        }
+
+        // --- Main Controller ---
+
+        function generateDataAndRender(regenerate = true) {
+            
+            if (regenerate) {
+                // 1. Generate Data (and populate global states)
+                generateRegressionData();
+                generateBinaryData();
+            }
+
+            // 2. Calculate Metrics using the current global state data
+            const { mae, mse, cIndex, cIndexPairs } = calculateRegressionMetrics(regressionDataState);
+            const { brier, auc, aucPairs, ece, calibrationData } = calculateBinaryMetrics(binaryDataState);
+
+            // 3. Prepare Classification Data for Plotting (swap axes and add jitter)
+            const binaryDataForPlot = binaryDataState.map(d => ({ 
+                id: d.id,
+                x: d.y, // Predicted Prob (X-axis)
+                // Y-axis (True Class) + Jitter for visual separation
+                y: d.x + (Math.random() - 0.5) * BINARY_JITTER_AMOUNT, 
+            }));
+            
+            // --- Regression Plots ---
+            
+            // MAE
+            renderScatterPlot('plot-mae', 'title-mae', `Mean Absolute Error (MAE) = ${mae.toFixed(3)}`, 
+                regressionDataState, REGRESSION_PLOT_MAX, REGRESSION_PLOT_MAX, 'regression', 
+                (g, xScale, yScale, width, height) => renderMAE(g, xScale, yScale, width, height, regressionDataState), 
+                "True Value (Z-Score)", "Predicted Value (Z-Score)");
+            
+            // MSE
+            renderScatterPlot('plot-mse', 'title-mse', `Mean Squared Error (MSE) = ${mse.toFixed(3)}`, 
+                regressionDataState, REGRESSION_PLOT_MAX, REGRESSION_PLOT_MAX, 'regression', 
+                (g, xScale, yScale, width, height) => renderMSE(g, xScale, yScale, width, height, regressionDataState), 
+                "True Value (Z-Score)", "Predicted Value (Z-Score)");
+
+            // C-Index
+            renderScatterPlot('plot-cindex', 'title-cindex', `Concordance Index (C-index) = ${cIndex.toFixed(3)}`, 
+                regressionDataState, REGRESSION_PLOT_MAX, REGRESSION_PLOT_MAX, 'regression', 
+                (g, xScale, yScale, width, height) => renderCIndex(g, xScale, yScale, width, height, cIndexPairs), 
+                "True Value (Z-Score)", "Predicted Value (Z-Score)");
+            
+            // --- Classification Plots ---
+
+            // Brier Score
+            renderScatterPlot('plot-brier', 'title-brier', `Brier Score = ${brier.toFixed(3)}`, 
+                binaryDataForPlot, BINARY_MAX, BINARY_MAX, 'binary', 
+                (g, xScale, yScale, width, height) => renderBrier(g, xScale, yScale, width, height, binaryDataState), 
+                "Predicted Probability", "True Class");
+            
+            // ECE (The plot data is aggregated - not draggable, uses BINARY_MAX as range)
+            renderScatterPlot('plot-ece', 'title-ece', `Expected Calibration Error (ECE) = ${ece.toFixed(3)}`, 
+                calibrationData.map(d => ({ x: d.mean_pred, y: d.mean_true })), BINARY_MAX, BINARY_MAX, 'ece',
+                (g, xScale, yScale, width, height) => renderECE(g, xScale, yScale, width, height, calibrationData),
+                "Mean Predicted Probability (in Bin)", "Mean True Class (in Bin)");
+            
+            // AUC
+            renderScatterPlot('plot-auc', 'title-auc', `AUC = ${auc.toFixed(3)}`, 
+                binaryDataForPlot, BINARY_MAX, BINARY_MAX, 'binary', 
+                (g, xScale, yScale, width, height) => renderAUC(g, xScale, yScale, width, height, aucPairs), 
+                "Predicted Probability", "True Class");
+        }
+
+        // Attach event listener and run on load
+        document.getElementById('generateButton').addEventListener('click', () => generateDataAndRender(true));
+        window.addEventListener('load', () => generateDataAndRender(true));
+        window.addEventListener('resize', () => generateDataAndRender(false)); // Re-render on resize (don't regenerate data)
+    </script>
+</body>
+</html>
