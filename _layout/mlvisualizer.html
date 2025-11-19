@@ -761,19 +761,19 @@
             renderScatterPlot('plot-mae', 'title-mae', `Mean Absolute Error (MAE) = ${mae.toFixed(3)}`, 
                 regressionDataState, REGRESSION_PLOT_MAX, REGRESSION_PLOT_MAX, 'regression', 
                 (g, xScale, yScale, width, height) => renderMAE(g, xScale, yScale, width, height, regressionDataState), 
-                "True Value (Z-Score)", "Predicted Value (Z-Score)");
+                "True Value", "Predicted Value");
             
             // MSE
             renderScatterPlot('plot-mse', 'title-mse', `Mean Squared Error (MSE) = ${mse.toFixed(3)}`, 
                 regressionDataState, REGRESSION_PLOT_MAX, REGRESSION_PLOT_MAX, 'regression', 
                 (g, xScale, yScale, width, height) => renderMSE(g, xScale, yScale, width, height, regressionDataState), 
-                "True Value (Z-Score)", "Predicted Value (Z-Score)");
+                "True Value", "Predicted Value");
 
             // C-Index
             renderScatterPlot('plot-cindex', 'title-cindex', `Concordance Index (C-index) = ${cIndex.toFixed(3)}`, 
                 regressionDataState, REGRESSION_PLOT_MAX, REGRESSION_PLOT_MAX, 'regression', 
                 (g, xScale, yScale, width, height) => renderCIndex(g, xScale, yScale, width, height, cIndexPairs), 
-                "True Value (Z-Score)", "Predicted Value (Z-Score)");
+                "True Value", "Predicted Value");
             
             // --- Classification Plots ---
 
