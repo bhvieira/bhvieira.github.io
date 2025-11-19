@@ -110,6 +110,7 @@
         let regressionDataState = []; // Stores {id, x, y} for regression (Z-scored)
         let binaryDataState = [];     // Stores {id, x: trueClass, y: predictedProb}
         let REGRESSION_PLOT_MAX = 5;
+        let currentlyDraggingId = null; // Track which point is being dragged
 
         // --- Utility Functions ---
 
@@ -462,29 +463,55 @@
                         // Set the drag subject to the current data point's screen coordinates
                         return { x: xScale(d.x), y: yScale(d.y) };
                     })
-                    .on("drag", function(event, d) {
-                        // Pass D3's drag event and plot details
-                        handleDrag(event, d, xScale, yScale, xMax, yMax, plotType);
+                    .on("start", function(event, d) {
+                        // Mark this point as being dragged
+                        currentlyDraggingId = d.id;
                     })
-                    .on("end", () => generateDataAndRender(false)); // Recalculate/redraw everything on drag end
+                    .on("drag", function(event, d) {
+                        // Update data state and visual position
+                        handleDrag.call(this, event, d, xScale, yScale, xMax, yMax, plotType);
+                        // Update only error visualizations in real-time, not the entire plot
+                        requestAnimationFrame(() => updateErrorVisualizations());
+                    })
+                    .on("end", function(event, d) {
+                        // Clear the dragging flag
+                        currentlyDraggingId = null;
+                        // Final recalculation on drag end
+                        generateDataAndRender(false);
+                    });
             }
 
 
-            // Data Points
+            // Data Points - use D3 update pattern to preserve dragged element
             let points = g.selectAll(".data-point")
-                .data(data)
-                .enter().append("circle")
+                .data(data, d => d.id); // Key function to bind by ID
+                
+            // Remove old points
+            points.exit().remove();
+            
+            // Add new points
+            let enterPoints = points.enter().append("circle")
                 .attr("class", "data-point")
                 .attr("data-id", d => d.id)
-                .attr("cx", d => xScale(d.x))
-                .attr("cy", d => yScale(d.y))
                 .attr("r", 4)
                 .attr("fill", "var(--color-primary)")
                 .attr("stroke", "white")
                 .attr("stroke-width", 1);
                 
+            // Merge enter + update selections
+            points = enterPoints.merge(points);
+            
+            // Update positions only for non-dragged points
+            points.each(function(d) {
+                if (d.id !== currentlyDraggingId) {
+                    d3.select(this)
+                        .attr("cx", xScale(d.x))
+                        .attr("cy", yScale(d.y));
+                }
+            });
+                
             if (drag) {
-                points.call(drag);
+                enterPoints.call(drag); // Only apply drag to new circles
             }
         }
 
@@ -622,6 +649,109 @@
             // Horizontal reference lines for y=0 and y=1
             g.append("line").attr("x1", xScale(0)).attr("y1", yScale(0)).attr("x2", xScale(1)).attr("y2", yScale(0)).attr("stroke", "var(--color-diag)").attr("stroke-width", 1);
             g.append("line").attr("x1", xScale(0)).attr("y1", yScale(1)).attr("x2", xScale(1)).attr("y2", yScale(1)).attr("stroke", "var(--color-diag)").attr("stroke-width", 1);
+        }
+
+        // --- Update Error Visualizations Only (during drag) ---
+        
+        function updateErrorVisualizations() {
+            // Calculate metrics with current data
+            const { mae, mse, cIndex, cIndexPairs } = calculateRegressionMetrics(regressionDataState);
+            const { brier, auc, aucPairs, ece, calibrationData } = calculateBinaryMetrics(binaryDataState);
+            
+            // Update titles
+            d3.select('#title-mae').text(`Mean Absolute Error (MAE) = ${mae.toFixed(3)}`);
+            d3.select('#title-mse').text(`Mean Squared Error (MSE) = ${mse.toFixed(3)}`);
+            d3.select('#title-cindex').text(`Concordance Index (C-index) = ${cIndex.toFixed(3)}`);
+            d3.select('#title-brier').text(`Brier Score = ${brier.toFixed(3)}`);
+            d3.select('#title-ece').text(`Expected Calibration Error (ECE) = ${ece.toFixed(3)}`);
+            d3.select('#title-auc').text(`AUC = ${auc.toFixed(3)}`);
+            
+            // Update error visualizations for each plot
+            updatePlotErrors('plot-mae', regressionDataState, '.error-segment-mae', 'line', 
+                (selection, d, xScale, yScale) => {
+                    selection.attr("x1", xScale(d.x))
+                            .attr("y1", yScale(d.y))
+                            .attr("x2", xScale(d.x))
+                            .attr("y2", yScale(d.x));
+                });
+            
+            updatePlotErrors('plot-mse', regressionDataState, '.error-rect-mse', 'rect',
+                (selection, d, xScale, yScale) => {
+                    selection.attr("x", xScale(Math.min(d.x, d.y)))
+                            .attr("y", yScale(Math.max(d.x, d.y)))
+                            .attr("width", Math.abs(xScale(d.x) - xScale(d.y)))
+                            .attr("height", Math.abs(yScale(d.x) - yScale(d.y)));
+                });
+            
+            updatePlotErrors('plot-cindex', cIndexPairs, '.cindex-segment', 'line',
+                (selection, d, xScale, yScale) => {
+                    selection.attr("x1", xScale(d.x1))
+                            .attr("y1", yScale(d.y1))
+                            .attr("x2", xScale(d.x2))
+                            .attr("y2", yScale(d.y2));
+                });
+            
+            updatePlotErrors('plot-brier', binaryDataState, '.error-rect-brier', 'rect',
+                (selection, d, xScale, yScale) => {
+                    selection.attr("x", xScale(Math.min(d.y, d.x)))
+                            .attr("y", yScale(Math.max(d.y, d.x)))
+                            .attr("width", Math.abs(xScale(d.y) - xScale(d.x)))
+                            .attr("height", Math.abs(yScale(d.y) - yScale(d.x)));
+                });
+            
+            updatePlotErrors('plot-auc', aucPairs, '.auc-segment', 'line',
+                (selection, d, xScale, yScale) => {
+                    selection.attr("x1", xScale(d.x1))
+                            .attr("y1", yScale(d.y1))
+                            .attr("x2", xScale(d.x2))
+                            .attr("y2", yScale(d.y2));
+                });
+        }
+        
+        function updatePlotErrors(plotId, data, selector, elementType, updateFn) {
+            const container = d3.select(`#${plotId}`);
+            const svg = container.select("svg");
+            const g = svg.select("g");
+            
+            // Get the scales from the existing plot
+            const width = container.node().clientWidth - MARGIN.left - MARGIN.right;
+            const height = container.node().clientHeight - MARGIN.top - MARGIN.bottom - 20;
+            
+            // Determine domain based on plot
+            const isBinary = plotId.includes('brier') || plotId.includes('auc');
+            const xDomain = isBinary ? [0, BINARY_MAX] : [-REGRESSION_PLOT_MAX, REGRESSION_PLOT_MAX];
+            const yDomain = isBinary ? [0, BINARY_MAX] : [-REGRESSION_PLOT_MAX, REGRESSION_PLOT_MAX];
+            
+            const xScale = d3.scaleLinear().domain(xDomain).range([0, width]);
+            const yScale = d3.scaleLinear().domain(yDomain).range([height, 0]);
+            
+            // Update existing elements or create new ones
+            let elements = g.selectAll(selector).data(data);
+            
+            // Remove old elements
+            elements.exit().remove();
+            
+            // Add new elements if needed
+            const enterElements = elements.enter().append(elementType)
+                .attr("class", selector.substring(1));
+            
+            // Apply styling for new elements
+            if (elementType === 'line') {
+                enterElements.attr("stroke", plotId.includes('mae') ? "var(--color-secondary)" : 
+                                           plotId.includes('cindex') ? d => d.indicator === 'Concordant' ? "var(--color-accent)" : "var(--color-secondary)" :
+                                           d => d.indicator === 'Concordant' ? "var(--color-accent)" : "var(--color-secondary)")
+                            .attr("stroke-width", plotId.includes('auc') ? 1.5 : plotId.includes('mae') ? 3 : 1.5)
+                            .attr("opacity", plotId.includes('auc') ? 0.1 : plotId.includes('cindex') ? 0.3 : 0.5);
+            } else if (elementType === 'rect') {
+                enterElements.attr("fill", "var(--color-secondary)")
+                            .attr("opacity", 0.15);
+            }
+            
+            // Merge and update all elements
+            elements = enterElements.merge(elements);
+            elements.each(function(d) {
+                updateFn(d3.select(this), d, xScale, yScale);
+            });
         }
 
         // --- Main Controller ---
