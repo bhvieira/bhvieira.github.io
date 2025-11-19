@@ -20,11 +20,13 @@
         }
         .plot-container {
             width: 100%;
-            height: 400px; /* Fixed height for consistent plot size */
+            aspect-ratio: 1 / 1; /* Maintain square aspect ratio */
             background: white;
             border-radius: 0.5rem;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
             padding: 1rem;
+            display: flex;
+            flex-direction: column;
         }
         .plot-title {
             font-weight: 700;
@@ -389,8 +391,16 @@
         function renderScatterPlot(id, titleId, title, data, xMax, yMax, plotType, customRender, xLabel, yLabel) {
             const container = d3.select(`#${id}`);
             const svg = container.select("svg").html("");
-            const width = container.node().clientWidth - MARGIN.left - MARGIN.right;
-            const height = container.node().clientHeight - MARGIN.top - MARGIN.bottom - 20;
+            const containerWidth = container.node().clientWidth;
+            const containerHeight = container.node().clientHeight;
+            
+            // Calculate square plot dimensions based on available space
+            const availableWidth = containerWidth - MARGIN.left - MARGIN.right;
+            const availableHeight = containerHeight - MARGIN.top - MARGIN.bottom - 20;
+            const plotSize = Math.min(availableWidth, availableHeight);
+            
+            const width = plotSize;
+            const height = plotSize;
 
             d3.select(`#${titleId}`).text(title);
 
@@ -720,9 +730,15 @@
             const svg = container.select("svg");
             const g = svg.select("g");
             
-            // Get the scales from the existing plot
-            const width = container.node().clientWidth - MARGIN.left - MARGIN.right;
-            const height = container.node().clientHeight - MARGIN.top - MARGIN.bottom - 20;
+            // Get the scales from the existing plot - calculate square dimensions
+            const containerWidth = container.node().clientWidth;
+            const containerHeight = container.node().clientHeight;
+            const availableWidth = containerWidth - MARGIN.left - MARGIN.right;
+            const availableHeight = containerHeight - MARGIN.top - MARGIN.bottom - 20;
+            const plotSize = Math.min(availableWidth, availableHeight);
+            
+            const width = plotSize;
+            const height = plotSize;
             
             // Determine domain based on plot
             const isBinary = plotId.includes('brier') || plotId.includes('auc');
