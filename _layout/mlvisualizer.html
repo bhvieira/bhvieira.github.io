@@ -327,7 +327,7 @@
         }
 
         // --- Drag Handler ---
-        function handleDrag(event, d, xScale, yScale, xMax, yMax, plotType) {
+        function handleDrag(event, d, xScale, yScale, xMax, yMax, plotType, fixTrueValue = true) {
             
             // event.x and event.y are now the mouse position in the coordinate space of the <g> element
             // thanks to the .subject() configuration, these already account for where you grabbed the point
@@ -338,17 +338,23 @@
 
             if (plotType === 'regression') {
                 // Clamp regression values to the plot's calculated bounds
-                newXData = Math.max(-xMax, Math.min(xMax, newXData)); 
+                if (!fixTrueValue) {
+                    newXData = Math.max(-xMax, Math.min(xMax, newXData));
+                }
                 newYData = Math.max(-yMax, Math.min(yMax, newYData)); 
 
                 // Update the state (used for metric recalculation on drag end)
                 const sourcePoint = regressionDataState.find(p => p.id === d.id);
                 if (sourcePoint) {
-                    sourcePoint.x = newXData;
+                    if (!fixTrueValue) {
+                        sourcePoint.x = newXData;
+                    }
                     sourcePoint.y = newYData;
                 }
                 // Update the *plotted* data point's X/Y values immediately for visual feedback
-                d.x = newXData;
+                if (!fixTrueValue) {
+                    d.x = newXData;
+                }
                 d.y = newYData;
                 
             } else if (plotType === 'binary') { // Brier, AUC
@@ -458,6 +464,7 @@
             // Drag behavior is only applied to regression and binary scatter plots
             let drag;
             if (plotType === 'regression' || plotType === 'binary') {
+                const fixTrueValue = plotType === 'regression' ? true : false; // Default to true for regression
                 drag = d3.drag()
                     .subject(function(event, d) {
                         // Set the drag subject to the current data point's screen coordinates
@@ -469,7 +476,7 @@
                     })
                     .on("drag", function(event, d) {
                         // Update data state and visual position
-                        handleDrag.call(this, event, d, xScale, yScale, xMax, yMax, plotType);
+                        handleDrag.call(this, event, d, xScale, yScale, xMax, yMax, plotType, fixTrueValue);
                         // Update only error visualizations in real-time, not the entire plot
                         requestAnimationFrame(() => updateErrorVisualizations());
                     })
