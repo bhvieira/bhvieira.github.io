@@ -752,19 +752,19 @@
             // --- Regression Plots ---
             
             // MAE
-            renderScatterPlot('plot-mae', 'title-mae', `Mean Absolute Error (MAE) = ${mae.toFixed(3)}`, 
+            renderScatterPlot('plot-mae', 'title-mae', `MAE = ${mae.toFixed(3)}`, 
                 regressionDataState, REGRESSION_PLOT_MAX, REGRESSION_PLOT_MAX, 'regression', 
                 (g, xScale, yScale, width, height) => renderMAE(g, xScale, yScale, width, height, regressionDataState), 
                 "True Value", "Predicted Value");
             
             // MSE
-            renderScatterPlot('plot-mse', 'title-mse', `Mean Squared Error (MSE) = ${mse.toFixed(3)}`, 
+            renderScatterPlot('plot-mse', 'title-mse', `MSE = ${mse.toFixed(3)}`, 
                 regressionDataState, REGRESSION_PLOT_MAX, REGRESSION_PLOT_MAX, 'regression', 
                 (g, xScale, yScale, width, height) => renderMSE(g, xScale, yScale, width, height, regressionDataState), 
                 "True Value", "Predicted Value");
 
             // C-Index
-            renderScatterPlot('plot-cindex', 'title-cindex', `Concordance Index (C-index) = ${cIndex.toFixed(3)}`, 
+            renderScatterPlot('plot-cindex', 'title-cindex', `C-index = ${cIndex.toFixed(3)}`, 
                 regressionDataState, REGRESSION_PLOT_MAX, REGRESSION_PLOT_MAX, 'regression', 
                 (g, xScale, yScale, width, height) => renderCIndex(g, xScale, yScale, width, height, cIndexPairs), 
                 "True Value", "Predicted Value");
@@ -778,7 +778,7 @@
                 "Predicted Probability", "True Class");
             
             // ECE (The plot data is aggregated - not draggable, uses BINARY_MAX as range)
-            renderScatterPlot('plot-ece', 'title-ece', `Expected Calibration Error (ECE) = ${ece.toFixed(3)}`, 
+            renderScatterPlot('plot-ece', 'title-ece', `ECE = ${ece.toFixed(3)}`, 
                 calibrationData.map(d => ({ x: d.mean_pred, y: d.mean_true })), BINARY_MAX, BINARY_MAX, 'ece',
                 (g, xScale, yScale, width, height) => renderECE(g, xScale, yScale, width, height, calibrationData),
                 "Mean Predicted Probability (in Bin)", "Mean True Class (in Bin)");
