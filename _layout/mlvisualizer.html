@@ -632,11 +632,11 @@
             const { brier, auc, aucPairs, ece, calibrationData } = calculateBinaryMetrics(binaryDataState);
             
             // Update titles
-            d3.select('#title-mae').text(`Mean Absolute Error (MAE) = ${mae.toFixed(3)}`);
-            d3.select('#title-mse').text(`Mean Squared Error (MSE) = ${mse.toFixed(3)}`);
-            d3.select('#title-cindex').text(`Concordance Index (C-index) = ${cIndex.toFixed(3)}`);
+            d3.select('#title-mae').text(`MAE = ${mae.toFixed(3)}`);
+            d3.select('#title-mse').text(`MSE = ${mse.toFixed(3)}`);
+            d3.select('#title-cindex').text(`C-index = ${cIndex.toFixed(3)}`);
             d3.select('#title-brier').text(`Brier Score = ${brier.toFixed(3)}`);
-            d3.select('#title-ece').text(`Expected Calibration Error (ECE) = ${ece.toFixed(3)}`);
+            d3.select('#title-ece').text(`ECE = ${ece.toFixed(3)}`);
             d3.select('#title-auc').text(`AUC = ${auc.toFixed(3)}`);
             
             // Update error visualizations for each plot
