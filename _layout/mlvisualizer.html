@@ -629,7 +629,7 @@
             d3.select('#title-mae').text(`MAE = ${mae.toFixed(3)}`);
             d3.select('#title-mse').text(`MSE = ${mse.toFixed(3)}`);
             d3.select('#title-cindex').text(`C-index = ${cIndex.toFixed(3)}`);
-            d3.select('#title-brier').text(`Brier Score = ${brier.toFixed(3)}`);
+            d3.select('#title-brier').text(`Brier= ${brier.toFixed(3)}`);
             d3.select('#title-ece').text(`ECE = ${ece.toFixed(3)}`);
             d3.select('#title-auc').text(`AUC = ${auc.toFixed(3)}`);
             
@@ -772,7 +772,7 @@
             // --- Classification Plots ---
 
             // Brier Score
-            renderScatterPlot('plot-brier', 'title-brier', `Brier Score = ${brier.toFixed(3)}`, 
+            renderScatterPlot('plot-brier', 'title-brier', `Brier= ${brier.toFixed(3)}`, 
                 binaryDataForPlot, BINARY_MAX, BINARY_MAX, 'binary', 
                 (g, xScale, yScale, width, height) => renderBrier(g, xScale, yScale, width, height, binaryDataState), 
                 "Predicted Probability", "True Class");
