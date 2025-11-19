@@ -2,4 +2,4 @@
 @def date = Date(2025, 11, 19)
 @def rss = ""
 
-{{mlvisualizer}}
+{{insert mlvisualizer.html }}
