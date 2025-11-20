@@ -152,51 +152,63 @@
             const mae = sumAbsError / data.length;
             const mse = sumSqError / data.length;
 
-            // C-index calculation (Concordance Index)
+            // Corrected Concordance Index Calculation for Standard Regression
             let concordant = 0;
-            let totalPairs = 0;
+            let totalComparablePairs = 0;
             const cIndexPairs = [];
 
             for (let i = 0; i < data.length; i++) {
                 for (let j = i + 1; j < data.length; j++) {
                     const d1 = data[i];
                     const d2 = data[j];
+                    const x1 = d1.x; // True value 1
+                    const y1 = d1.y; // Predicted value 1
+                    const x2 = d2.x; // True value 2
+                    const y2 = d2.y; // Predicted value 2
 
-                    // Only compare if true values are different (x1 < x2 or x1 > x2)
-                    if (d1.x !== d2.x) {
-                        totalPairs++;
+                    // Only consider pairs where the true values (X) are NOT tied
+                    if (x1 !== x2) {
+                        totalComparablePairs++;
                         let indicator;
+                        let concordance_score = 0;
 
-                        // Case 1: x1 < x2 (d1's true value is smaller)
-                        if (d1.x < d2.x) {
-                            if (d1.y <= d2.y) {
-                                concordant++;
-                                indicator = 'Concordant';
-                            } else {
-                                indicator = 'Discordant';
-                            }
+                        // Check the ordering of the true values (X)
+                        const true_diff = x1 - x2;
+
+                        // Check the ordering of the predicted values (Y)
+                        const pred_diff = y1 - y2;
+
+                        // A pair is Concordant if the sign of the difference in X matches the sign of the difference in Y
+                        // This means (x1 < x2 AND y1 < y2) OR (x1 > x2 AND y1 > y2)
+                        if ((true_diff < 0 && pred_diff < 0) || (true_diff > 0 && pred_diff > 0)) {
+                            concordance_score = 1; // Fully Concordant
+                            indicator = 'Concordant';
                         } 
-                        // Case 2: x1 > x2 (d1's true value is larger)
+                        // A pair is Partially Concordant (or a Tie) if the predicted values (Y) are tied
+                        // and the true values (X) are NOT tied. This counts as 0.5.
+                        else if (pred_diff === 0) {
+                            concordance_score = 0.5; // Partial Concordance (Tie in Prediction)
+                            indicator = 'Tie (Partial Concordance)';
+                        }
+                        // A pair is Discordant otherwise (sign of X difference is opposite to sign of Y difference)
                         else { 
-                            if (d1.y >= d2.y) {
-                                concordant++;
-                                indicator = 'Concordant';
-                            } else {
-                                indicator = 'Discordant';
-                            }
+                            concordance_score = 0; // Discordant
+                            indicator = 'Discordant';
                         }
 
-                        // Store for plotting (always plot from smaller x to larger x for consistency)
-                        if (d1.x < d2.x) {
-                           cIndexPairs.push({ x1: d1.x, y1: d1.y, x2: d2.x, y2: d2.y, indicator });
+                        concordant += concordance_score;
+
+                        // Store pair data (always from smaller x to larger x for consistency)
+                        if (x1 < x2) {
+                            cIndexPairs.push({ x1, y1, x2, y2, indicator });
                         } else {
-                            cIndexPairs.push({ x1: d2.x, y1: d2.y, x2: d1.x, y2: d1.y, indicator });
+                            cIndexPairs.push({ x1: x2, y1: y2, x2: x1, y2: y1, indicator });
                         }
                     }
                 }
             }
 
-            const cIndex = totalPairs > 0 ? concordant / totalPairs : 0.5;
+            const cIndex = totalComparablePairs > 0 ? concordant / totalComparablePairs : 0.5;
 
             return { mae, mse, cIndex, cIndexPairs };
         }
