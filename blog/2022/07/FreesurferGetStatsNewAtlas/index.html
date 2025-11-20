@@ -1,0 +1,220 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.16.4 by Michael Rose
+  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta name="twitter:title" content="HOWTO: get morphometrical statistics in Freesurfer with a new atlas" />  
+  <meta name="twitter:creator" content="@HeblingVieira" />
+  <meta name="twitter:domain" content="bhvieira.github.io" />
+  
+   <link rel="stylesheet" href="/libs/highlight/github.min.css">
+   
+  <link rel="stylesheet" href="/css/franklin.css">
+<link rel="stylesheet" href="/css/minimal-mistakes.css">
+<link rel="stylesheet" href="/css/adjust.css">
+
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon_package/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon_package/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon_package/favicon-16x16.png">
+<link rel="manifest" href="/assets/favicon_package/site.webmanifest">
+<link rel="mask-icon" href="/assets/favicon_package/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+<link rel="stylesheet" href="/css/academicons.min.css"/>
+<link rel="stylesheet" href="/css/publidetails.css"/>
+
+<!--[if IE ]>
+<style>
+  /* old IE unsupported flexbox fixes */
+  .greedy-nav .site-title {
+    padding-right: 3em;
+  }
+  .greedy-nav button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+  }
+</style>
+<![endif]-->
+
+   <title>HOWTO: get morphometrical statistics in Freesurfer with a new atlas</title>  
+  <!-- end custom head snippets -->
+</head>
+<body class="layout--single">
+  <script type="text/javascript" src="//cdn.plu.mx/widget-popup.js"></script>
+  <div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <a class="site-title" href="/">bhvieira</a>
+        <ul class="visible-links">
+          <li class="masthead__menu-item"><a href="/publications/" >Publications</a></li>
+          <li class="masthead__menu-item"><a href="/blog/" >Weblog</a></li>
+          <li class="masthead__menu-item"><a href="/aboutme/" >About me</a></li>
+        </ul>
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+  <div class="initial-content">
+    <div id="main" role="main">
+      <div class="sidebar sticky">
+        <div itemscope itemtype="https://schema.org/Person">
+          <!-- <div class="author__avatar">
+            <img src="/assets/minimal-mistakes/zenobia.png" alt="Septimia Zenobia" itemprop="image">
+          </div> -->
+          <div class="author__content">
+            <h3 class="author__name" itemprop="name">Bruno Hebling Vieira</h3>
+            <p class="author__bio" itemprop="description">Post-doc researcher at the University of Zurich. PhD in Physics Applied to Medicine and Biology.</p>
+          </div>
+          <div class="author__urls-wrapper">
+            <button class="btn btn--inverse">Follow</button>
+            <ul class="author__urls social-icons">
+              <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+                <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Zurich, Switzerland</span></li>
+              <li><a href="mailto:8xpy4xi1v@relay.firefox.com" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i> Email</a></li>
+              <li><a href="https://twitter.com/HeblingVieira" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+              <li><a href="https://github.com/bhvieira" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+              <span title="Google Scholar"><a style="display:inline-block;" href="https://scholar.google.com.br/citations?user=_A4Y4i4AAAAJ" rel="nofollow noopener noreferrer"><i class="ai ai-fw ai-google-scholar-square"></i></a></span><span title="Lattes"><a style="display:inline-block;" href="http://lattes.cnpq.br/2051736980207570" rel="nofollow noopener noreferrer"><i class="ai ai-fw ai-lattes"></i></a></span><span title="ORCID"><a style="display:inline-block;" href="https://orcid.org/0000-0002-8770-7396" rel="nofollow noopener noreferrer"><i class="ai ai-fw ai-orcid"></i></a></span><span title="Publons"><a style="display:inline-block;" href="https://publons.com/researcher/2242395/bruno-h-vieira/" rel="nofollow noopener noreferrer"><i class="ai ai-fw ai-publons"></i></a></span><span title="ResearchGate"><a style="display:inline-block;" href="https://www.researchgate.net/profile/Bruno_Hebling_Vieira" rel="nofollow noopener noreferrer"><i class="ai ai-fw ai-researchgate-square"></i></a></span>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+
+<!-- Content appended here -->
+<div class="franklin-content"><meta property="article:published_time" content="2022-07-20" />
+<p class="tags"><sub>tags: <a href="/tag/mri" rel="nofollow noopener noreferrer">mri</a>; <a href="/tag/freesurfer" rel="nofollow noopener noreferrer">freesurfer</a>; <a href="/tag/thickness" rel="nofollow noopener noreferrer">thickness</a>; <a href="/tag/processing" rel="nofollow noopener noreferrer">processing</a>; <a href="/tag/howto" rel="nofollow noopener noreferrer">howto</a></sub></p>
+<h2 id="title">
+<a href="#title">HOWTO: get morphometrical statistics in Freesurfer with a new atlas</a>
+<span style="float:right;">
+    <small>2022-07-20</small>
+</span>
+</h2>
+
+<div class="franklin-toc"><ol><li><a href="#tldr">TLDR</a></li><li><a href="#example">Example</a><ol><li><a href="#step_1_run_the_recon-all_routine">Step 1: Run the recon-all routine</a></li><li><a href="#step_2_download_the_atlas">Step 2: Download the atlas</a></li><li><a href="#step_3_project_the_atlas_to_the_subjects_brain">Step 3: Project the atlas to the subject&#39;s brain</a></li><li><a href="#step_4_calculate_the_atlas_statistics">Step 4: Calculate the atlas statistics</a></li><li><a href="#step_5_gather_the_atlas_statistics_for_all_subjects">Step 5: Gather the atlas statistics for all subjects</a></li></ol></li><li><a href="#conclusion">Conclusion</a></li></ol></div>
+<h2 id="tldr"><a href="#tldr" class="header-anchor">TLDR</a></h2>
+<p>If you already know Freesurfer and its workings, here&#39;s the TLDR for you &#40;extracted from <a href="https://surfer.nmr.mgh.harvard.edu/fswiki/PALS_B12">the PALS_B12 atlas page in the freesurfer wiki</a>&#41;:</p>
+<pre><code class="bash hljs">mri_surf2surf --srcsubject fsaverage --trgsubject subjid --hemi lh \
+    --sval-annot <span class="hljs-variable">$SUBJECTS_DIR</span>/fsaverage/label/lh.YOURATLAS.annot \
+    --tval       <span class="hljs-variable">$SUBJECTS_DIR</span>/subjid/label/lh.YOURATLAS.annot
+mri_surf2surf --srcsubject fsaverage --trgsubject subjid --hemi rh \
+    --sval-annot <span class="hljs-variable">$SUBJECTS_DIR</span>/fsaverage/label/rh.YOURATLAS.annot \
+    --tval       <span class="hljs-variable">$SUBJECTS_DIR</span>/subjid/label/rh.YOURATLAS.annot</code></pre>
+<p>You might want to enable the <code>--cortex</code> argument so that the <code>&#123;hemi&#125;.cortex.label</code> files are used to avoid including the medial wall.</p>
+<p>Then</p>
+<pre><code class="bash hljs">mris_anatomical_stats -a subjid/label/lh.YOURATLAS.annot -f subjid/stats/lh.YOURATLAS.stats -b subjid lh
+mris_anatomical_stats -a subjid/label/rh.YOURATLAS.annot -f subjid/stats/lh.YOURATLAS.stats -b subjid rh</code></pre>
+<p>And finally</p>
+<pre><code class="bash hljs">aparcstats2table --parc YOURATLAS --subjectsfile subject_list.txt --hemi lh --meas thickness --tablefile lh.aparc_stats.txt
+aparcstats2table --parc YOURATLAS --subjectsfile subject_list.txt --hemi rh --meas thickness --tablefile rh.aparc_stats.txt</code></pre>
+<p>I prefer to use the <code>--subjectsfile</code> argument, but there are other ways of specifying these. Also, notice I specified &quot;thickness&quot; in the <code>--meas</code> argument, but there are other measures &#40;area, volume, thicknessstd, meancurv, gauscurv, foldind, curvind&#41;.</p>
+<p>It&#39;s also a good idea to get acquainted with the  <a href="https://surfer.nmr.mgh.harvard.edu/fswiki/mri_surf2surf">&quot;mri&#95;surf2surf&quot;</a>, <a href="https://surfer.nmr.mgh.harvard.edu/fswiki/mris_anatomical_stats">&quot;mris&#95;anatomical&#95;stats&quot;</a>, and <a href="https://surfer.nmr.mgh.harvard.edu/fswiki/aparcstats2table">&quot;aparcstats2table&quot;</a>.</p>
+<h2 id="example"><a href="#example" class="header-anchor">Example</a></h2>
+<div class="colbox-blue"><p>This has been tested in Freesurfer version 7.3.2:</p>
+<ul>
+<li><p><code>freesurfer-linux-ubuntu20_x86_64-7.3.2-20220804-6354275</code></p>
+</li>
+</ul></div>
+<p>All the info above can be found in the <a href="https://surfer.nmr.mgh.harvard.edu/fswiki/recon-all">&quot;recon-all&quot;</a> wiki. You might want to check the <a href="https://github.com/freesurfer/freesurfer/blob/dev/mri_surf2surf/mri_surf2surf.cpp">source code for &quot;surf2surf&quot;</a> where all the arguments are explained &#40;some of which are not described in the wiki&#41;.</p>
+<p>Below, I will go through each step of the process.</p>
+<h3 id="step_1_run_the_recon-all_routine"><a href="#step_1_run_the_recon-all_routine" class="header-anchor">Step 1: Run the recon-all routine</a></h3>
+<p>This is a mandatory first step, which I assume you already did for your subjects of interest. The base command looks like this:</p>
+<pre><code class="bash hljs">recon-all -i T1.nii -subject subjid -sd <span class="hljs-variable">$SUBJECTS_DIR</span> -all</code></pre>
+<p>You can &#40;and should&#41; read the <a href="https://surfer.nmr.mgh.harvard.edu/fswiki/recon-all">recon-all wiki</a> to see what other arguments you can use.</p>
+<h3 id="step_2_download_the_atlas"><a href="#step_2_download_the_atlas" class="header-anchor">Step 2: Download the atlas</a></h3>
+<p>We will download the HCP-MMP 1.0 atlas in the <code>fsaverage</code> space. This is a multimodal parcellation atlas, developed by Glasser et al. &#40;2016&#41;<sup id="fnref:1"><a href="#fndef:1" class="fnref">[1]</a></sup>. It comprises 360 regions over both hemispheres.</p>
+<p>It looks like this:</p>
+<p><img src="/blog/2022/07/HCP_MMP1.png" alt="" /></p>
+<p>Get it <a href="https://figshare.com/articles/dataset/HCP-MMP1_0_projected_on_fsaverage/3498446">here</a>. Or, download it with, for example, <code>wget</code> or your preferred download tool:</p>
+<pre><code class="bash hljs">wget https://figshare.com/ndownloader/articles/3498446/versions/2 -O HCP-MMP1_0_projected_on_fsaverage.zip
+unzip HCP-MMP1_0_projected_on_fsaverage.zip</code></pre>
+<p>This will get you two files: <code>lh.HCP-MMP1.annot</code> and <code>rh.HCP-MMP1.annot</code>. These are projected on the <code>fsaverage</code> space, so move them to the <code>fsaverage</code> directory. For example, you can do this with <code>mv</code>:</p>
+<pre><code class="bash hljs"><span class="hljs-built_in">mv</span> lh.HCP-MMP1.annot <span class="hljs-variable">$SUBJECTS_DIR</span>/fsaverage/label/lh.HCP-MMP1.annot
+<span class="hljs-built_in">mv</span> rh.HCP-MMP1.annot <span class="hljs-variable">$SUBJECTS_DIR</span>/fsaverage/label/rh.HCP-MMP1.annot</code></pre>
+<h3 id="step_3_project_the_atlas_to_the_subjects_brain"><a href="#step_3_project_the_atlas_to_the_subjects_brain" class="header-anchor">Step 3: Project the atlas to the subject&#39;s brain</a></h3>
+<p>For the standard atlases included in recon-all, <code>mris_ca_label</code> is used to obtain subject-space labels. <code>mris_ca_label</code> is based on a probabilistic model<sup id="fnref:2"><a href="#fndef:2" class="fnref">[2]</a></sup> based on the Iterated Conditional Modes &#40;ICM&#41;, which is trained with <code>mris_ca_train</code>. Since we don&#39;t have the train dataset for the HCP-MMP atlas, we will project the atlas to the subject&#39;s brain instead using <code>mri_surf2surf</code>.</p>
+<p><code>mri_surf2surf</code> is a tool for projecting surface-based data to a different surface. In our case, we will simply project the labels.</p>
+<pre><code class="bash hljs">mri_surf2surf --srcsubject fsaverage --trgsubject subjid --hemi lh \
+    --sval-annot <span class="hljs-variable">$SUBJECTS_DIR</span>/fsaverage/label/lh.HCP-MMP1.annot \
+    --tval       <span class="hljs-variable">$SUBJECTS_DIR</span>/subjid/label/lh.HCP-MMP1.annot
+mri_surf2surf --srcsubject fsaverage --trgsubject subjid --hemi rh \
+    --sval-annot <span class="hljs-variable">$SUBJECTS_DIR</span>/fsaverage/label/rh.HCP-MMP1.annot \
+    --tval       <span class="hljs-variable">$SUBJECTS_DIR</span>/subjid/label/rh.HCP-MMP1.annot</code></pre>
+<p>Here&#39;s how it looks like projected to the subject&#39;s brain pial surface:</p>
+<p><img src="/blog/2022/07/HCP_MMP1_subject.png" alt="" /></p>
+<h3 id="step_4_calculate_the_atlas_statistics"><a href="#step_4_calculate_the_atlas_statistics" class="header-anchor">Step 4: Calculate the atlas statistics</a></h3>
+<p>We will use the <code>mris_anatomical_stats</code> command to calculate the atlas statistics for one individual subject.</p>
+<pre><code class="bash hljs">mris_anatomical_stats -th3 -mgz -cortex <span class="hljs-variable">$SUBJECTS_DIR</span>/subjid/label/lh.cortex.label -f <span class="hljs-variable">$SUBJECTS_DIR</span>/subjid/stats/lh.HCP-MMP1.stats -b -a <span class="hljs-variable">$SUBJECTS_DIR</span>/subjid/label/lh.HCP-MMP1.annot subjid lh white 
+mris_anatomical_stats -th3 -mgz -cortex <span class="hljs-variable">$SUBJECTS_DIR</span>/subjid/label/rh.cortex.label -f <span class="hljs-variable">$SUBJECTS_DIR</span>/subjid/stats/rh.HCP-MMP1.stats -b -a <span class="hljs-variable">$SUBJECTS_DIR</span>/subjid/label/rh.HCP-MMP1.annot subjid rh white</code></pre>
+<p>The <code>-th3</code> option is used to &quot;Compute vertex-wise volume by dividing each obliquely truncated trilateral pyramid into three tetrahedra&quot;. The surface option is set to <code>white</code>, i.e., the innermost surface of the cortex adjoining white-matter. These are the defaults in the <code>recon-all</code> routine.</p>
+<h3 id="step_5_gather_the_atlas_statistics_for_all_subjects"><a href="#step_5_gather_the_atlas_statistics_for_all_subjects" class="header-anchor">Step 5: Gather the atlas statistics for all subjects</a></h3>
+<p>After running the above commands for each subject &#40;I recommend you to write a bash script for that&#41;, we can gather the atlas statistics for all subjects.</p>
+<pre><code class="bash hljs">aparcstats2table --parc HCP-MMP1 --subjectsfile subject_list.txt --hemi lh --meas thickness --tablefile lh.HCP-MMP1_stats.txt
+aparcstats2table --parc HCP-MMP1 --subjectsfile subject_list.txt --hemi rh --meas thickness --tablefile rh.HCP-MMP1_stats.txt</code></pre>
+<h2 id="conclusion"><a href="#conclusion" class="header-anchor">Conclusion</a></h2>
+<p>This is a simple example of how to obtain statistics for a new atlas in a group of subjects. There are some other ways to do this, but this is a good starting point for you to get familiarized with the commands.</p>
+<p><table class="fndef" id="fndef:1">
+    <tr>
+        <td class="fndef-backref"><a href="#fnref:1">[1]</a></td>
+        <td class="fndef-content">Glasser, et al. &#40;2016&#41;. A multi-modal parcellation of human cerebral cortex. Nature. <a href="https://dx.doi.org/10.1038/nature18933">doi:10.1038/nature18933</a></td>
+    </tr>
+</table>
+<table class="fndef" id="fndef:2">
+    <tr>
+        <td class="fndef-backref"><a href="#fnref:2">[2]</a></td>
+        <td class="fndef-content">Fischl, et al. &#40;2004&#41;. Automatically Parcellating the Human Cerebral Cortex. Cerebral Cortex. <a href="https://dx.doi.org/10.1093/cercor/bhg087">doi:10.1093/cercor/bhg087</a></td>
+    </tr>
+</table>
+</p>
+<div class="page-foot">
+  <div class="copyright">
+    &copy; Bruno Hebling Vieira. Last modified: November 20, 2025. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a>.
+  </div>
+</div>
+</div><!-- CONTENT ENDS HERE -->
+
+      </div> <!-- closure of main -->
+    </div>   <!-- closure of class initial--content -->
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+        <!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+          <ul class="social-icons">
+            <li><strong>Follow:</strong></li>
+            <li><a href="https://twitter.com/HeblingVieira" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+            <li><a href="https://github.com/bhvieira" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+            <li><a href="https://www.linkedin.com/in/bruno-hebling-vieira-760520142" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+            <li><a href="https://stats.stackexchange.com/users/60613/firebug" rel="nofollow noopener noreferrer"><img style='vertical-align:middle;position: relative;margin-top:-5px;display:inline;height:21px;width:21px' src='/assets/crossvalidated.png'/> CrossValidated</a></li>
+          </ul>
+        </div>
+        <div class="page__footer-copyright">&copy; Bruno Hebling Vieira. Powered by <a href="https://github.com/tlienart/Franklin.jl">Franklin</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>. See page source <a href="https://github.com/bhvieira/bhvieira.github.io">here</a>.</div>
+      </footer>
+    </div>
+
+    <script src="/libs/minimal-mistakes/main.min.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.8.2/js/all.js" integrity="sha384-DJ25uNYET2XCl5ZF++U8eNxPWqcKohUUBUpKGlNLMchM7q4Wjg2CUpjHLaL8yYPH" crossorigin="anonymous"></script>
+
+    
+    
+        
+
+
+    
+  </body>
+</html>
