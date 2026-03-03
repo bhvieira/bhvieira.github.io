@@ -4,7 +4,7 @@
 @def title = "The influence of sample size and covariate distributions on neuroanatomical normative modeling"
 @def authors = "C. Elleaume, B.H. Vieira, D.L. Floris, N. Langer"
 @def journal = "eLife"
-@def doi = "10.7554/eLife.108952.3.sa0 "
+@def doi = "10.7554/eLife.108952.3.sa0"
 @def isopenaccess = true
 @def tags = [""]
 
