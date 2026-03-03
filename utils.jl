@@ -80,7 +80,7 @@ Plug in the list of publications contained in the `/publications/` folder.
         doi     = pagevar(surl, "doi")
         date    = pagevar(surl, "rss_pubdate")
         journal = pagevar(surl, "journal")
-        authors = pagevar(surl, "authors")
+        authors = something(pagevar(surl, "authors"), "")
         authors = replace(authors, "B.H. Vieira" => "**B.H. Vieira**")
         if isnothing(date)
             date    = ""
