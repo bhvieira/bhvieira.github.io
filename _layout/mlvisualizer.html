@@ -238,14 +238,19 @@
                 negatives.forEach(n => {
                     // True: n.x=0, p.x=1 
                     // Concordant if: p.y > n.y (Predicted prob of positive > Predicted prob of negative)
+                    // Tied if: p.y === n.y (contributes 0.5, matching the convention)
                     if (p.y > n.y) {
                         concordant++;
                         // The AUC segments connect the predicted probabilities of the pair.
                         // x1/y1 is the negative point, x2/y2 is the positive point.
                         // In the state data: x=True Class, y=Predicted Prob.
                         aucPairs.push({ x1: n.y, y1: n.x, x2: p.y, y2: p.x, indicator: 'Concordant' });
+                    } else if (p.y === n.y) {
+                        // Tied pairs count as 0.5 (consistent with Wilcoxon-Mann-Whitney / C-index)
+                        concordant += 0.5;
+                        aucPairs.push({ x1: n.y, y1: n.x, x2: p.y, y2: p.x, indicator: 'Tied' });
                     } else {
-                        // Discordant if p.y <= n.y 
+                        // Discordant if p.y < n.y
                         aucPairs.push({ x1: n.y, y1: n.x, x2: p.y, y2: p.x, indicator: 'Discordant' });
                     }
                 });
@@ -528,8 +533,8 @@
 
         function renderCIndex(g, xScale, yScale, width, height, cIndexPairs) {
             const colorScale = d3.scaleOrdinal()
-                .domain(["Concordant", "Discordant"])
-                .range(["var(--color-accent)", "var(--color-secondary)"]);
+                .domain(["Concordant", "Discordant", "Tie (Partial Concordance)"])
+                .range(["var(--color-accent)", "var(--color-secondary)", "#9ca3af"]);
 
             // Segments connecting two points
             g.selectAll(".cindex-segment")
@@ -607,8 +612,8 @@
         
         function renderAUC(g, xScale, yScale, width, height, aucPairs) {
             const colorScale = d3.scaleOrdinal()
-                .domain(["Concordant", "Discordant"])
-                .range(["var(--color-accent)", "var(--color-secondary)"]);
+                .domain(["Concordant", "Discordant", "Tied"])
+                .range(["var(--color-accent)", "var(--color-secondary)", "#9ca3af"]);
 
             // Segments connecting the negative (x=0) and positive (x=1) points
             g.selectAll(".auc-segment")
