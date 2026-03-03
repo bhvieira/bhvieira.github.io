@@ -1,0 +1,44 @@
+/* Custom styles for ML Visualizer */
+:root {
+    --color-primary: #2C3E50;
+    --color-secondary: #E74C3C;
+    --color-accent: #27AE60;
+    --color-diag: #95A5A6;
+    --font-family: 'Inter', sans-serif;
+}
+body {
+    font-family: var(--font-family);
+    background-color: #ecf0f1;
+}
+.plot-container {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+.plot-title {
+    font-weight: 700;
+    font-size: 1.125rem;
+    margin-bottom: 0.5rem;
+    color: var(--color-primary);
+}
+.svg-chart text {
+    fill: #333;
+    font-size: 10px;
+}
+.svg-chart .axis line, .svg-chart .axis path {
+    stroke: #ddd;
+}
+.svg-chart .axis path {
+    stroke-width: 0.5;
+}
+.data-point {
+    cursor: grab;
+}
+.data-point:active {
+    cursor: grabbing;
+}
