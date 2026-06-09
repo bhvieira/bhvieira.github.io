@@ -594,14 +594,17 @@
 
         function renderMCE(g, xScale, yScale, width, height, calibrationData, calibrationThresholds) {
             // Calibration squares use the gap between mean predicted probability and mean observed frequency.
-            g.selectAll(".mce-rect")
+            g.selectAll(".mce-square")
                 .data(calibrationData)
-                .enter().append("rect")
-                .attr("class", "mce-rect")
-                .attr("x", d => xScale(Math.min(d.mean_pred, d.mean_true)))
-                .attr("y", d => yScale(Math.max(d.mean_pred, d.mean_true)))
-                .attr("width", d => Math.abs(xScale(d.mean_pred) - xScale(d.mean_true)))
-                .attr("height", d => Math.abs(yScale(d.mean_pred) - yScale(d.mean_true)))
+                .enter().append("path")
+                .attr("class", "mce-square")
+                .attr("d", d => {
+                    const xPred = xScale(d.mean_pred);
+                    const yTrue = yScale(d.mean_true);
+                    const yPred = yScale(d.mean_pred);
+                    const xDiag = xScale(d.mean_true);
+                    return `M ${xPred} ${yTrue} L ${xPred} ${yPred} L ${xDiag} ${yPred} L ${xDiag} ${yTrue} Z`;
+                })
                 .attr("fill", "var(--color-secondary)")
                 .attr("opacity", 0.15);
 
@@ -618,6 +621,17 @@
                 .attr("stroke-width", 1)
                 .attr("opacity", 0.8);
 
+            // Additionally add a dot for each bin to show the mean predicted vs mean true values
+            g.selectAll(".calibration-bin-point")
+                .data(calibrationData)
+                .enter().append("circle")
+                .attr("class", "calibration-bin-point")
+                .attr("cx", d => xScale(d.mean_pred))
+                .attr("cy", d => yScale(d.mean_true))
+                .attr("r", 4)
+                .attr("fill", "var(--color-secondary)")
+                .attr("stroke", "white")
+                .attr("stroke-width", 1);
         }
         
         function renderAUC(g, xScale, yScale, width, height, aucPairs) {
@@ -693,12 +707,14 @@
                             .attr("height", Math.abs(yScale(d.y) - yScale(d.x)));
                 });
             
-            updatePlotErrors('plot-mce', calibrationData, '.mce-rect', 'rect',
+                updatePlotErrors('plot-mce', calibrationData, '.mce-square', 'path',
                 (selection, d, xScale, yScale) => {
-                    selection.attr("x", xScale(Math.min(d.mean_pred, d.mean_true)))
-                            .attr("y", yScale(Math.max(d.mean_pred, d.mean_true)))
-                            .attr("width", Math.abs(xScale(d.mean_pred) - xScale(d.mean_true)))
-                            .attr("height", Math.abs(yScale(d.mean_pred) - yScale(d.mean_true)))
+                    const xPred = xScale(d.mean_pred);
+                    const yTrue = yScale(d.mean_true);
+                    const yPred = yScale(d.mean_pred);
+                    const xDiag = xScale(d.mean_true);
+
+                    selection.attr("d", `M ${xPred} ${yTrue} L ${xPred} ${yPred} L ${xDiag} ${yPred} L ${xDiag} ${yTrue} Z`)
                             .attr("fill", "var(--color-secondary)")
                             .attr("opacity", 0.15)
                             .attr("stroke", "none")
@@ -748,7 +764,7 @@
                                            d => d.indicator === 'Concordant' ? "var(--color-accent)" : "var(--color-secondary)")
                             .attr("stroke-width", plotId.includes('auc') ? 1.5 : plotId.includes('mae') ? 3 : 1.5)
                             .attr("opacity", plotId.includes('auc') ? 0.1 : plotId.includes('cindex') ? 0.3 : 0.5);
-            } else if (elementType === 'rect') {
+            } else if (elementType === 'rect' || elementType === 'path') {
                 enterElements.attr("fill", "var(--color-secondary)")
                             .attr("opacity", 0.15);
             }
