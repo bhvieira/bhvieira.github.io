@@ -1,6 +1,7 @@
 @def rss_pubdate = Date(2026, 03, 03)
 @def rss = "ML Model Performance Visualizer — interactive tool for exploring regression and classification metrics."
 @def title = "ML Model Performance Visualizer"
+@def has_mlvisualizer = true
 @def tags = ["machine learning", "statistics", "visualization", "metrics"]
 
 {{blogdetails .}}

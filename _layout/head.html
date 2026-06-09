@@ -17,6 +17,29 @@
   {{if hasmath}} {{insert head_katex.html }}     {{end}}
   {{if hascode}} {{insert head_highlight.html }}   {{end}}
   {{insert style.html}}
+  {{isdef has_mlvisualizer}}
+  <link rel="stylesheet" href="/css/mlvisualizer-custom.css">
+  <script>
+    window.tailwind = window.tailwind || {};
+    window.tailwind.config = {
+      corePlugins: {
+        preflight: false
+      }
+    };
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  {{end}}
+  {{isdef redirect}}
+  <link rel="canonical" href="{{fill redirect}}">
+  <meta http-equiv="refresh" content="0; url={{fill redirect}}">
+  <meta name="robots" content="noindex">
+  <script>
+    const redirectTarget = document.querySelector('link[rel="canonical"]')?.getAttribute('href');
+    if (redirectTarget) {
+      window.location.replace(redirectTarget);
+    }
+  </script>
+  {{end}}
   {{isdef title}} <title>{{fill title}}</title>  {{end}}
   <!-- end custom head snippets -->
 </head>
