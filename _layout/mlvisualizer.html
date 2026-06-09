@@ -42,8 +42,8 @@
                 <div class="plot-title" id="title-brier">Brier Score</div>
                 <svg class="svg-chart"></svg>
             </div>
-            <div class="plot-container" id="plot-ece">
-                <div class="plot-title" id="title-ece">ECE</div>
+            <div class="plot-container" id="plot-mce">
+                <div class="plot-title" id="title-mce">MCE</div>
                 <svg class="svg-chart"></svg>
             </div>
             <div class="plot-container" id="plot-auc">
@@ -85,6 +85,21 @@
                 values.reduce((sum, v) => sum + Math.pow(v - mean, 2), 0) / values.length
             );
             return { mean, stdDev: stdDev === 0 ? 1 : stdDev }; // Prevent division by zero
+        }
+
+        function getPlotDimensions(containerNode, titleNode) {
+            const containerStyles = window.getComputedStyle(containerNode);
+            const titleStyles = window.getComputedStyle(titleNode);
+            const paddingX = parseFloat(containerStyles.paddingLeft) + parseFloat(containerStyles.paddingRight);
+            const paddingY = parseFloat(containerStyles.paddingTop) + parseFloat(containerStyles.paddingBottom);
+            const titleHeight = titleNode.getBoundingClientRect().height;
+            const titleMarginBottom = parseFloat(titleStyles.marginBottom);
+
+            const availableWidth = containerNode.clientWidth - paddingX - MARGIN.left - MARGIN.right;
+            const availableHeight = containerNode.clientWidth - paddingY - titleHeight - titleMarginBottom - MARGIN.top - MARGIN.bottom;
+            const plotSize = Math.max(0, Math.min(availableWidth, availableHeight));
+
+            return { width: plotSize, height: plotSize };
         }
         
         function generateRawRegressionData() {
@@ -258,41 +273,55 @@
 
             const auc = totalPairs > 0 ? concordant / totalPairs : 0.5;
 
-            // ECE (Expected Calibration Error)
+            // MCE (Mean Squared Calibration Error)
             const n_bins = 5;
             const sortedData = [...data].sort((a, b) => a.y - b.y);
-            
-            // Simple equal-width binning
-            const binSize = 1.0 / n_bins;
             const calibrationData = [];
 
-            for (let i = 0; i < n_bins; i++) {
-                const lowerBound = i * binSize;
-                const upperBound = (i + 1) * binSize;
+            const baseBinSize = Math.floor(sortedData.length / n_bins);
+            const remainder = sortedData.length % n_bins;
+            let startIndex = 0;
 
-                const binPoints = sortedData.filter(d => d.y >= lowerBound && d.y < upperBound);
-                if (i === n_bins - 1) { // Include 1.0 in the last bin
-                    binPoints.push(...sortedData.filter(d => d.y === 1.0));
-                }
+            for (let i = 0; i < n_bins && startIndex < sortedData.length; i++) {
+                const currentBinSize = baseBinSize + (i < remainder ? 1 : 0);
+                const endIndex = Math.min(sortedData.length, startIndex + currentBinSize);
+                const binPoints = sortedData.slice(startIndex, endIndex);
 
                 if (binPoints.length > 0) {
                     const mean_pred = binPoints.reduce((sum, d) => sum + d.y, 0) / binPoints.length;
                     const mean_true = binPoints.reduce((sum, d) => sum + d.x, 0) / binPoints.length;
                     const count = binPoints.length;
-                    
+                    const abs_error = Math.abs(mean_pred - mean_true);
+                    const previousPoint = sortedData[startIndex - 1];
+                    const nextPoint = sortedData[endIndex];
+                    const lowerBound = startIndex === 0 ? 0 : (previousPoint.y + binPoints[0].y) / 2;
+                    const upperBound = endIndex >= sortedData.length ? 1 : (binPoints[binPoints.length - 1].y + nextPoint.y) / 2;
+
                     calibrationData.push({
+                        id: i,
                         mean_pred,
                         mean_true,
+                        abs_error,
                         count,
-                        weight: count / data.length
+                        weight: count / data.length,
+                        lowerBound,
+                        upperBound
                     });
                 }
+
+                startIndex = endIndex;
             }
 
-            const ece = calibrationData.reduce((sum, d) => 
-                sum + d.weight * Math.abs(d.mean_pred - d.mean_true), 0);
+            // MCE is the weighted mean squared calibration error across bins.
+            const mce = calibrationData.reduce((sum, d) => sum + d.abs_error ** 2 * d.weight, 0);
 
-            return { brier, auc, aucPairs, ece, calibrationData };
+            const calibrationThresholds = calibrationData.slice(0, -1).map(d => ({
+                id: d.id,
+                value: d.upperBound,
+                label: d.upperBound.toFixed(2)
+            }));
+
+            return { brier, auc, aucPairs, mce, calibrationData, calibrationThresholds };
         }
 
         // --- Drag Handler ---
@@ -358,18 +387,8 @@
         function renderScatterPlot(id, titleId, title, data, xMax, yMax, plotType, customRender, xLabel, yLabel) {
             const container = d3.select(`#${id}`);
             const svg = container.select("svg").html("");
-            const containerWidth = container.node().clientWidth;
-            const containerHeight = container.node().clientHeight;
-            
-            // Calculate square plot dimensions based on available space
-            const availableWidth = containerWidth - MARGIN.left - MARGIN.right;
-            const availableHeight = containerHeight - MARGIN.top - MARGIN.bottom - 20;
-            const plotSize = Math.min(availableWidth, availableHeight);
-            
-            const width = plotSize;
-            const height = plotSize;
-
-            d3.select(`#${titleId}`).text(title);
+            const titleNode = d3.select(`#${titleId}`).text(title).node();
+            const { width, height } = getPlotDimensions(container.node(), titleNode);
 
             svg.attr("width", width + MARGIN.left + MARGIN.right)
                .attr("height", height + MARGIN.top + MARGIN.bottom);
@@ -573,41 +592,32 @@
             g.append("line").attr("x1", xScale(0)).attr("y1", yScale(1)).attr("x2", xScale(1)).attr("y2", yScale(1)).attr("stroke", "var(--color-diag)").attr("stroke-width", 1);
         }
 
-        function renderECE(g, xScale, yScale, width, height, calibrationData) {
-            // ECE segments (difference between mean_pred and mean_true)
-            g.selectAll(".ece-segment")
+        function renderMCE(g, xScale, yScale, width, height, calibrationData, calibrationThresholds) {
+            // Calibration squares use the gap between mean predicted probability and mean observed frequency.
+            g.selectAll(".mce-rect")
                 .data(calibrationData)
+                .enter().append("rect")
+                .attr("class", "mce-rect")
+                .attr("x", d => xScale(Math.min(d.mean_pred, d.mean_true)))
+                .attr("y", d => yScale(Math.max(d.mean_pred, d.mean_true)))
+                .attr("width", d => Math.abs(xScale(d.mean_pred) - xScale(d.mean_true)))
+                .attr("height", d => Math.abs(yScale(d.mean_pred) - yScale(d.mean_true)))
+                .attr("fill", "var(--color-secondary)")
+                .attr("opacity", 0.15);
+
+            g.selectAll(".mce-threshold")
+                .data(calibrationThresholds)
                 .enter().append("line")
-                .attr("class", "ece-segment")
-                .attr("x1", d => xScale(d.mean_pred))
-                .attr("y1", d => yScale(d.mean_true))
-                .attr("x2", d => xScale(d.mean_pred))
-                .attr("y2", d => yScale(d.mean_pred)) // Distance to the diagonal
-                .attr("stroke", "var(--color-secondary)")
-                .attr("stroke-width", d => Math.max(2, d.count * 1.5)) // Width based on count
-                .attr("opacity", 0.7);
+                .attr("class", "mce-threshold")
+                .attr("x1", d => xScale(d.value))
+                .attr("x2", d => xScale(d.value))
+                .attr("y1", yScale(0))
+                .attr("y2", yScale(1))
+                .attr("stroke", "var(--color-diag)")
+                .attr("stroke-dasharray", "2 4")
+                .attr("stroke-width", 1)
+                .attr("opacity", 0.8);
 
-            // Points for calibration bins
-            g.selectAll(".ece-point")
-                .data(calibrationData)
-                .enter().append("circle")
-                .attr("class", "ece-point")
-                .attr("cx", d => xScale(d.mean_pred))
-                .attr("cy", d => yScale(d.mean_true))
-                .attr("r", d => 4 + d.count * 0.5) // Radius based on count
-                .attr("fill", "var(--color-primary)")
-                .attr("stroke", "white")
-                .attr("stroke-width", 1);
-
-            // Points on the diagonal for comparison
-            g.selectAll(".diagonal-point")
-                .data(calibrationData)
-                .enter().append("circle")
-                .attr("class", "diagonal-point")
-                .attr("cx", d => xScale(d.mean_pred))
-                .attr("cy", d => yScale(d.mean_pred))
-                .attr("r", 2.5)
-                .attr("fill", "var(--color-accent)");
         }
         
         function renderAUC(g, xScale, yScale, width, height, aucPairs) {
@@ -640,14 +650,14 @@
         function updateErrorVisualizations() {
             // Calculate metrics with current data
             const { mae, mse, cIndex, cIndexPairs } = calculateRegressionMetrics(regressionDataState);
-            const { brier, auc, aucPairs, ece, calibrationData } = calculateBinaryMetrics(binaryDataState);
+            const { brier, auc, aucPairs, mce, calibrationData, calibrationThresholds } = calculateBinaryMetrics(binaryDataState);
             
             // Update titles
             d3.select('#title-mae').text(`MAE = ${mae.toFixed(3)}`);
             d3.select('#title-mse').text(`MSE = ${mse.toFixed(3)}`);
             d3.select('#title-cindex').text(`C-index = ${cIndex.toFixed(3)}`);
             d3.select('#title-brier').text(`Brier= ${brier.toFixed(3)}`);
-            d3.select('#title-ece').text(`ECE = ${ece.toFixed(3)}`);
+            d3.select('#title-mce').text(`MCE = ${mce.toFixed(3)}`);
             d3.select('#title-auc').text(`AUC = ${auc.toFixed(3)}`);
             
             // Update error visualizations for each plot
@@ -683,6 +693,20 @@
                             .attr("height", Math.abs(yScale(d.y) - yScale(d.x)));
                 });
             
+            updatePlotErrors('plot-mce', calibrationData, '.mce-rect', 'rect',
+                (selection, d, xScale, yScale) => {
+                    selection.attr("x", xScale(Math.min(d.mean_pred, d.mean_true)))
+                            .attr("y", yScale(Math.max(d.mean_pred, d.mean_true)))
+                            .attr("width", Math.abs(xScale(d.mean_pred) - xScale(d.mean_true)))
+                            .attr("height", Math.abs(yScale(d.mean_pred) - yScale(d.mean_true)))
+                            .attr("fill", "var(--color-secondary)")
+                            .attr("opacity", 0.15)
+                            .attr("stroke", "none")
+                            .attr("stroke-width", 0);
+                });
+
+            updateMCEThresholds('plot-mce', calibrationThresholds);
+
             updatePlotErrors('plot-auc', aucPairs, '.auc-segment', 'line',
                 (selection, d, xScale, yScale) => {
                     selection.attr("x1", xScale(d.x1))
@@ -696,19 +720,11 @@
             const container = d3.select(`#${plotId}`);
             const svg = container.select("svg");
             const g = svg.select("g");
-            
-            // Get the scales from the existing plot - calculate square dimensions
-            const containerWidth = container.node().clientWidth;
-            const containerHeight = container.node().clientHeight;
-            const availableWidth = containerWidth - MARGIN.left - MARGIN.right;
-            const availableHeight = containerHeight - MARGIN.top - MARGIN.bottom - 20;
-            const plotSize = Math.min(availableWidth, availableHeight);
-            
-            const width = plotSize;
-            const height = plotSize;
+            const titleNode = container.select('.plot-title').node();
+            const { width, height } = getPlotDimensions(container.node(), titleNode);
             
             // Determine domain based on plot
-            const isBinary = plotId.includes('brier') || plotId.includes('auc');
+            const isBinary = plotId.includes('brier') || plotId.includes('mce') || plotId.includes('auc');
             const xDomain = isBinary ? [0, BINARY_MAX] : [-REGRESSION_PLOT_MAX, REGRESSION_PLOT_MAX];
             const yDomain = isBinary ? [0, BINARY_MAX] : [-REGRESSION_PLOT_MAX, REGRESSION_PLOT_MAX];
             
@@ -744,6 +760,33 @@
             });
         }
 
+        function updateMCEThresholds(plotId, calibrationThresholds) {
+            const container = d3.select(`#${plotId}`);
+            const g = container.select("svg").select("g");
+            const titleNode = container.select('.plot-title').node();
+            const { width, height } = getPlotDimensions(container.node(), titleNode);
+            const xScale = d3.scaleLinear().domain([0, BINARY_MAX]).range([0, width]);
+            const yScale = d3.scaleLinear().domain([0, BINARY_MAX]).range([height, 0]);
+
+            let thresholdLines = g.selectAll('.mce-threshold').data(calibrationThresholds, d => d.id);
+            thresholdLines.exit().remove();
+            thresholdLines = thresholdLines.enter().append('line')
+                .attr('class', 'mce-threshold')
+                .attr('stroke', 'var(--color-diag)')
+                .attr('stroke-dasharray', '2 4')
+                .attr('stroke-width', 1)
+                .attr('opacity', 0.8)
+                .merge(thresholdLines);
+
+            thresholdLines
+                .attr('x1', d => xScale(d.value))
+                .attr('x2', d => xScale(d.value))
+                .attr('y1', yScale(0))
+                .attr('y2', yScale(1));
+
+            g.selectAll('.mce-threshold-label').remove();
+        }
+
         // --- Main Controller ---
 
         function generateDataAndRender(regenerate = true) {
@@ -756,7 +799,7 @@
 
             // 2. Calculate Metrics using the current global state data
             const { mae, mse, cIndex, cIndexPairs } = calculateRegressionMetrics(regressionDataState);
-            const { brier, auc, aucPairs, ece, calibrationData } = calculateBinaryMetrics(binaryDataState);
+            const { brier, auc, aucPairs, mce, calibrationData, calibrationThresholds } = calculateBinaryMetrics(binaryDataState);
 
             // 3. Prepare Classification Data for Plotting (swap axes and add jitter)
             const binaryDataForPlot = binaryDataState.map(d => ({ 
@@ -794,11 +837,11 @@
                 (g, xScale, yScale, width, height) => renderBrier(g, xScale, yScale, width, height, binaryDataState), 
                 "Predicted Probability", "True Class");
             
-            // ECE (The plot data is aggregated - not draggable, uses BINARY_MAX as range)
-            renderScatterPlot('plot-ece', 'title-ece', `ECE = ${ece.toFixed(3)}`, 
-                calibrationData.map(d => ({ x: d.mean_pred, y: d.mean_true })), BINARY_MAX, BINARY_MAX, 'ece',
-                (g, xScale, yScale, width, height) => renderECE(g, xScale, yScale, width, height, calibrationData),
-                "Mean Predicted Probability (in Bin)", "Mean True Class (in Bin)");
+            // MCE uses the same draggable binary points while calibration bins are shown as squares.
+            renderScatterPlot('plot-mce', 'title-mce', `MCE = ${mce.toFixed(3)}`, 
+                binaryDataForPlot, BINARY_MAX, BINARY_MAX, 'binary',
+                (g, xScale, yScale, width, height) => renderMCE(g, xScale, yScale, width, height, calibrationData, calibrationThresholds),
+                "Predicted Probability", "True Class");
             
             // AUC
             renderScatterPlot('plot-auc', 'title-auc', `AUC = ${auc.toFixed(3)}`, 
