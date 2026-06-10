@@ -1,15 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ML Metric Visualizer</title>
-    <link rel="stylesheet" href="/css/mlvisualizer-custom.css">
-    <script src="https://cdn.tailwindcss.com" defer></script>
-    <script src="https://d3js.org/d3.v7.min.js" defer></script>
-</head>
-<body class="p-4 md:p-8">
-    <div class="max-w-7xl mx-auto">
+<section class="mlvisualizer">
+    <div class="mlvisualizer-shell p-4 md:p-8">
+        <div class="max-w-7xl mx-auto">
         <header class="text-center mb-8">
             <button id="generateButton"
                 class="mt-4 px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-lg hover:bg-blue-700 transition duration-300 transform hover:scale-[1.02] active:scale-95"
@@ -51,6 +42,7 @@
                 <svg class="svg-chart"></svg>
             </div>
         </div>
+    </div>
     </div>
 
     <script defer>
@@ -876,5 +868,4 @@
             resizeTimeout = setTimeout(() => generateDataAndRender(false), 150);
         });
     </script>
-</body>
-</html>
+</section>
