@@ -20,21 +20,29 @@
     background: white;
     border-radius: 0.5rem;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
-    padding: 1rem;
+    padding: 0.625rem;
     display: flex;
     flex-direction: column;
 }
 
 .mlvisualizer .plot-title {
     font-weight: 700;
-    font-size: 1.125rem;
-    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    line-height: 1.1;
+    margin-bottom: 0.125rem;
     color: var(--color-primary);
+    white-space: nowrap;
+}
+
+.mlvisualizer .svg-chart {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
 }
 
 .mlvisualizer .svg-chart text {
     fill: #333;
-    font-size: 10px;
+    font-size: 9px;
 }
 
 .mlvisualizer .svg-chart .axis line,

@@ -46,29 +46,36 @@
     </div>
 
     <script defer>
-        const MARGIN = { top: 30, right: 30, bottom: 40, left: 50 };
+        const MARGIN = { top: 6, right: 6, bottom: 30, left: 38 };
         const BINARY_MAX = 1; // Binary plots are always 0 to 1
         const BINARY_JITTER_AMOUNT = 0.08; // Small jitter for visual separation of classification points
+        const REGRESSION_MIN_RANGE = 2.0;
+        const REGRESSION_RANGE_PADDING = 0.0;
 
         // Global State
         let regressionDataState = []; // Stores {id, x, y} for regression (Z-scored)
         let binaryDataState = [];     // Stores {id, x: trueClass, y: predictedProb}
-        let REGRESSION_PLOT_MAX = 5;
+        let REGRESSION_PLOT_MAX = 2.0; // Initial max range for regression plots (will be updated based on data)
         let currentlyDraggingId = null; // Track which point is being dragged
 
         // --- Utility Functions ---
 
-        // Simple approximation of a skewed distribution for binary predictions
+        function clampUnitInterval(value) {
+            return Math.max(0.01, Math.min(0.99, value));
+        }
+
+        // Generate classification probabilities with overlap and occasional misses.
         function getPredictedProbability(trueClass) {
-            let y;
-            if (trueClass === 1) {
-                // Skewed towards 1 (Higher chance of good prediction for True=1)
-                y = Math.min(1.0, Math.max(0.01, 0.5 + Math.random() * 0.5 * Math.random() * Math.random() * 2));
-            } else {
-                // Skewed towards 0 (Higher chance of good prediction for True=0)
-                y = Math.min(0.99, Math.max(0.0, Math.random() * 0.5 * Math.random() * Math.random()));
-            }
-            return y;
+            const center = trueClass === 1
+                ? 0.55 + Math.random() * 0.35
+                : 0.10 + Math.random() * 0.35;
+            const overlapNoise = (Math.random() - 0.5) * (0.28 + Math.random() * 0.22);
+            const calibrationShift = (Math.random() - 0.5) * 0.18;
+            const occasionalMiss = Math.random() < 0.2
+                ? (trueClass === 1 ? -(0.30 + Math.random() * 0.25) : 0.30 + Math.random() * 0.25)
+                : 0;
+
+            return clampUnitInterval(center + overlapNoise + calibrationShift + occasionalMiss);
         }
 
         function calculateStats(values) {
@@ -88,20 +95,34 @@
             const titleMarginBottom = parseFloat(titleStyles.marginBottom);
 
             const availableWidth = containerNode.clientWidth - paddingX - MARGIN.left - MARGIN.right;
-            const availableHeight = containerNode.clientWidth - paddingY - titleHeight - titleMarginBottom - MARGIN.top - MARGIN.bottom;
+            const availableHeight = containerNode.clientHeight - paddingY - titleHeight - titleMarginBottom - MARGIN.top - MARGIN.bottom;
             const plotSize = Math.max(0, Math.min(availableWidth, availableHeight));
 
             return { width: plotSize, height: plotSize };
+        }
+
+        function getTightRegressionDomain(data) {
+            const combinedValues = data.reduce((values, point) => {
+                values.push(point.x, point.y);
+                return values;
+            }, []);
+            const minValue = d3.min(combinedValues);
+            const maxValue = d3.max(combinedValues);
+            const span = Math.max(maxValue - minValue, 1);
+            const padding = Math.max(0.2, span * 0.12);
+
+            return [minValue - padding, maxValue + padding];
         }
         
         function generateRawRegressionData() {
             const N = 25;
             const data = [];
             for (let i = 0; i < N; i++) {
-                // Generate raw data over a larger arbitrary range
-                const x_raw = Math.random() * 100; 
-                // Correlated prediction with noise
-                const y_raw = 0.6 * x_raw + 0.4 * (Math.random() * 100) + (Math.random() * 10);
+                const x_raw = (Math.random() * 2 - 1) * 55;
+                const baselineNoise = (Math.random() * 2 - 1) * 18;
+                const scaleSensitiveNoise = (Math.random() * 2 - 1) * (6 + Math.abs(x_raw) * 0.22);
+                const outlierNoise = Math.random() < 0.16 ? (Math.random() * 2 - 1) * 28 : 0;
+                const y_raw = 0.72 * x_raw + baselineNoise + scaleSensitiveNoise + outlierNoise;
                 data.push({ id: i, x: x_raw, y: y_raw });
             }
             return data;
@@ -124,9 +145,10 @@
                 y: (d.y - y_stats.mean) / y_stats.stdDev
             }));
             
-            // Determine max plot range (symmetric around 0, e.g., 3-4 standard deviations)
+            // Keep a small buffer around the outermost points without over-zooming out.
             const maxAbsValue = d3.max(normalizedData, d => Math.max(Math.abs(d.x), Math.abs(d.y)));
-            const newMaxRange = Math.ceil(maxAbsValue) + 1;
+            const paddedRange = maxAbsValue * (1 + REGRESSION_RANGE_PADDING);
+            const newMaxRange = Math.ceil(Math.max(REGRESSION_MIN_RANGE, paddedRange) * 10) / 10;
             
             regressionDataState = normalizedData;
             REGRESSION_PLOT_MAX = newMaxRange;
@@ -376,36 +398,42 @@
         /**
          * Renders a D3 scatter plot.
          */
-        function renderScatterPlot(id, titleId, title, data, xMax, yMax, plotType, customRender, xLabel, yLabel) {
+        function renderScatterPlot(id, titleId, title, data, xMax, yMax, plotType, customRender, xLabel, yLabel, customDomains = null) {
             const container = d3.select(`#${id}`);
             const svg = container.select("svg").html("");
             const titleNode = d3.select(`#${titleId}`).text(title).node();
             const { width, height } = getPlotDimensions(container.node(), titleNode);
 
-            svg.attr("width", width + MARGIN.left + MARGIN.right)
-               .attr("height", height + MARGIN.top + MARGIN.bottom);
+                const svgWidth = width + MARGIN.left + MARGIN.right;
+                const svgHeight = height + MARGIN.top + MARGIN.bottom;
+
+                svg.attr("width", svgWidth)
+                    .attr("height", svgHeight)
+                    .attr("viewBox", `0 0 ${svgWidth} ${svgHeight}`)
+                    .style("display", "block")
+                    .style("margin", "0 auto");
 
             const g = svg.append("g")
                 .attr("transform", `translate(${MARGIN.left},${MARGIN.top})`);
 
-            // Determine domain based on plot type 
-            const xDomain = xMax === BINARY_MAX ? [0, xMax] : [-xMax, xMax];
-            const yDomain = yMax === BINARY_MAX ? [0, yMax] : [-yMax, yMax];
+            const isBinary = plotType === 'binary';
+            const xDomain = customDomains?.xDomain ?? (isBinary ? [0, xMax] : [-xMax, xMax]);
+            const yDomain = customDomains?.yDomain ?? (isBinary ? [0, yMax] : [-yMax, yMax]);
             
             // Scales
             const xScale = d3.scaleLinear().domain(xDomain).range([0, width]);
             const yScale = d3.scaleLinear().domain(yDomain).range([height, 0]);
 
             // Axes
-            const isBinary = xMax === BINARY_MAX;
             // For binary, place axes at 0/height to use the full 0-1 square. 
             // For regression (Z-score), place them at the 0 data mark.
             const xAxisY = isBinary ? height : yScale(0); 
             const yAxisX = isBinary ? 0 : xScale(0);
 
-            const tickStep = isBinary ? 0.5 : 2; 
-            const xAxis = d3.axisBottom(xScale).ticks(xMax / tickStep).tickSize(3);
-            const yAxis = d3.axisLeft(yScale).ticks(yMax / tickStep).tickSize(3);
+            const xTickCount = isBinary ? 3 : Math.max(3, Math.round((xDomain[1] - xDomain[0]) / 2));
+            const yTickCount = isBinary ? 3 : Math.max(3, Math.round((yDomain[1] - yDomain[0]) / 2));
+            const xAxis = d3.axisBottom(xScale).ticks(xTickCount).tickSize(3).tickPadding(4);
+            const yAxis = d3.axisLeft(yScale).ticks(yTickCount).tickSize(3).tickPadding(4);
 
             g.append("g")
                 .attr("class", "axis x-axis")
@@ -422,14 +450,14 @@
                 .attr("class", "x-label")
                 .attr("text-anchor", "middle")
                 .attr("x", width / 2)
-                .attr("y", height + MARGIN.bottom - 5)
+                .attr("y", height + MARGIN.bottom - 6)
                 .text(xLabel);
 
             g.append("text")
                 .attr("class", "y-label")
                 .attr("text-anchor", "middle")
                 .attr("transform", "rotate(-90)")
-                .attr("y", -MARGIN.left + 15)
+                .attr("y", -MARGIN.left + 12)
                 .attr("x", -height / 2)
                 .text(yLabel);
 
@@ -733,8 +761,9 @@
             
             // Determine domain based on plot
             const isBinary = plotId.includes('brier') || plotId.includes('mce') || plotId.includes('auc');
-            const xDomain = isBinary ? [0, BINARY_MAX] : [-REGRESSION_PLOT_MAX, REGRESSION_PLOT_MAX];
-            const yDomain = isBinary ? [0, BINARY_MAX] : [-REGRESSION_PLOT_MAX, REGRESSION_PLOT_MAX];
+            const tightRegressionDomain = plotId.includes('cindex') ? getTightRegressionDomain(regressionDataState) : null;
+            const xDomain = isBinary ? [0, BINARY_MAX] : tightRegressionDomain ?? [-REGRESSION_PLOT_MAX, REGRESSION_PLOT_MAX];
+            const yDomain = isBinary ? [0, BINARY_MAX] : tightRegressionDomain ?? [-REGRESSION_PLOT_MAX, REGRESSION_PLOT_MAX];
             
             const xScale = d3.scaleLinear().domain(xDomain).range([0, width]);
             const yScale = d3.scaleLinear().domain(yDomain).range([height, 0]);
@@ -808,13 +837,14 @@
             // 2. Calculate Metrics using the current global state data
             const { mae, mse, cIndex, cIndexPairs } = calculateRegressionMetrics(regressionDataState);
             const { brier, auc, aucPairs, mce, calibrationData, calibrationThresholds } = calculateBinaryMetrics(binaryDataState);
+            const cIndexDomain = getTightRegressionDomain(regressionDataState);
 
             // 3. Prepare Classification Data for Plotting (swap axes and add jitter)
             const binaryDataForPlot = binaryDataState.map(d => ({ 
                 id: d.id,
                 x: d.y, // Predicted Prob (X-axis)
                 // Y-axis (True Class) + Jitter for visual separation
-                y: d.x + (Math.random() - 0.5) * BINARY_JITTER_AMOUNT, 
+                y: Math.max(0.04, Math.min(0.96, d.x + (Math.random() - 0.5) * BINARY_JITTER_AMOUNT)), 
             }));
             
             // --- Regression Plots ---
@@ -835,7 +865,7 @@
             renderScatterPlot('plot-cindex', 'title-cindex', `C-index = ${cIndex.toFixed(3)}`, 
                 regressionDataState, REGRESSION_PLOT_MAX, REGRESSION_PLOT_MAX, 'regression', 
                 (g, xScale, yScale, width, height) => renderCIndex(g, xScale, yScale, width, height, cIndexPairs), 
-                "True Value", "Predicted Value");
+                "True Value", "Predicted Value", { xDomain: cIndexDomain, yDomain: cIndexDomain });
             
             // --- Classification Plots ---
 
