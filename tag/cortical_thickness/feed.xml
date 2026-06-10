@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<rss version="2.0"
+  xmlns:content="http://purl.org/rss/1.0/modules/content/"
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
+  xmlns:media="http://search.yahoo.com/mrss/"
+  xmlns:atom="http://www.w3.org/2005/Atom"
+  xmlns:georss="http://www.georss.org/georss">
+
+  <channel>
+    <title>
+      <![CDATA[  Bruno Hebling Vieira  ]]>
+    </title>
+    <link> https://bhvieira.github.io/ </link>
+    <description>
+      <![CDATA[  Bruno Hebling Vieira personal page  ]]>
+    </description>
+    <atom:link
+      href="https://bhvieira.github.io/feed.xml"
+      rel="self"
+      type="application/rss+xml" />
+
+
+<item>
+  <title>
+    <![CDATA[  Toward Understanding Autism Heterogeneity: Identifying Clinical Subgroups and Neuroanatomical Deviations  ]]>
+  </title>
+  <link> https://bhvieira.github.io/publications/JournalOfPsychopathologyAndClinicalScience/index.html </link>
+  <guid> https://bhvieira.github.io/publications/JournalOfPsychopathologyAndClinicalScience/index.html </guid>
+  <description>
+    <![CDATA[  Toward Understanding Autism Heterogeneity: Identifying Clinical Subgroups and Neuroanatomical Deviations   ]]>
+  </description>  
+    
+  <pubDate>Mon, 11 Mar 2024 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Bruno Hebling Vieira</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
+    <![CDATA[  Sublinear association between cortical thickness at the onset of the adult lifespan and age-related annual atrophy parallels spatial patterns of laminar organization in the adult cerebral cortex  ]]>
+  </title>
+  <link> https://bhvieira.github.io/publications/NeuroimageReports/index.html </link>
+  <guid> https://bhvieira.github.io/publications/NeuroimageReports/index.html </guid>
+  <description>
+    <![CDATA[  Sublinear association between cortical thickness at the onset of the adult lifespan and age-related annual atrophy parallels spatial patterns of laminar organization in the adult cerebral cortex    ]]>
+  </description>  
+    
+  <pubDate>Sat, 01 May 2021 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Bruno Hebling Vieira</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
+    <![CDATA[  Evidence of regional associations between age-related inter-individual differences in resting-state functional connectivity and cortical thinning revealed through a multi-level analysis  ]]>
+  </title>
+  <link> https://bhvieira.github.io/publications/Neuroimage/index.html </link>
+  <guid> https://bhvieira.github.io/publications/Neuroimage/index.html </guid>
+  <description>
+    <![CDATA[  Evidence of regional associations between age-related inter-individual differences in resting-state functional connectivity and cortical thinning revealed through a multi-level analysis   ]]>
+  </description>  
+    
+  <pubDate>Fri, 01 May 2020 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Bruno Hebling Vieira</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
+    <![CDATA[  A principled multivariate intersubject analysis of Generalized Partial Directed Coherence with Dirichlet Regression: application to healthy aging in areas exhibiting cortical thinning  ]]>
+  </title>
+  <link> https://bhvieira.github.io/publications/JournalOfNeuroscienceMethods/index.html </link>
+  <guid> https://bhvieira.github.io/publications/JournalOfNeuroscienceMethods/index.html </guid>
+  <description>
+    <![CDATA[  A principled multivariate intersubject analysis of Generalized Partial Directed Coherence with Dirichlet Regression: application to healthy aging in areas exhibiting cortical thinning   ]]>
+  </description>  
+    
+  <pubDate>Tue, 01 Jan 2019 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Bruno Hebling Vieira</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
+    <![CDATA[  Brain functional connectivity in regions with cortical thinning linked to healthy aging &#40;Dissertation&#41;  ]]>
+  </title>
+  <link> https://bhvieira.github.io/publications/Dissertation/index.html </link>
+  <guid> https://bhvieira.github.io/publications/Dissertation/index.html </guid>
+  <description>
+    <![CDATA[  Brain functional connectivity in regions with cortical thinning linked to healthy aging   ]]>
+  </description>  
+    
+  <pubDate>Thu, 22 Feb 2018 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Bruno Hebling Vieira</atom:name>
+  </atom:author>
+        
+</item>
+</channel></rss>
