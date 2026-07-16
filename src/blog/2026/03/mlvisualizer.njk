@@ -1,0 +1,25 @@
+---
+layout: layouts/post.njk
+title: "ML Model Performance Visualizer"
+date: 2026-03-03
+rss: "ML Model Performance Visualizer — interactive tool for exploring regression and classification metrics."
+mlvisualizer: true
+tags: ["machine learning", "statistics", "visualization", "metrics"]
+---
+<p>Data is randomly generated to demonstrate various regression and classification metrics. <strong>Try dragging the points!</strong></p>
+
+{% include "mlvisualizer.njk" %}
+
+<h2 id="regression-metrics">Regression Metrics</h2>
+<ul>
+  <li><strong>Mean Absolute Error (MAE)</strong>: average lengths of the residual segments</li>
+  <li><strong>Mean Squared Error (MSE)</strong>: average area of the squares formed by the residuals</li>
+  <li><strong>Concordance Index (C-index)</strong>: the agreement in the ordering of predicted and actual values</li>
+</ul>
+
+<h2 id="classification-metrics">Classification Metrics (i.e., for binary outcomes 0/1)</h2>
+<ul>
+  <li><strong>Brier Score</strong>: average squared difference between predicted probabilities and actual outcomes</li>
+  <li><strong>Mean Calibration Error (MCE)</strong>: the average squared difference between predicted probabilities and observed frequencies across bins</li>
+  <li><strong>Area Under the ROC Curve (AUC)</strong>: the agreement in the ordering of predicted probabilities for positive and negative classes</li>
+</ul>

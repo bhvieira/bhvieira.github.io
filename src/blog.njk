@@ -1,0 +1,17 @@
+---
+layout: layouts/page.njk
+title: The Weblog
+permalink: /blog/
+eleventyExcludeFromCollections: true
+---
+<h1>The Weblog</h1>
+
+{% set years = collections.posts | groupByYear %}
+{% for year, items in years %}
+<div class="list-year">{{ year }}</div>
+<ul class="post-list">
+  {% for item in items %}
+  <li><a href="{{ item.url }}">{{ item.data.title }}</a> <time datetime="{{ item.date | htmlDateString }}">{{ item.data.published or (item.date | readableDate) }}</time></li>
+  {% endfor %}
+</ul>
+{% endfor %}

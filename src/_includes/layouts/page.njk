@@ -1,0 +1,10 @@
+---
+layout: layouts/base.njk
+---
+<div class="content-layout">
+  {% include "sidebar.njk" %}
+  <main class="{{ mainClass or 'prose' }}">
+    {% if toc %}{{ content | toc | safe }}{% endif %}
+    {{ content | safe }}
+  </main>
+</div>

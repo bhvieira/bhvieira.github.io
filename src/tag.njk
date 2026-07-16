@@ -1,0 +1,32 @@
+---
+layout: layouts/page.njk
+pagination:
+  data: collections.tagList
+  size: 1
+  alias: tag
+permalink: "/tag/{{ tag | tagSlug }}/"
+eleventyComputed:
+  title: "Tag: {{ tag }}"
+---
+<h1>Tag: {{ tag }}</h1>
+
+{% set taggedPosts = collections.posts | byTag(tag) %}
+{% set taggedPublications = collections.publications | byTag(tag) %}
+
+{% if taggedPublications.length %}
+<h2>Publications</h2>
+<ul class="post-list">
+  {% for item in taggedPublications %}
+  <li><a href="{{ item.url }}">{{ item.data.title }}</a> <time datetime="{{ item.date | htmlDateString }}">{{ item.data.published or (item.date | readableDate) }}</time></li>
+  {% endfor %}
+</ul>
+{% endif %}
+
+{% if taggedPosts.length %}
+<h2>Blog posts</h2>
+<ul class="post-list">
+  {% for item in taggedPosts %}
+  <li><a href="{{ item.url }}">{{ item.data.title }}</a> <time datetime="{{ item.date | htmlDateString }}">{{ item.data.published or (item.date | readableDate) }}</time></li>
+  {% endfor %}
+</ul>
+{% endif %}

@@ -1,0 +1,23 @@
+---
+permalink: /feed.xml
+eleventyExcludeFromCollections: true
+---
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+<channel>
+  <title>{{ site.title }}</title>
+  <link>{{ site.url }}/blog/</link>
+  <description>{{ site.description }}</description>
+  <language>en</language>
+  <lastBuildDate>{{ collections.posts | getNewestCollectionItemDate | dateToRfc822 }}</lastBuildDate>
+  {% for item in collections.posts %}
+  <item>
+    <title>{{ item.data.title }}</title>
+    <link>{{ item.url | absoluteUrl(site.url) }}</link>
+    <guid>{{ item.url | absoluteUrl(site.url) }}</guid>
+    <pubDate>{{ item.date | dateToRfc822 }}</pubDate>
+    <description>{{ item.data.rss or item.data.title }}</description>
+  </item>
+  {% endfor %}
+</channel>
+</rss>

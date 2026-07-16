@@ -1,0 +1,21 @@
+---
+layout: layouts/page.njk
+title: Publications
+permalink: /publications/
+eleventyExcludeFromCollections: true
+---
+<h1>Publications</h1>
+
+<ul class="publi-list">
+  {% for item in collections.publications %}
+  <li class="publi-item">
+    {% if item.data.doi %}
+    <a class="publi-plumx plumx-plum-print-popup plum-bigben-theme" href="https://plu.mx/plum/a/?doi={{ item.data.doi }}" data-popup="bottom" data-size="medium" data-badge="false" data-site="plum" data-hide-when-empty="false"></a>
+    {% endif %}
+    <div>
+      <h3><a href="{{ item.url }}">{{ item.data.title }}</a></h3>
+      <div class="publi-meta">{{ item.data.authors | safe }} &mdash; <em>{{ item.data.journal }}</em>, {{ item.data.published or (item.date | readableDate) }}</div>
+    </div>
+  </li>
+  {% endfor %}
+</ul>

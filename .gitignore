@@ -1,7 +1,4 @@
-__site/
+_site/
 .DS_Store
-franklin
-franklin.pub
 node_modules/
 .vscode
-_rss/

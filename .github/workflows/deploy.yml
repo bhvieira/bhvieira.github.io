@@ -23,37 +23,19 @@ jobs:
       uses: actions/checkout@v4
       with:
         persist-credentials: false
-    # NOTE: Python is necessary for the pre-rendering (minification) step
-    - name: Install python
-      uses: actions/setup-python@v5
+    - name: Install Node
+      uses: actions/setup-node@v4
       with:
-        python-version: '3.8'
-    # NOTE: Here you can install dependencies such as matplotlib if you use
-    # packages such as PyPlot.
-    # - run: pip install matplotlib
-    - name: Install Julia
-      uses: julia-actions/setup-julia@v3
-      with:
-        version: "1.12"
-    # NOTE
-    #   The steps below ensure that NodeJS and Franklin are loaded then it
-    #   installs highlight.js which is needed for the prerendering step.
-    #   Then the environment is activated and instantiated to install all
-    #   Julia packages which may be required to successfully build your site.
-    #
-    #   The last line should be `optimize()` though you may want to give it
-    #   specific arguments, see the documentation or ?optimize in the REPL.
-    - run: julia -e '
-            using Pkg; Pkg.add(["NodeJS", "Franklin"]);
-            using NodeJS; run(`$(npm_cmd()) install highlight.js`);
-            using Franklin;
-            Pkg.activate("."); Pkg.instantiate();
-            optimize(minify=false)'
-    - name: Build and Deploy
+        node-version: "22"
+        cache: "npm"
+    - name: Install dependencies
+      run: npm ci
+    - name: Build
+      run: npm run build
+    - name: Deploy
       uses: JamesIves/github-pages-deploy-action@v4.5.0
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-        # SSH: true
         branch: master
         single-commit: true
-        folder: __site
+        folder: _site

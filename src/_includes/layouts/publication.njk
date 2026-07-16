@@ -1,0 +1,29 @@
+---
+layout: layouts/page.njk
+---
+<article>
+  <header class="entry-header">
+    {% if tags and tags.length and tags[0] %}
+    <ul class="tag-list">
+      {% for tag in tags %}
+        {% if tag %}<li><a href="/tag/{{ tag | tagSlug }}/">{{ tag }}</a></li>{% endif %}
+      {% endfor %}
+    </ul>
+    {% endif %}
+    <h1>{{ title }}</h1>
+    <div class="publi-badges">
+      <span>{{ authors | safe }}</span>
+      <span>·&nbsp;<em>{{ journal }}</em>, {{ published or (date | readableDate) }}</span>
+      {% if doi %}<span title="DOI"><i class="ai ai-fw ai-doi"></i> <a href="https://dx.doi.org/{{ doi }}" rel="nofollow noopener noreferrer">{{ doi }}</a></span>{% endif %}
+      {% if isopenaccess %}
+        <span title="Open Access"><i class="ai ai-fw ai-open-access"></i> Open Access</span>
+      {% else %}
+        <span title="Closed Access"><i class="ai ai-fw ai-closed-access"></i> Closed Access</span>
+      {% endif %}
+      {% if doi %}
+      <a href="https://plu.mx/plum/a/?doi={{ doi }}" data-popup="bottom" data-size="medium" data-badge="false" class="plumx-plum-print-popup plum-bigben-theme" data-site="plum" data-hide-when-empty="false"></a>
+      {% endif %}
+    </div>
+  </header>
+  {{ content | safe }}
+</article>

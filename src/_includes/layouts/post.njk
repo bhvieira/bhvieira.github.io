@@ -1,0 +1,17 @@
+---
+layout: layouts/page.njk
+---
+<article>
+  <header class="entry-header">
+    <h1>{{ title }}</h1>
+    <p class="entry-meta"><time datetime="{{ date | htmlDateString }}">{{ published or (date | readableDate) }}</time></p>
+    {% if tags and tags.length %}
+    <ul class="tag-list">
+      {% for tag in tags %}
+        {% if tag %}<li><a href="/tag/{{ tag | tagSlug }}/">{{ tag }}</a></li>{% endif %}
+      {% endfor %}
+    </ul>
+    {% endif %}
+  </header>
+  {{ content | safe }}
+</article>
