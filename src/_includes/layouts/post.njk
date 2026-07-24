@@ -3,9 +3,10 @@ layout: layouts/page.njk
 ---
 <article>
   <header class="entry-header">
+    <span class="kicker">Weblog</span>
     <h1>{{ title }}</h1>
     <p class="entry-meta"><time datetime="{{ date | htmlDateString }}">{{ published or (date | readableDate) }}</time></p>
-    {% if tags and tags.length %}
+    {% if tags and tags.length and tags[0] %}
     <ul class="tag-list">
       {% for tag in tags %}
         {% if tag %}<li><a href="/tag/{{ tag | tagSlug }}/">{{ tag }}</a></li>{% endif %}

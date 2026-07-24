@@ -4,22 +4,306 @@ title: "ML Model Performance Visualizer"
 date: 2026-03-03
 rss: "ML Model Performance Visualizer — interactive tool for exploring regression and classification metrics."
 mlvisualizer: true
+mainClass: "prose prose--wide"
+math: true
 tags: ["machine learning", "statistics", "visualization", "metrics"]
 ---
-<p>Data is randomly generated to demonstrate various regression and classification metrics. <strong>Try dragging the points!</strong></p>
+<p>Performance metrics are usually met as formulas, and a formula is a poor
+place to build intuition. Every metric below is instead drawn as a shape on a
+scatter plot: a length, an area, a set of connecting segments. Once you can see
+the shape, you can see what makes it grow — and, more usefully, what leaves it
+completely unmoved.</p>
 
-{% include "mlvisualizer.njk" %}
+<p>The data are synthetic and every panel on this page reads from the same two
+samples, so a point you drag in one figure moves in all the others. That is the
+whole point: one nudge, several verdicts.</p>
 
-<h2 id="regression-metrics">Regression Metrics</h2>
-<ul>
-  <li><strong>Mean Absolute Error (MAE)</strong>: average lengths of the residual segments</li>
-  <li><strong>Mean Squared Error (MSE)</strong>: average area of the squares formed by the residuals</li>
-  <li><strong>Concordance Index (C-index)</strong>: the agreement in the ordering of predicted and actual values</li>
+<h2 id="regression-metrics">Regression metrics</h2>
+
+<p>The regression sample has 24 observations. The true value sits on the
+horizontal axis and the model's prediction on the vertical one; both are
+standardised, so the units are standard deviations. The dashed diagonal is the
+line of perfect prediction, where every point would lie if the model were
+exactly right. <strong>Drag any point up or down</strong> to change what the
+model predicted for that observation.</p>
+
+<div class="mlv-controls">
+  <button class="mlv-button" type="button" data-mlv-new="regression">Randomise everything</button>
+  <span class="mlv-hint"><b>Randomise everything</b> throws the sample away and draws a
+  fresh one: the true values move as well as the predictions. Dragging is the
+  gentler tool — points slide vertically, so the truth stays put and only the
+  prediction changes.</span>
+</div>
+
+<h3 id="mean-absolute-error">Mean absolute error</h3>
+
+<p>The residual of an observation is the vertical gap between its point and the
+diagonal. Take the length of each gap, ignore its sign, and average:</p>
+
+{% raw %}
+<p>\[ \mathrm{MAE} = \frac{1}{n}\sum_{i=1}^{n} \lvert \hat{y}_i - y_i \rvert \]</p>
+{% endraw %}
+
+<p>MAE is measured in the units of the outcome, which makes it the easiest
+metric here to state in a sentence: on average the model is off by this much.
+Because each error contributes its own length and nothing more, one badly
+predicted observation moves MAE by exactly its share, <em>1/n</em> of the
+damage.</p>
+
+<figure class="mlv-figure" data-mlv="mae">
+  <figcaption><b>Figure 1.</b> Each segment is one residual. MAE is the average
+  segment length; drag a point away from the diagonal and the metric grows in
+  proportion to the distance you travel.</figcaption>
+</figure>
+
+<h3 id="mean-squared-error">Mean squared error</h3>
+
+<p>Square the residual instead of taking its absolute value and you get an
+area rather than a length:</p>
+
+{% raw %}
+<p>\[ \mathrm{MSE} = \frac{1}{n}\sum_{i=1}^{n} (\hat{y}_i - y_i)^2 \]</p>
+{% endraw %}
+
+<p>Each shaded square has the residual as its side, so doubling an error
+quadruples its contribution. This is the practical difference between the two:
+MAE primarily reflects the typical magnitude of prediction errors because all
+residuals contribute linearly. MSE increasingly emphasizes the largest prediction
+errors because their contribution grows quadratically, making the metric much
+more sensitive to the tails of the error distribution.
+Drag one point far from the diagonal and watch its square swell past
+everything else on the plot — that single observation now dominates the
+score.</p>
+
+<figure class="mlv-figure" data-mlv="mse">
+  <figcaption><b>Figure 2.</b> The same residuals as Figure 1, squared. MSE is
+  the average area. A point twice as far from the diagonal contributes four
+  times as much.</figcaption>
+</figure>
+
+<h3 id="concordance-index">Concordance index</h3>
+
+<p>Both metrics above ask how close the predictions are. The concordance index
+asks something weaker and often more relevant: does the model put the
+observations <em>in the right order</em>? Take every pair of observations with
+different true values and check whether the predictions rank them the same
+way.</p>
+
+{% raw %}
+<p>\[ \mathrm{C} = \frac{\#\,\text{concordant} + \tfrac{1}{2}\,\#\,\text{tied}}{\#\,\text{comparable pairs}} \]</p>
+{% endraw %}
+
+<p>A model that ranks perfectly scores 1, coin-flip ordering scores 0.5, and
+perfectly reversed ordering scores 0. Note what the C-index ignores: add a
+constant to every prediction, or multiply them all by two, and the ranking is
+untouched while MAE and MSE change substantially. It is a rank statistic, blind
+to calibration and to scale.</p>
+
+<figure class="mlv-figure" data-mlv="cindex">
+  <figcaption><b>Figure 3.</b> One segment per comparable pair, coloured by
+  whether the predictions agree with the true ordering. The C-index is the
+  fraction of segments that are concordant.</figcaption>
+</figure>
+
+<ul class="mlv-legend">
+  <li><span class="mlv-swatch mlv-swatch--conc"></span> Concordant pair</li>
+  <li><span class="mlv-swatch mlv-swatch--disc"></span> Discordant pair</li>
+  <li><span class="mlv-swatch mlv-swatch--point"></span> Observation</li>
 </ul>
 
-<h2 id="classification-metrics">Classification Metrics (i.e., for binary outcomes 0/1)</h2>
-<ul>
-  <li><strong>Brier Score</strong>: average squared difference between predicted probabilities and actual outcomes</li>
-  <li><strong>Mean Calibration Error (MCE)</strong>: the average squared difference between predicted probabilities and observed frequencies across bins</li>
-  <li><strong>Area Under the ROC Curve (AUC)</strong>: the agreement in the ordering of predicted probabilities for positive and negative classes</li>
-</ul>
+<h3 id="one-sample-three-verdicts">One sample, three verdicts</h3>
+
+<p>Here are all three on the same sample, still linked — drag a point in any
+panel and the other two answer immediately.</p>
+
+<div class="mlv-controls mlv-controls--wide">
+  <button class="mlv-button" type="button" data-mlv-new="regression">Randomise everything</button>
+  <button class="mlv-button" type="button" data-mlv-perfect="regression">Make predictions perfect</button>
+  <button class="mlv-button" type="button" data-mlv-together="regression" aria-pressed="false">Move predictions together</button>
+  <span class="mlv-hint"><b>Perfect</b> drops every prediction onto the
+  diagonal. <b>Move together</b> is a toggle: while it is on, dragging any
+  point slides the whole set of predictions by the same amount, which shifts
+  them without ever reordering them.</span>
+</div>
+
+<div class="mlv-trio">
+  <figure class="mlv-figure" data-mlv="mae"></figure>
+  <figure class="mlv-figure" data-mlv="mse"></figure>
+  <figure class="mlv-figure" data-mlv="cindex"></figure>
+</div>
+
+<p class="mlv-hint mlv-caption--wide"><b>Figure 4.</b> The same 24 observations
+under three metrics. Dragging a point in any panel updates the other two.</p>
+
+<div class="mlv-prompts">
+  <h4>Things to try</h4>
+  <ol>
+    <li>Drag a single point far from the diagonal without crossing its
+    neighbours. MSE jumps, MAE rises modestly, the C-index does not move at
+    all.</li>
+    <li>Now take a point that sits close to the diagonal and drag it just past
+    a neighbour. MAE and MSE barely register it; the C-index drops.</li>
+    <li><b>How large can you make the mean squared error while the C-index
+    stays at 1?</b> Start from <em>Make predictions perfect</em>, switch on
+    <em>Move predictions together</em>, and push the whole set away from the
+    diagonal.</li>
+    <li><b>And the other way round: how far can you drive the C-index down
+    while MAE stays under, say, 0.3?</b> Small swaps only — you are allowed to
+    ruin the ordering, but not to move anything very far.</li>
+  </ol>
+  <details class="mlv-answer">
+    <summary>What you should find</summary>
+    <p>A group shift is rigid: it cannot change which prediction is larger, so
+    the C-index sits at 1 no matter how far you drag, while MAE grows with the
+    shift and MSE with its square. Ranking metrics are blind to any offset you
+    care to add. The reverse experiment is just as lopsided — a scatter of
+    hair-thin swaps near the diagonal costs almost nothing in MAE or MSE and
+    walks the C-index down toward the 0.5 of a coin flip. Distance and order
+    are simply different questions.</p>
+  </details>
+</div>
+
+<h2 id="classification-metrics">Classification metrics</h2>
+
+<p>For binary outcomes the picture changes. The true class is 0 or 1 — the two
+horizontal reference lines, with the points jittered slightly so they do not
+overlap — and the model returns a probability, plotted along the horizontal
+axis. <strong>Drag any point left or right</strong> to change the predicted
+probability for that case; the class it truly belongs to is fixed.</p>
+
+<div class="mlv-controls">
+  <button class="mlv-button" type="button" data-mlv-new="binary">Randomise everything</button>
+  <span class="mlv-hint"><b>Randomise everything</b> draws a fresh sample, true
+  classes included, so cases can switch sides. Dragging moves points
+  horizontally — only the predicted probability changes.</span>
+</div>
+
+<h3 id="brier-score">Brier score</h3>
+
+<p>The Brier score is mean squared error applied to probabilities, with the
+outcome treated as 0 or 1:</p>
+
+{% raw %}
+<p>\[ \mathrm{BS} = \frac{1}{n}\sum_{i=1}^{n} (p_i - o_i)^2 \]</p>
+{% endraw %}
+
+<p>The squares are back, now measuring the horizontal distance from each point
+to its own class line. A confident mistake — probability 0.95 on a case whose
+outcome is 0 — produces a large square, while an unconfident one near 0.5 stays
+small. The Brier score is a <em>proper</em> scoring rule: it is minimised by
+reporting your honest probability, so it rewards calibration and discrimination
+together.</p>
+
+<figure class="mlv-figure" data-mlv="brier">
+  <figcaption><b>Figure 5.</b> Each square is one squared probability error.
+  Confident mistakes are punished quadratically; hedging toward 0.5 keeps the
+  squares small but never gets them to zero.</figcaption>
+</figure>
+
+<h3 id="calibration-error">Calibration error</h3>
+
+<p>Calibration asks a different question: among the cases where the model said
+70%, did roughly 70% turn out positive? Sort the predictions, cut them into
+equal-sized bins, and compare each bin's mean prediction with the frequency
+actually observed in it:</p>
+
+{% raw %}
+<p>\[ \mathrm{MCE} = \sum_{b=1}^{B} w_b \left( \bar{p}_b - \bar{o}_b \right)^2 \]</p>
+{% endraw %}
+
+<p>The dotted verticals are the bin edges, and each square spans the gap
+between a bin's average prediction and its observed frequency. A model can be
+badly calibrated and still rank cases perfectly, or be beautifully calibrated
+and useless at telling the classes apart — which is why this metric never
+travels alone.</p>
+
+<figure class="mlv-figure" data-mlv="mce">
+  <figcaption><b>Figure 6.</b> Five equal-count bins. Each dot is a bin's mean
+  prediction against its observed frequency; the squares are the squared
+  calibration gaps, weighted by bin size.</figcaption>
+</figure>
+
+<h3 id="area-under-the-roc-curve">Area under the ROC curve</h3>
+
+<p>AUC is the C-index again, restricted to the pairs that matter for
+classification: every positive case paired with every negative one. It answers
+"if I draw one case from each class, how often does the model give the positive
+one the higher probability?"</p>
+
+{% raw %}
+<p>\[ \mathrm{AUC} = \frac{1}{n_{+}n_{-}} \sum_{i \in +} \sum_{j \in -} \left[ \mathbf{1}(p_i > p_j) + \tfrac{1}{2}\mathbf{1}(p_i = p_j) \right] \]</p>
+{% endraw %}
+
+<p>Because it only compares probabilities against each other, AUC is invariant
+to any monotone transformation of the predictions. Push every probability
+toward 0.5 and the Brier score and calibration error both deteriorate while AUC
+stays exactly where it was.</p>
+
+<figure class="mlv-figure" data-mlv="auc">
+  <figcaption><b>Figure 7.</b> One faint segment per positive–negative pair.
+  Green segments are correctly ordered; AUC is the fraction of them, counting
+  ties as half.</figcaption>
+</figure>
+
+<h3 id="the-classification-trio">The classification trio</h3>
+
+<p>Again, all three linked. Drag the point with the most extreme probability
+toward the middle of the plot and watch the three metrics disagree about
+whether you have improved the model.</p>
+
+<div class="mlv-controls mlv-controls--wide">
+  <button class="mlv-button" type="button" data-mlv-new="binary">Randomise everything</button>
+  <button class="mlv-button" type="button" data-mlv-perfect="binary">Make predictions perfect</button>
+  <button class="mlv-button" type="button" data-mlv-together="binary" aria-pressed="false">Move predictions together</button>
+  <span class="mlv-hint"><b>Perfect</b> sends every probability to its own true
+  class. <b>Move together</b> is a toggle: dragging then shifts every
+  probability by the same amount on the log-odds scale, which keeps them inside
+  0 and 1 and leaves their ordering — and so the AUC — untouched.</span>
+</div>
+
+<div class="mlv-trio">
+  <figure class="mlv-figure" data-mlv="brier"></figure>
+  <figure class="mlv-figure" data-mlv="mce"></figure>
+  <figure class="mlv-figure" data-mlv="auc"></figure>
+</div>
+
+<p class="mlv-hint mlv-caption--wide"><b>Figure 8.</b> Discrimination,
+calibration and overall accuracy of the same 24 predicted probabilities.</p>
+
+<div class="mlv-prompts">
+  <h4>Things to try</h4>
+  <ol>
+    <li>Switch on <em>Move predictions together</em> and slide everything
+    toward one end of the axis. The Brier score and the calibration error
+    deteriorate steadily; the AUC readout never so much as flickers.</li>
+    <li><b>Suppose the Brier score is stuck at a distinctly unimpressive 0.25 —
+    the value you would get by predicting the base rate for every case. How
+    good can you make the AUC then? And the calibration error? Can you have
+    both at once?</b></li>
+    <li>Now the mirror image: make the predictions perfect, then break the
+    calibration on purpose while keeping AUC at 1. How low can the Brier score
+    stay?</li>
+  </ol>
+  <details class="mlv-answer">
+    <summary>What you should find</summary>
+    <p>Either one, never both. Squeeze the sample into a narrow band parked far
+    from the base rate, positives just above negatives, and the AUC reaches 1
+    while the calibration error is dreadful. Pile every prediction onto the
+    base rate instead and the calibration error vanishes while the AUC settles
+    at 0.5. With balanced classes, 0.25 is exactly the Brier score of knowing
+    nothing, and the score splits into a calibration penalty minus whatever
+    discrimination you have earned: holding the total at 0.25 means every
+    ounce of ranking has to be paid for in miscalibration, and vice versa. It
+    is the clearest argument on this page for never reporting one of these
+    numbers alone.</p>
+  </details>
+</div>
+
+<h2 id="taking-stock">Taking stock</h2>
+
+<p>Each of these numbers compresses a whole sample into a single value, and
+each throws away something different on the way. Rank metrics discard the
+scale; squared metrics let one observation speak for the sample; calibration
+metrics ignore ordering entirely. Reporting one alone is a choice about which
+failures you are willing not to see — which is the argument for reporting at
+least two, chosen so that their blind spots do not coincide.</p>

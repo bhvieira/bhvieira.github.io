@@ -1,6 +1,9 @@
 ---
 layout: layouts/page.njk
 title: About me
+heading: true
+kicker: Curriculum
+standfirst: "Background, research interests, education and a few things I am proud of."
 toc: true
 ---
 

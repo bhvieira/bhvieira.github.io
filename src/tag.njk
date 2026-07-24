@@ -8,25 +8,35 @@ permalink: "/tag/{{ tag | tagSlug }}/"
 eleventyComputed:
   title: "Tag: {{ tag }}"
 ---
-<h1>Tag: {{ tag }}</h1>
-
 {% set taggedPosts = collections.posts | byTag(tag) %}
 {% set taggedPublications = collections.publications | byTag(tag) %}
 
+<header class="entry-header">
+  <span class="kicker">Subject index</span>
+  <h1>{{ tag }}</h1>
+  <p class="entry-meta">{{ taggedPublications.length + taggedPosts.length }} entries filed under this tag.</p>
+</header>
+
 {% if taggedPublications.length %}
-<h2>Publications</h2>
+<div class="list-year">Publications</div>
 <ul class="post-list">
   {% for item in taggedPublications %}
-  <li><a href="{{ item.url }}">{{ item.data.title }}</a> <time datetime="{{ item.date | htmlDateString }}">{{ item.data.published or (item.date | readableDate) }}</time></li>
+  <li>
+    <a href="{{ item.url }}">{{ item.data.title }}</a>
+    <time datetime="{{ item.date | htmlDateString }}">{{ item.data.published or (item.date | readableDate) }}</time>
+  </li>
   {% endfor %}
 </ul>
 {% endif %}
 
 {% if taggedPosts.length %}
-<h2>Blog posts</h2>
+<div class="list-year">Blog posts</div>
 <ul class="post-list">
   {% for item in taggedPosts %}
-  <li><a href="{{ item.url }}">{{ item.data.title }}</a> <time datetime="{{ item.date | htmlDateString }}">{{ item.data.published or (item.date | readableDate) }}</time></li>
+  <li>
+    <a href="{{ item.url }}">{{ item.data.title }}</a>
+    <time datetime="{{ item.date | htmlDateString }}">{{ item.data.published or (item.date | readableDate) }}</time>
+  </li>
   {% endfor %}
 </ul>
 {% endif %}

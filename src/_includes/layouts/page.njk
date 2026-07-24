@@ -2,9 +2,16 @@
 layout: layouts/base.njk
 ---
 <div class="content-layout">
-  {% include "sidebar.njk" %}
-  <main class="{{ mainClass or 'prose' }}">
+  <main id="main" class="{{ mainClass or 'prose' }}">
+    {% if heading %}
+    <header class="entry-header">
+      {% if kicker %}<span class="kicker">{{ kicker }}</span>{% endif %}
+      <h1>{{ title }}</h1>
+      {% if standfirst %}<p class="entry-meta">{{ standfirst | safe }}</p>{% endif %}
+    </header>
+    {% endif %}
     {% if toc %}{{ content | toc | safe }}{% endif %}
     {{ content | safe }}
   </main>
+  {% include "sidebar.njk" %}
 </div>

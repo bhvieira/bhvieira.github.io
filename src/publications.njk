@@ -4,18 +4,32 @@ title: Publications
 permalink: /publications/
 eleventyExcludeFromCollections: true
 ---
-<h1>Publications</h1>
+<header class="entry-header">
+  <span class="kicker">Bibliography</span>
+  <h1>Publications</h1>
+  <p class="entry-meta">{{ collections.publications.length }} entries, most recent first. Altmetrics, where shown, come from PlumX.</p>
+</header>
 
-<ul class="publi-list">
+<ol class="publi-list" reversed>
   {% for item in collections.publications %}
   <li class="publi-item">
-    {% if item.data.doi %}
-    <a class="publi-plumx plumx-plum-print-popup plum-bigben-theme" href="https://plu.mx/plum/a/?doi={{ item.data.doi }}" data-popup="bottom" data-size="medium" data-badge="false" data-site="plum" data-hide-when-empty="false"></a>
-    {% endif %}
-    <div>
+    <div class="publi-num" aria-hidden="true">[{{ collections.publications.length - loop.index0 }}]</div>
+    <div class="publi-body">
       <h3><a href="{{ item.url }}">{{ item.data.title }}</a></h3>
-      <div class="publi-meta">{{ item.data.authors | safe }} &mdash; <em>{{ item.data.journal }}</em>, {{ item.data.published or (item.date | readableDate) }}</div>
+      <div class="publi-meta">
+        {{ item.data.authors | safe }}<br>
+        <em>{{ item.data.journal }}</em>, {{ item.data.published or (item.date | readableDate) }}
+      </div>
+      <div class="publi-foot">
+        {% if item.data.isopenaccess %}
+        <span class="badge badge--oa" title="Open Access"><i class="ai ai-open-access" aria-hidden="true"></i> Open Access</span>
+        {% endif %}
+        {% if item.data.doi %}
+        <a class="badge" href="https://dx.doi.org/{{ item.data.doi }}" rel="nofollow noopener noreferrer" title="{{ item.data.doi }}"><i class="ai ai-doi" aria-hidden="true"></i> DOI</a>
+        <a class="publi-plumx plumx-plum-print-popup plum-bigben-theme" href="https://plu.mx/plum/a/?doi={{ item.data.doi }}" data-popup="bottom" data-size="medium" data-badge="false" data-site="plum" data-hide-when-empty="true"></a>
+        {% endif %}
+      </div>
     </div>
   </li>
   {% endfor %}
-</ul>
+</ol>

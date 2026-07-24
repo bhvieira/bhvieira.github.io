@@ -3,28 +3,70 @@ layout: layouts/base.njk
 title: Bruno Hebling Vieira
 permalink: /
 ---
-<div class="hero">
-  <div class="hero__inner">
+<div class="titlepage" id="main">
+  <div class="titlepage__inner">
+    <p class="titlepage__eyebrow">Neuroimaging &middot; Machine Learning &middot; Medical Physics</p>
     <h1>Bruno Hebling Vieira</h1>
-    <p>PhD in Physics Applied to Medicine and Biology from the University of São Paulo (USP). Medical Physicist.
-    Postdoctoral researcher at the <a href="https://www.psychology.uzh.ch/en/areas/nec/plafor/">Methods of Plasticity Research</a> group at the University of Zurich.</p>
+    <div class="ornament" aria-hidden="true"><span>&sect;</span></div>
+    <p class="titlepage__lead">
+      Postdoctoral researcher at the
+      <a href="https://www.psychology.uzh.ch/en/areas/nec/plafor/">Methods of Plasticity Research</a>
+      group, University of Zurich. I study how to describe, understand and predict brain
+      dynamics <em>in vivo</em> &mdash; and how modern machine learning can be made to
+      say something trustworthy about individual brains.
+    </p>
+    <p class="titlepage__affil">PhD in Physics Applied to Medicine and Biology, University of São Paulo &middot; Zurich, Switzerland</p>
   </div>
 </div>
 
-<div class="card-grid">
-  <div class="card">
-    <h2>Publications</h2>
-    <p>Highlights from my academic production. Dissertations and presentations I (co-)authored.</p>
-    <a class="btn" href="/publications/">Learn more &rarr;</a>
-  </div>
-  <div class="card">
-    <h2>Weblog</h2>
-    <p>The good old blog. Mostly interesting resources I think could be of interest. A bit of a backlog as well.</p>
-    <a class="btn" href="/blog/">Learn more &rarr;</a>
-  </div>
-  <div class="card">
-    <h2>About me</h2>
-    <p>Interesting bits about me and some achievements I am proud of. Always under construction!</p>
-    <a class="btn" href="/aboutme/">Learn more &rarr;</a>
+<div class="home">
+  <ol class="contents-table">
+    <li>
+      <span class="contents-table__num">I</span>
+      <h3><a href="/publications/">Publications</a></h3>
+      <p>Peer-reviewed articles, the dissertation, and presentations I have (co-)authored.</p>
+    </li>
+    <li>
+      <span class="contents-table__num">II</span>
+      <h3><a href="/blog/">Weblog</a></h3>
+      <p>Notes, HOWTOs, and resources worth keeping. A bit of a backlog as well.</p>
+    </li>
+    <li>
+      <span class="contents-table__num">III</span>
+      <h3><a href="/aboutme/">About me</a></h3>
+      <p>Background, research interests, and a few things I am proud of. Always under construction.</p>
+    </li>
+  </ol>
+
+  <div class="home__cols">
+    <section>
+      <h2 class="section-head">
+        <span>Recent publications</span>
+        <a href="/publications/">All {{ collections.publications.length }} &rarr;</a>
+      </h2>
+      <ul class="index-list">
+        {% for item in collections.publications.slice(0, 5) %}
+        <li>
+          <a class="index-list__title" href="{{ item.url }}">{{ item.data.title }}</a>
+          <span class="index-list__meta"><em>{{ item.data.journal }}</em>, {{ item.date | year }}</span>
+        </li>
+        {% endfor %}
+      </ul>
+    </section>
+
+    <section>
+      <h2 class="section-head">
+        <span>From the weblog</span>
+        <a href="/blog/">All posts &rarr;</a>
+      </h2>
+      <ul class="index-list">
+        {% for item in collections.posts.slice(0, 5) %}
+        <li>
+          <a class="index-list__title" href="{{ item.url }}">{{ item.data.title }}</a>
+          <span class="index-list__meta">{{ item.data.published or (item.date | readableDate) }}</span>
+        </li>
+        {% endfor %}
+      </ul>
+    </section>
   </div>
 </div>
