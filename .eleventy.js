@@ -38,6 +38,11 @@ export default function (eleventyConfig) {
     collectionApi.getFilteredByGlob("src/publications/*.md").sort((a, b) => b.date - a.date)
   );
 
+  eleventyConfig.addPassthroughCopy({
+    "node_modules/academicons/css/academicons.css": "css/academicons.css",
+    "node_modules/academicons/fonts": "fonts"
+  });
+
   function tagSlug(tag) {
     return tag
       .toString()
