@@ -42,8 +42,8 @@
   {% if code %}
   <link rel="stylesheet" href="/libs/highlight/github.min.css">
   {% endif %}
-  {% if mlvisualizer %}
-  <link rel="stylesheet" href="/css/mlvisualizer-custom.css">
+  {% if widget %}
+  <link rel="stylesheet" href="/css/{{ widget }}.css">
   {% endif %}
 </head>
 <body>
@@ -120,9 +120,9 @@
   <script src="/libs/highlight/highlight.pack.js"></script>
   <script>hljs.initHighlightingOnLoad(); hljs.configure({ tabReplace: '    ' });</script>
   {% endif %}
-  {% if mlvisualizer %}
+  {% if widget %}
   <script defer src="https://d3js.org/d3.v7.min.js"></script>
-  <script defer src="/js/mlvisualizer.js"></script>
+  <script defer src="/js/{{ widget }}.js"></script>
   {% endif %}
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css" integrity="sha512-ApSLB1Pd3/bZN8fWB/RG9YhN/7bd9Hkf3AGaE2mPfebjrxagjuBtx2GcgdqIlJkUzwylBo61r9Xa9NmgBI0swA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </body>
