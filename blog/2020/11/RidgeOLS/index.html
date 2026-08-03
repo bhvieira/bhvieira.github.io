@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("theme");
+        if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
+      } catch (e) {}
+    })();
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Enter the Ridge: derivation and properties · Bruno Hebling Vieira</title>
+  <meta name="description" content="Bruno Hebling Vieira personal page">
+  <meta name="twitter:title" content="Enter the Ridge: derivation and properties">
+  <meta name="twitter:creator" content="@HeblingVieira">
+  <meta name="twitter:domain" content="bhvieira.github.io">
+  <link rel="canonical" href="https://bhvieira.github.io/blog/2020/11/RidgeOLS/">
+  
+
+  <script data-goatcounter="https://bhvieira.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon_package/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon_package/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon_package/favicon-16x16.png">
+  <link rel="manifest" href="/assets/favicon_package/site.webmanifest">
+  <link rel="mask-icon" href="/assets/favicon_package/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#15171b" media="(prefers-color-scheme: dark)">
+  <link rel="alternate" type="application/rss+xml" title="Bruno Hebling Vieira" href="/feed.xml">
+
+  <link rel="stylesheet" href="/css/site.css">
+  <link rel="stylesheet" href="/css/academicons.css">
+  
+  <link rel="stylesheet" href="/libs/katex/katex.min.css">
+  
+  
+  
+</head>
+<body>
+  <script type="text/javascript" src="//cdn.plu.mx/widget-popup.js"></script>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="site-title" href="/">Bruno&nbsp;Hebling&nbsp;Vieira<span class="site-title__mark">·</span></a>
+      <div class="site-header__right">
+        <nav aria-label="Primary">
+          <ul class="site-nav">
+            
+            
+            <li><a href="/publications/">Publications</a></li>
+            
+            <li><a href="/blog/" aria-current="page">Weblog</a></li>
+            
+            <li><a href="/aboutme/">About</a></li>
+            
+          </ul>
+        </nav>
+        <button class="theme-toggle" type="button" id="theme-toggle" aria-label="Switch between light and dark theme" title="Switch theme">
+          <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M18.7 5.3l-1.4 1.4M6.7 17.3l-1.4 1.4"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.2A8.2 8.2 0 0 1 9.8 4a8.2 8.2 0 1 0 10.2 10.2z"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="content-layout">
+  <main id="main" class="prose">
+    
+    <div class="toc" >
+        <ol><li><a href="#intro">Intro</a></li><li><a href="#the-ordinary-least-squares-(ols)">The ordinary least squares (OLS)</a></li><li><a href="#the-ridge-regression-problem-statement">The Ridge Regression problem statement</a></li><li><a href="#properties">Properties</a></li></ol>
+      </div>
+    <article>
+  <header class="entry-header">
+    <span class="kicker">Weblog</span>
+    <h1>Enter the Ridge: derivation and properties</h1>
+    <p class="entry-meta"><time datetime="2020-11-01">1 November 2020</time></p>
+    
+    <ul class="tag-list">
+      
+        <li><a href="/tag/linear-regression/">linear-regression</a></li>
+      
+        <li><a href="/tag/statistics/">statistics</a></li>
+      
+        <li><a href="/tag/regularization/">regularization</a></li>
+      
+        <li><a href="/tag/ridge/">ridge</a></li>
+      
+        <li><a href="/tag/machine-learning/">machine-learning</a></li>
+      
+    </ul>
+    
+  </header>
+  <h2 id="intro" tabindex="-1">Intro</h2>
+<p>Ridge regression is a linear (on parameters) regression technique.
+It was popularized in machine learning circles by Friedman, Hastie, Tibshirani and company, with the introduction of the elastic-net, that generalizes the Ridge when the LASSO weighting is set to zero.
+It's often taken as the benchmark that other algorithms are compared to, since it's a powerful yet simple technique that gives good results in practice.
+But it's root lay on deeper grounds.
+It's an estimation technique that trades reductions in variance for tolerable increases in bias.</p>
+<p>One of it's main selling points is that it's a strictly convex optimization problem.
+That means that it has a single optimum solution, the global one.
+This solution can be found using the normal equations from ordinary least squares (OLS).
+Let's start from there.</p>
+<h2 id="the-ordinary-least-squares-(ols)" tabindex="-1">The ordinary least squares (OLS)</h2>
+<p>Arguably, linear regression is the first learning algorithm.
+It can also be shown to be at the basis of most statistical inference (sometimes quite out of sight).
+The problem statement is simple: minimize the residual sum of squares in the model below.</p>
+<p>$$y = \beta X + \epsilon$$</p>
+<p>$y$, $\beta$ and $epsilon$ are row vectors, $X$ is a matrix with independent variables as rows and samples as columns.
+Our objective function, the residual sum of squares then is simply $\epsilon\epsilon^T$.</p>
+<p>$$\mathcal L_\text{OLS} = |\epsilon|_2^2 = \sum_i^N (y_i-\beta X_i)^2 = \epsilon\epsilon^T =\ (y - \beta X)(y - \beta X)^T$$</p>
+<p>The minimum can be found by taking the derivative regarding $\beta$:</p>
+<p>$$\frac{\partial}{\partial \beta}\left(\epsilon\epsilon^T\right)=-2X(y-\beta X)^T$$</p>
+<p>Setting this to zero we retrieve:</p>
+<p>$$yX^T=\beta XX^T$$</p>
+<p>Solving for $\beta$:</p>
+<p>$$\beta = yX^T(XX^T)^{-1}$$</p>
+<h2 id="the-ridge-regression-problem-statement" tabindex="-1">The Ridge Regression problem statement</h2>
+<p>We obtained an estimator for the OLS coefficients.
+As all estimators, it has associated variance (the precision, the spread of the estimate's distribution) and bias (the accuracy, or the difference between the estimate and the true parameter).
+On bias, actually, the OLS estimator is unbiased.
+On the other hand, depending on the problem it can have quite large variance.
+For example, ill-posed ($ n &lt; p $) problems  have unbounded variance.</p>
+<p>What if we could trade some of that excess variance for some increase in bias?</p>
+<p>That's one justification for Tikhonov regularization.
+We add a term to the objective function that prioritizes low norm solutions.
+$\Gamma$ is the Tikhonov matrix.</p>
+<p>$$\mathcal L_\text{Tikhonov} = |y - \beta X|_2^2+|\beta\Gamma|_2^2\
+(y - \beta X)(y - \beta X)^T + \beta\Gamma\Gamma^T\beta^T
+$$</p>
+<p>Derivation is, again, quite straighforward:</p>
+<p>$$\frac{\partial}{\partial \beta}\left(L_\text{Tikhonov}\right)=2\Gamma^T\Gamma\beta^T-2X(y-\beta X)^T$$</p>
+<p>Setting this to zero:</p>
+<p>$$\Gamma^T\Gamma\beta^T=X(y-\beta X)^T$$</p>
+<p>Transposing:</p>
+<p>$$\beta\Gamma^T\Gamma=(y-\beta X)X^T= y X^T - \beta X X^T$$</p>
+<p>Solving for $\beta$:</p>
+<p>$$\beta= y X^T\left(X X^T + \Gamma^T\Gamma\right)^{-1}$$</p>
+<div class="callout">
+<p>The usual Ridge regression assumes the Tikhonov matrix to be a multiple of the identity: $\Gamma = \sqrt\lambda \mathbb I$.</p>
+</div>
+<p>We can see that Tikhonov regularization amounts to the same solution as before, except that we augment the $X X^T$ with $\Gamma^T\Gamma$.</p>
+<p>In fact, this augmentation is more than figurative (<a href="https://stats.stackexchange.com/questions/69205/how-to-derive-the-ridge-regression-solution/164546#164546">see this answer</a>).
+Imagine we augmented samples with virtual samples hand-crafted so that their cross product $XX^T$ matches $\Gamma^T\Gamma$.</p>
+<p>$$X = \left[\begin{matrix} X_\text{original} &amp; X_\text{virtual} \end{matrix}\right]$$</p>
+<p>If we do that:</p>
+<p>$$X X^T =  X_\text{original} X_\text{original}^T + X_\text{virtual} X_\text{virtual}^T = X_\text{original} X_\text{original}^T + \Gamma^T\Gamma$$</p>
+<p>Thus, it suffices to have $X_\text{virtual} = \Gamma ^T$.</p>
+<p>The rest of the solution requires the product $yX^T$.
+Since we augmented $X$, we must augment $y$ in a way to keep the product intact.
+The correct augmentation is simply a row matrix of zeros (with $p$ elements, where $p$ is the number of variables), so that the product with $X$ is null.</p>
+<p>$$y = \left[\begin{matrix} y_\text{original} &amp; y_\text{virtual} \end{matrix}\right] =
+\left[\begin{matrix} y_\text{original} &amp; \mathbb 0 \end{matrix}\right]$$</p>
+<p>Doing this augmentation</p>
+<p>$$\beta=
+y_\text{original} X_\text{original}^T\left(X_\text{original} X_\text{original}^T + \Gamma^T\Gamma\right)^{-1}\=
+y X^T\left(X X^T\right)^{-1}$$</p>
+<h2 id="properties" tabindex="-1">Properties</h2>
+<p>An interesting emergent property of Ridge regression is that, unlike the OLS solution, predictions and residuals are not uncorrelated, i.e.:</p>
+<p>$$\hat y \epsilon^T = \left(\beta X \right) \left(y - \beta X \right) \neq 0$$</p>
+<p>In fact, this very fact<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup> was the main motivation for me to write this post.</p>
+<p>Due to the identification with the augmentation, however, we can see that's simply an artifact.
+Or, rather, that orthogonality of predictions and residuals is maintained <em>if</em> you take into consideration the virtual samples we introduced.
+After all, we've shown the OLS and the Ridge solutions to be obtained from the same equations.</p>
+<p>Another interesting property, or rather interpretation, is the correspondence with Bayesianism.
+In the Bayesian point of view probabilities encode a level of certainty.
+In such a framework, linear regression parameters, for example, have each a distribution (and so do most constructs).
+Using Bayes' theorem, the posterior probability is proportional to the product of the likelihood and the prior probability.
+Taking the logarithm, that product becomes a sum.
+The residual sum of squares corresponds to the Gaussian log-likelihood, with constant diagonal covariance.
+The regularization term $|\beta\Gamma|_2^2$, in turn, <a href="https://stats.stackexchange.com/a/163450/60613">corresponds to a Gaussian log-prior on the parameters</a>, with covariance $\Sigma=\left(\Gamma\Gamma^T\right)^{-1}$ and zero expected value (other values are also possible, and the Tikhonov framework accommodates them).
+Other regularization schemes may (or may not) correspond to other prior distributions.</p>
+<p>I may talk a little more about them in future posts, specially the LASSO and the Total Variation regularizations.
+I hope you enjoyed the read thus far!
+Until the next one!</p>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p><a href="https://stats.stackexchange.com/questions/494274/why-does-regularization-wreck-orthogonality-of-predictions-and-residuals-in-line/494329#494329">Why does regularization wreck orthogonality of predictions and residuals in linear regression?</a> <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
+
+</article>
+
+  </main>
+  <aside class="sidebar" itemscope itemtype="https://schema.org/Person">
+  <h2 class="sidebar__name" itemprop="name">Bruno Hebling Vieira</h2>
+  <p class="sidebar__bio" itemprop="description">Postdoctoral researcher at the University of Zurich. PhD in Physics Applied to Medicine and Biology.</p>
+
+  <p class="sidebar__heading">Contact</p>
+  <ul class="sidebar__links">
+    <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+      <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Zurich, Switzerland</span>
+    </li>
+    <li><a href="mailto:8xpy4xi1v@relay.firefox.com" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i> Email</a></li>
+    <li><a href="https://www.linkedin.com/in/bhvieira/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+    <li><a href="https://bsky.app/profile/bhvieira.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-bluesky" aria-hidden="true"></i> Bluesky</a></li>
+    <li><a href="https://twitter.com/HeblingVieira" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+    <li><a href="https://github.com/bhvieira" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+  </ul>
+
+  <p class="sidebar__heading">Academic profiles</p>
+  <ul class="sidebar__links">
+    <li><a href="https://scholar.google.com.br/citations?user=_A4Y4i4AAAAJ" rel="nofollow noopener noreferrer" title="Google Scholar"><i class="ai ai-fw ai-google-scholar-square" aria-hidden="true"></i> Google Scholar</a></li>
+    <li><a href="https://orcid.org/0000-0002-8770-7396" rel="nofollow noopener noreferrer" title="ORCID"><i class="ai ai-fw ai-orcid" aria-hidden="true"></i> ORCID</a></li>
+    <li><a href="http://lattes.cnpq.br/2051736980207570" rel="nofollow noopener noreferrer" title="Lattes"><i class="ai ai-fw ai-lattes" aria-hidden="true"></i> Lattes</a></li>
+    <li><a href="https://publons.com/researcher/2242395/bruno-h-vieira/" rel="nofollow noopener noreferrer" title="Publons"><i class="ai ai-fw ai-publons" aria-hidden="true"></i> Publons</a></li>
+    <li><a href="https://www.researchgate.net/profile/Bruno_Hebling_Vieira" rel="nofollow noopener noreferrer" title="ResearchGate"><i class="ai ai-fw ai-researchgate-square" aria-hidden="true"></i> ResearchGate</a></li>
+  </ul>
+</aside>
+
+</div>
+
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <div class="site-footer__colophon">
+        &copy; Bruno Hebling Vieira. Set in a serif face and built with
+        <a href="https://www.11ty.dev/">Eleventy</a>; source on
+        <a href="https://github.com/bhvieira/bhvieira.github.io">GitHub</a>.
+        Opinions here are my own.
+      </div>
+      <ul class="footer-links">
+        <li><a href="https://twitter.com/HeblingVieira" rel="nofollow noopener noreferrer">Twitter</a></li>
+        <li><a href="https://github.com/bhvieira" rel="nofollow noopener noreferrer">GitHub</a></li>
+        <li><a href="https://www.linkedin.com/in/bruno-hebling-vieira-760520142" rel="nofollow noopener noreferrer">LinkedIn</a></li>
+        <li><a href="https://stats.stackexchange.com/users/60613/firebug" rel="nofollow noopener noreferrer">CrossValidated</a></li>
+        <li><a href="/feed.xml">RSS</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var btn = document.getElementById("theme-toggle");
+      if (!btn) return;
+      btn.addEventListener("click", function () {
+        var root = document.documentElement;
+        var current = root.getAttribute("data-theme");
+        if (!current) {
+          current = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        }
+        var next = current === "dark" ? "light" : "dark";
+        root.setAttribute("data-theme", next);
+        try { localStorage.setItem("theme", next); } catch (e) {}
+      });
+    })();
+  </script>
+
+  
+  <script src="/libs/katex/katex.min.js"></script>
+  <script src="/libs/katex/auto-render.min.js"></script>
+  <script>renderMathInElement(document.body);</script>
+  
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css" integrity="sha512-ApSLB1Pd3/bZN8fWB/RG9YhN/7bd9Hkf3AGaE2mPfebjrxagjuBtx2GcgdqIlJkUzwylBo61r9Xa9NmgBI0swA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</body>
+</html>

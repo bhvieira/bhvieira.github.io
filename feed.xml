@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+<channel>
+  <title>Bruno Hebling Vieira</title>
+  <link>https://bhvieira.github.io/blog/</link>
+  <description>Bruno Hebling Vieira personal page</description>
+  <language>en</language>
+  <lastBuildDate>Tue, 03 Mar 2026 00:00:00 +0000</lastBuildDate>
+  
+  <item>
+    <title>ML Model Performance Visualizer</title>
+    <link>https://bhvieira.github.io/blog/2026/03/mlvisualizer/</link>
+    <guid>https://bhvieira.github.io/blog/2026/03/mlvisualizer/</guid>
+    <pubDate>Tue, 03 Mar 2026 00:00:00 +0000</pubDate>
+    <description>ML Model Performance Visualizer: interactive tool for exploring regression and classification metrics.</description>
+  </item>
+  
+  <item>
+    <title>Troubleshooting: Freesurfer surfaces with Freeview through XMing</title>
+    <link>https://bhvieira.github.io/blog/2022/10/XMing_Freeview/</link>
+    <guid>https://bhvieira.github.io/blog/2022/10/XMing_Freeview/</guid>
+    <pubDate>Mon, 10 Oct 2022 00:00:00 +0000</pubDate>
+    <description>Troubleshooting: Freesurfer surfaces with Freeview through XMing</description>
+  </item>
+  
+  <item>
+    <title>Predicting cognitive decline from non-brain and neuroimaging-based data published on Neurobiology of Aging</title>
+    <link>https://bhvieira.github.io/blog/2022/07/NewPubNBA/</link>
+    <guid>https://bhvieira.github.io/blog/2022/07/NewPubNBA/</guid>
+    <pubDate>Sat, 23 Jul 2022 00:00:00 +0000</pubDate>
+    <description>Predicting cognitive decline from non-brain and neuroimaging-based data published on Neurobiology of Aging</description>
+  </item>
+  
+  <item>
+    <title>HOWTO: get morphometrical statistics in Freesurfer with a new atlas</title>
+    <link>https://bhvieira.github.io/blog/2022/07/FreesurferGetStatsNewAtlas/</link>
+    <guid>https://bhvieira.github.io/blog/2022/07/FreesurferGetStatsNewAtlas/</guid>
+    <pubDate>Wed, 20 Jul 2022 00:00:00 +0000</pubDate>
+    <description>HOWTO: Get morphometrical statistics in Freesurfer with a new atlas</description>
+  </item>
+  
+  <item>
+    <title> Systematic review of prediction of intelligence from neuroimaging published in Intelligence </title>
+    <link>https://bhvieira.github.io/blog/2022/05/NewPubIntelligence/</link>
+    <guid>https://bhvieira.github.io/blog/2022/05/NewPubIntelligence/</guid>
+    <pubDate>Thu, 12 May 2022 00:00:00 +0000</pubDate>
+    <description>Systematic review of prediction of intelligence from neuroimaging published in Intelligence</description>
+  </item>
+  
+  <item>
+    <title> Started a Postdoc in Zurich, also new publication </title>
+    <link>https://bhvieira.github.io/blog/2022/01/PostdocAndPub/</link>
+    <guid>https://bhvieira.github.io/blog/2022/01/PostdocAndPub/</guid>
+    <pubDate>Wed, 05 Jan 2022 00:00:00 +0000</pubDate>
+    <description>Started a Postdoc in Zurich, also new publication</description>
+  </item>
+  
+  <item>
+    <title> PhD thesis defense done! </title>
+    <link>https://bhvieira.github.io/blog/2021/11/PhDDefended/</link>
+    <guid>https://bhvieira.github.io/blog/2021/11/PhDDefended/</guid>
+    <pubDate>Sat, 20 Nov 2021 00:00:00 +0000</pubDate>
+    <description>PhD thesis defense done!</description>
+  </item>
+  
+  <item>
+    <title> New pre-print on the prediction of intelligence from neuroimaging </title>
+    <link>https://bhvieira.github.io/blog/2021/10/NewPrePrint/</link>
+    <guid>https://bhvieira.github.io/blog/2021/10/NewPrePrint/</guid>
+    <pubDate>Fri, 22 Oct 2021 00:00:00 +0000</pubDate>
+    <description>New pre-print on the prediction of intelligence from neuroimaging</description>
+  </item>
+  
+  <item>
+    <title> It&#39;s around the corner: save the date of my defense </title>
+    <link>https://bhvieira.github.io/blog/2021/10/PhDDefense/</link>
+    <guid>https://bhvieira.github.io/blog/2021/10/PhDDefense/</guid>
+    <pubDate>Fri, 22 Oct 2021 00:00:00 +0000</pubDate>
+    <description>It&#39;s around the corner: save the date of my defense</description>
+  </item>
+  
+  <item>
+    <title>New publication in Human Brain Mapping and personal updates</title>
+    <link>https://bhvieira.github.io/blog/2021/09/SeptemberUpdates/</link>
+    <guid>https://bhvieira.github.io/blog/2021/09/SeptemberUpdates/</guid>
+    <pubDate>Wed, 29 Sep 2021 00:00:00 +0000</pubDate>
+    <description>New publication in Human Brain Mapping and personal updates</description>
+  </item>
+  
+  <item>
+    <title>New publications in Neuroimage: Reports, Basic and Clinical Neuroscience</title>
+    <link>https://bhvieira.github.io/blog/2021/05/NewPublications/</link>
+    <guid>https://bhvieira.github.io/blog/2021/05/NewPublications/</guid>
+    <pubDate>Mon, 17 May 2021 00:00:00 +0000</pubDate>
+    <description>New publications in Neuroimage: Reports, Basic and Clinical Neuroscience</description>
+  </item>
+  
+  <item>
+    <title>Hat tip: why and how the hat matrix makes things easier</title>
+    <link>https://bhvieira.github.io/blog/2021/03/HatMatrix/</link>
+    <guid>https://bhvieira.github.io/blog/2021/03/HatMatrix/</guid>
+    <pubDate>Fri, 05 Mar 2021 00:00:00 +0000</pubDate>
+    <description>Hat tip: why and how the hat matrix makes things easier</description>
+  </item>
+  
+  <item>
+    <title>Mendeley profiles were deprecated (among other things)</title>
+    <link>https://bhvieira.github.io/blog/2020/12/MendeleyProfiles/</link>
+    <guid>https://bhvieira.github.io/blog/2020/12/MendeleyProfiles/</guid>
+    <pubDate>Thu, 10 Dec 2020 00:00:00 +0000</pubDate>
+    <description>Mendeley profiles were deprecated</description>
+  </item>
+  
+  <item>
+    <title>What is (not) a Generalized Linear Model?</title>
+    <link>https://bhvieira.github.io/blog/2020/12/GLM/</link>
+    <guid>https://bhvieira.github.io/blog/2020/12/GLM/</guid>
+    <pubDate>Wed, 09 Dec 2020 00:00:00 +0000</pubDate>
+    <description>What is (not) a Generalized Linear Model?</description>
+  </item>
+  
+  <item>
+    <title>Enter the Ridge: derivation and properties</title>
+    <link>https://bhvieira.github.io/blog/2020/11/RidgeOLS/</link>
+    <guid>https://bhvieira.github.io/blog/2020/11/RidgeOLS/</guid>
+    <pubDate>Sun, 01 Nov 2020 00:00:00 +0000</pubDate>
+    <description>Enter the Ridge: derivation and properties</description>
+  </item>
+  
+  <item>
+    <title>The F-test and R²: an introduction from the ground up</title>
+    <link>https://bhvieira.github.io/blog/2020/10/FstatisticVsR2/</link>
+    <guid>https://bhvieira.github.io/blog/2020/10/FstatisticVsR2/</guid>
+    <pubDate>Fri, 23 Oct 2020 00:00:00 +0000</pubDate>
+    <description>The F-test and R²: an introduction from the ground up</description>
+  </item>
+  
+  <item>
+    <title>The start of the site and the Weblog</title>
+    <link>https://bhvieira.github.io/blog/2020/09/Start/</link>
+    <guid>https://bhvieira.github.io/blog/2020/09/Start/</guid>
+    <pubDate>Wed, 16 Sep 2020 00:00:00 +0000</pubDate>
+    <description>The start of the site and the Weblog - Today marks the start of the site and the Weblog</description>
+  </item>
+  
+</channel>
+</rss>

@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("theme");
+        if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
+      } catch (e) {}
+    })();
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>What is (not) a Generalized Linear Model? · Bruno Hebling Vieira</title>
+  <meta name="description" content="Bruno Hebling Vieira personal page">
+  <meta name="twitter:title" content="What is (not) a Generalized Linear Model?">
+  <meta name="twitter:creator" content="@HeblingVieira">
+  <meta name="twitter:domain" content="bhvieira.github.io">
+  <link rel="canonical" href="https://bhvieira.github.io/blog/2020/12/GLM/">
+  
+
+  <script data-goatcounter="https://bhvieira.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon_package/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon_package/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon_package/favicon-16x16.png">
+  <link rel="manifest" href="/assets/favicon_package/site.webmanifest">
+  <link rel="mask-icon" href="/assets/favicon_package/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#15171b" media="(prefers-color-scheme: dark)">
+  <link rel="alternate" type="application/rss+xml" title="Bruno Hebling Vieira" href="/feed.xml">
+
+  <link rel="stylesheet" href="/css/site.css">
+  <link rel="stylesheet" href="/css/academicons.css">
+  
+  <link rel="stylesheet" href="/libs/katex/katex.min.css">
+  
+  
+  
+</head>
+<body>
+  <script type="text/javascript" src="//cdn.plu.mx/widget-popup.js"></script>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="site-title" href="/">Bruno&nbsp;Hebling&nbsp;Vieira<span class="site-title__mark">·</span></a>
+      <div class="site-header__right">
+        <nav aria-label="Primary">
+          <ul class="site-nav">
+            
+            
+            <li><a href="/publications/">Publications</a></li>
+            
+            <li><a href="/blog/" aria-current="page">Weblog</a></li>
+            
+            <li><a href="/aboutme/">About</a></li>
+            
+          </ul>
+        </nav>
+        <button class="theme-toggle" type="button" id="theme-toggle" aria-label="Switch between light and dark theme" title="Switch theme">
+          <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M18.7 5.3l-1.4 1.4M6.7 17.3l-1.4 1.4"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.2A8.2 8.2 0 0 1 9.8 4a8.2 8.2 0 1 0 10.2 10.2z"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="content-layout">
+  <main id="main" class="prose">
+    
+    <div class="toc" >
+        <ol><li><a href="#intro">Intro</a></li><li><a href="#the-generalized-linear-model">The Generalized Linear Model</a></li><li><a href="#what-is-missing%3F">What is missing?</a></li></ol>
+      </div>
+    <article>
+  <header class="entry-header">
+    <span class="kicker">Weblog</span>
+    <h1>What is (not) a Generalized Linear Model?</h1>
+    <p class="entry-meta"><time datetime="2020-12-09">9 December 2020</time></p>
+    
+    <ul class="tag-list">
+      
+        <li><a href="/tag/linear-regression/">linear-regression</a></li>
+      
+        <li><a href="/tag/statistics/">statistics</a></li>
+      
+        <li><a href="/tag/glm/">glm</a></li>
+      
+    </ul>
+    
+  </header>
+  <h2 id="intro" tabindex="-1">Intro</h2>
+<p>As most of my posts, this one was, too, motivated by <a href="https://stats.stackexchange.com/q/304538/60613">a post of mine in Cross-Validated</a>.
+This one in particular, a question, kind of bugged me.
+We all know (we kinda do, not gonna lie) what are, properly, generalized linear models (GLM).
+But when we find something that looks like a GLM and find out it isn't, it makes me wonder:
+how to define what actually <em>is</em> a GLM?</p>
+<p>So I'll break down this post into what is a GLM, then I'll give an example that left me scratching my head and then I'll close with an authoritative reference.</p>
+<h2 id="the-generalized-linear-model" tabindex="-1">The Generalized Linear Model</h2>
+<p>The names kind of gives away what to expect here, but doesn't tell the whole story.
+It's a model, huh?
+And it's linear.
+Fine, it's a linear model then!
+And then it can be generalized.
+I mean, that doesn't give away much.
+In what way is it generalized?</p>
+<p>First, we must understand that the linear regression we all love (and that is surreptitiously everywhere) corresponds to a specific probabilistic assumption.</p>
+<p>Let's state a problem:
+$y$ is our dependent variable, $X$ are our independent variables.
+We define that the distribution of $y$ conditional on $X$ is Gaussian.
+We assume that the expected value for an datum $y_i$ is given by $\beta X_i$, while their variance are constant, set at $\sigma^2$.</p>
+<p>$$y_i \sim \mathcal N(\beta X_i, \sigma^2) $$</p>
+<div class="callout">
+<p>The fact that $y$ is conditionally Gaussian does not mean that, taken together, the individual $y$'s are Gaussian-distributed!
+This is the distinction between conditional and marginal distribution.
+$y$ still accommodates arbitrary marginal distribution.</p>
+</div>
+<p>We then define the log-likelihood:</p>
+<p>$$\ell_i = \log p(y_i; \mu, \sigma^2)
+=\log \left(\frac{1}{\sigma \sqrt{2\pi}}e^{-\frac{1}{2}\left(\frac{y_i-\beta X_i}{\sigma}\right)^2}\right)\
+=-\frac{1}{2}\log 2\pi -\frac{1}{2}\log \sigma^2 -\frac{1}{2}\left(\frac{y_i-\beta X_i}{\sigma}\right)^2$$</p>
+<p>We then maximize the log-likelihood, with regards to the parameters $\beta$.
+Since $\sigma^2$ is constant, it vanishes from the problem (it can still be estimated, however).</p>
+<p>$$\hat\beta = \argmax_\beta \sum_i \ell_i=\argmin_\beta \sum_i\left(y_i-\beta X_i\right)^2$$</p>
+<p>That last term is simply the mean-squared error (MSE).
+So, we've shown that the ordinary least squares problem corresponds to maximizing a Gaussian likelihood on data.
+Neat.
+But there's a problem still: what if we kinda know that $y_i$ is not Gaussian?</p>
+<p>Common distributions we will find in data are Poisson (<em>e.g.</em> count data), Binomial (<em>e.g.</em> proportion of successes), Bernoulli (<em>e.g.</em> binary trial), Gamma (<em>e.g.</em> continuous strictly positive data, intervals).
+What do all these distributions have in common?
+<strong>They are family!</strong>
+More specifically, they are part of the exponential family.</p>
+<p>The requirement to be accepted in the family is simple:
+if your probability density function can be written like below, you are in.</p>
+<p>Given the base measure $h$, log-partition $A$, natural parameter $\eta$ and sufficient statistic $T$:</p>
+<p>$$f(x; \theta) = h(x) \exp \left( \eta(\theta) \cdot T(x) - A(\theta) \right)$$</p>
+<p>$h$ and $A$ are scalar, while $x$ and $T$, and $\theta$ and $\eta$ can accommodate vectors in multivariate/multiparameters distributions.</p>
+<p>A simple example, with scalar parameter and scalar $x$ would be a Gaussian with known variance $\sigma^2$.
+In this case, the only parameter is $\theta = \mu$.</p>
+<p>$$f(x; \mu, \sigma) = \frac{1}{\sqrt{2\pi\sigma^2}}\exp{\left(-\frac{1}{2}\frac{\left(x-\mu\right)^2}{\sigma^2}\right)}=\
+{\color{LimeGreen}\frac{1}{\sqrt{2\pi\sigma^2}}
+\exp{\left(-\frac{1}{2}\frac{x^2}{\sigma^2}\right)}}
+\exp{\left({\color{RoyalBlue}\frac{\mu}{\sigma}}{\color{Purple}\frac{x}{\sigma}}-{\color{Orange}\frac{1}{2}\frac{\mu^2}{\sigma^2}}\right)}=\
+{\color{LimeGreen}h(x)} \exp \left( {\color{RoyalBlue}\eta(\theta)} \cdot {\color{Purple}T(x)} - {\color{Orange}A(\theta)} \right)$$</p>
+<p>Wikipedia supplies <a href="https://en.wikipedia.org/wiki/Exponential_family#Table_of_distributions">a comprehensive list of distributions</a>.</p>
+<p>You'll find, in that list, that Beta and Dirichlet distributions are included in the family.
+Which is great.
+Right?
+It allows us to design a GLM that uses these distributions to solve problems involving ratios.</p>
+<p>The Beta distribution arises naturally as the ratio of independent Gamma distributions and can be used to model ratios of positive variables.</p>
+<p>$$\frac{X}{X+Y} \sim \operatorname{Beta}(\alpha, \beta), \qquad X \sim \operatorname{Gamma}(\alpha, \theta), \qquad Y \sim \operatorname{Gamma}(\beta, \theta)$$</p>
+<p>The Dirichlet distribution generalizes the Beta distribution to a multivariate ratio.</p>
+<p>So... what's the problem?</p>
+<p>When you fit a GLM in any language you will notice that the Beta and Dirichlet distributions are missing.
+You'll probably also notice that they have packages dedicated to them<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>.
+They operate just like GLMs would, their distributions are in the exponential family, and yet they are not GLMs!</p>
+<h2 id="what-is-missing%3F" tabindex="-1">What is missing?</h2>
+<p>McCullagh and Nelder's GLM is essentially composed of three components:</p>
+<ol>
+<li>A distribution in the exponential family</li>
+<li>A linear predictor</li>
+<li>A link function</li>
+</ol>
+<p>We went through point one in the exposition of the exponential family.
+The linear predictor is usually denoted by $\eta = X\beta$.
+It's a linear combination of independente variables in $X$.
+The link function $g$ simply relates the expectancy with the linear predictor: $\mathbb E(y|X)= \mu = g^{-1}(\eta)$.</p>
+<p>If you follow the exposition of the Beta Regression in Ferrari &amp; Cribari-Neto, 2004<sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup> you'll notice the authors follow many steps in common with our expectation regarding M&amp;N's GLM.</p>
+<p>When they derive the log-likelihood, however, to obtain update equations for the parameters in their model, they note that the parameters of the model (the precision $\phi$ and regression parameters $\beta$) are not orthogonal.
+In M&amp;N's GLM, however, the opposite was true and these parameters always end up orthogonal.</p>
+<p>This is not so easy to see, and I might try to expose it in a better way in a later post.
+But I refer you to the original work.</p>
+<p>In any case, this means that we cannot decouple $\beta$ and $\phi$, and this is the utmost distinction that separates M&amp;N's GLMs from other regression models.</p>
+<p>As <a href="https://stats.stackexchange.com/questions/304538/why-beta-dirichlet-regression-are-not-considered-generalized-linear-models#comment578958_304545">Achim Zeileis (author of R's <code>betareg</code>) put it</a>:</p>
+<blockquote>
+<p>The orthogonality requirement in GLMs is important: It means that you can estimate the equation $g(μ)=x^Tβ$ without worrying about misspecifying the rest of the likelihood. Parameter estimates are consistent if the mean equation above is correctly specified. Inference is valid if additionally the variance is correctly specified. However, in beta regression you cannot separate the two model equations in this way, even if ϕ is just a constant. For consistent results everything has to be specified correctly.
+<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC SA-BY 3.0</a></p>
+</blockquote>
+<p>Surely, the distinction is important, but it alludes to the history of GLMs.
+This class of models was, in a way, &quot;reverse engineered&quot; as the models that were solvable by approximate or exact Newton-Raphson class algorithms (including Iteratively Reweighted Least Squares, or Fisher Scoring).
+After all, as I alluded in other posts, linear regression is surreptitiously everywhere.</p>
+<p>From a practical point of view, given professor Zeileis warning, not much changes.
+I still treat Beta Regression as a quasi-GLM, in the applied side of things the difference is mostly history/semantics.
+<a href="https://stats.stackexchange.com/a/304545/60613">Or, as Tim said it</a>:</p>
+<blockquote>
+<p>So while the model looks like a GLM and quacks like a GLM, it does not perfectly fit the framework.
+<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC SA-BY 3.0</a></p>
+</blockquote>
+<p>This post got a bit longer than I envisioned and it is missing some context (left as an exercise to the reader?).
+I'm considering adding some other posts on this (including the derivation of Beta Regression), so if you are interested, consider sending me an email!
+See you in the next one!</p>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p>see <a href="https://cran.r-project.org/web/packages/betareg/index.html">betareg</a> and <a href="https://cran.r-project.org/web/packages/DirichletReg/index.html">DirichletReg</a> for R, for example. <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn2" class="footnote-item"><p>Ferrari, S., &amp; Cribari-Neto, F. (2004). <a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.473.8394&amp;rep=rep1&amp;type=pdf">Beta regression for modelling rates and proportions</a>. Journal of Applied Statistics, 31(7), 799-815. <a href="#fnref2" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
+
+</article>
+
+  </main>
+  <aside class="sidebar" itemscope itemtype="https://schema.org/Person">
+  <h2 class="sidebar__name" itemprop="name">Bruno Hebling Vieira</h2>
+  <p class="sidebar__bio" itemprop="description">Postdoctoral researcher at the University of Zurich. PhD in Physics Applied to Medicine and Biology.</p>
+
+  <p class="sidebar__heading">Contact</p>
+  <ul class="sidebar__links">
+    <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+      <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Zurich, Switzerland</span>
+    </li>
+    <li><a href="mailto:8xpy4xi1v@relay.firefox.com" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i> Email</a></li>
+    <li><a href="https://www.linkedin.com/in/bhvieira/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+    <li><a href="https://bsky.app/profile/bhvieira.github.io" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-bluesky" aria-hidden="true"></i> Bluesky</a></li>
+    <li><a href="https://twitter.com/HeblingVieira" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+    <li><a href="https://github.com/bhvieira" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+  </ul>
+
+  <p class="sidebar__heading">Academic profiles</p>
+  <ul class="sidebar__links">
+    <li><a href="https://scholar.google.com.br/citations?user=_A4Y4i4AAAAJ" rel="nofollow noopener noreferrer" title="Google Scholar"><i class="ai ai-fw ai-google-scholar-square" aria-hidden="true"></i> Google Scholar</a></li>
+    <li><a href="https://orcid.org/0000-0002-8770-7396" rel="nofollow noopener noreferrer" title="ORCID"><i class="ai ai-fw ai-orcid" aria-hidden="true"></i> ORCID</a></li>
+    <li><a href="http://lattes.cnpq.br/2051736980207570" rel="nofollow noopener noreferrer" title="Lattes"><i class="ai ai-fw ai-lattes" aria-hidden="true"></i> Lattes</a></li>
+    <li><a href="https://publons.com/researcher/2242395/bruno-h-vieira/" rel="nofollow noopener noreferrer" title="Publons"><i class="ai ai-fw ai-publons" aria-hidden="true"></i> Publons</a></li>
+    <li><a href="https://www.researchgate.net/profile/Bruno_Hebling_Vieira" rel="nofollow noopener noreferrer" title="ResearchGate"><i class="ai ai-fw ai-researchgate-square" aria-hidden="true"></i> ResearchGate</a></li>
+  </ul>
+</aside>
+
+</div>
+
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <div class="site-footer__colophon">
+        &copy; Bruno Hebling Vieira. Set in a serif face and built with
+        <a href="https://www.11ty.dev/">Eleventy</a>; source on
+        <a href="https://github.com/bhvieira/bhvieira.github.io">GitHub</a>.
+        Opinions here are my own.
+      </div>
+      <ul class="footer-links">
+        <li><a href="https://twitter.com/HeblingVieira" rel="nofollow noopener noreferrer">Twitter</a></li>
+        <li><a href="https://github.com/bhvieira" rel="nofollow noopener noreferrer">GitHub</a></li>
+        <li><a href="https://www.linkedin.com/in/bruno-hebling-vieira-760520142" rel="nofollow noopener noreferrer">LinkedIn</a></li>
+        <li><a href="https://stats.stackexchange.com/users/60613/firebug" rel="nofollow noopener noreferrer">CrossValidated</a></li>
+        <li><a href="/feed.xml">RSS</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var btn = document.getElementById("theme-toggle");
+      if (!btn) return;
+      btn.addEventListener("click", function () {
+        var root = document.documentElement;
+        var current = root.getAttribute("data-theme");
+        if (!current) {
+          current = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        }
+        var next = current === "dark" ? "light" : "dark";
+        root.setAttribute("data-theme", next);
+        try { localStorage.setItem("theme", next); } catch (e) {}
+      });
+    })();
+  </script>
+
+  
+  <script src="/libs/katex/katex.min.js"></script>
+  <script src="/libs/katex/auto-render.min.js"></script>
+  <script>renderMathInElement(document.body);</script>
+  
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css" integrity="sha512-ApSLB1Pd3/bZN8fWB/RG9YhN/7bd9Hkf3AGaE2mPfebjrxagjuBtx2GcgdqIlJkUzwylBo61r9Xa9NmgBI0swA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</body>
+</html>
