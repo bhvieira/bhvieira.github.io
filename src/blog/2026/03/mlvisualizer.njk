@@ -2,7 +2,7 @@
 layout: layouts/post.njk
 title: "ML Model Performance Visualizer"
 date: 2026-03-03
-rss: "ML Model Performance Visualizer — interactive tool for exploring regression and classification metrics."
+rss: "ML Model Performance Visualizer: interactive tool for exploring regression and classification metrics."
 widget: mlvisualizer
 mainClass: "prose prose--wide"
 math: true
@@ -11,7 +11,7 @@ tags: ["machine learning", "statistics", "visualization", "metrics"]
 <p>Performance metrics are usually met as formulas, and a formula is a poor
 place to build intuition. Every metric below is instead drawn as a shape on a
 scatter plot: a length, an area, a set of connecting segments. Once you can see
-the shape, you can see what makes it grow — and, more usefully, what leaves it
+the shape, you can see what makes it grow, and, more usefully, what leaves it
 completely unmoved.</p>
 
 <p>The data are synthetic and every panel on this page reads from the same two
@@ -31,7 +31,7 @@ model predicted for that observation.</p>
   <button class="mlv-button" type="button" data-mlv-new="regression">Randomise everything</button>
   <span class="mlv-hint"><b>Randomise everything</b> throws the sample away and draws a
   fresh one: the true values move as well as the predictions. Dragging is the
-  gentler tool — points slide vertically, so the truth stays put and only the
+  gentler tool: points slide vertically, so the truth stays put and only the
   prediction changes.</span>
 </div>
 
@@ -72,7 +72,7 @@ residuals contribute linearly. MSE increasingly emphasizes the largest predictio
 errors because their contribution grows quadratically, making the metric much
 more sensitive to the tails of the error distribution.
 Drag one point far from the diagonal and watch its square swell past
-everything else on the plot — that single observation now dominates the
+everything else on the plot; that single observation now dominates the
 score.</p>
 
 <figure class="mlv-figure" data-mlv="mse">
@@ -113,7 +113,7 @@ to calibration and to scale.</p>
 
 <h3 id="one-sample-three-verdicts">One sample, three verdicts</h3>
 
-<p>Here are all three on the same sample, still linked — drag a point in any
+<p>Here are all three on the same sample, still linked; drag a point in any
 panel and the other two answer immediately.</p>
 
 <div class="mlv-controls mlv-controls--wide">
@@ -148,26 +148,34 @@ under three metrics. Dragging a point in any panel updates the other two.</p>
     <em>Move predictions together</em>, and push the whole set away from the
     diagonal.</li>
     <li><b>And the other way round: how far can you drive the C-index down
-    while MAE stays under, say, 0.3?</b> Small swaps only — you are allowed to
-    ruin the ordering, but not to move anything very far.</li>
+    while MAE stays under, say, 0.3?</b> You are allowed to ruin the ordering,
+    but not to move anything very far. See how quickly the budget runs
+    out.</li>
   </ol>
   <details class="mlv-answer">
     <summary>What you should find</summary>
     <p>A group shift is rigid: it cannot change which prediction is larger, so
     the C-index sits at 1 no matter how far you drag, while MAE grows with the
     shift and MSE with its square. Ranking metrics are blind to any offset you
-    care to add. The reverse experiment is just as lopsided — a scatter of
-    hair-thin swaps near the diagonal costs almost nothing in MAE or MSE and
-    walks the C-index down toward the 0.5 of a coin flip. Distance and order
-    are simply different questions.</p>
+    care to add. The reverse experiment does not mirror it. A swap across the
+    diagonal is cheap in MAE and MSE, but it flips only the one pair it
+    crosses, and 24 observations make 276 pairs: even twelve disjoint
+    neighbour swaps (every point nudged past somebody) leave the C-index at
+    about 0.96. Reaching the 0.5 of a coin flip means turning half of those
+    276 pairs discordant, and a pair can only go discordant if the two errors
+    together exceed the gap between the true values. Reordering on that scale
+    costs more squared error, in the units of these plots, than ignoring the
+    input entirely and predicting the mean for everybody. So the asymmetry
+    runs one way: the distances can be made arbitrarily bad while the order
+    stays perfect, but the order cannot be destroyed for free.</p>
   </details>
 </div>
 
 <h2 id="classification-metrics">Classification metrics</h2>
 
-<p>For binary outcomes the picture changes. The true class is 0 or 1 — the two
+<p>For binary outcomes the picture changes. The true class is 0 or 1 (the two
 horizontal reference lines, with the points jittered slightly so they do not
-overlap — and the model returns a probability, plotted along the horizontal
+overlap), and the model returns a probability, plotted along the horizontal
 axis. <strong>Drag any point left or right</strong> to change the predicted
 probability for that case; the class it truly belongs to is fixed.</p>
 
@@ -175,7 +183,7 @@ probability for that case; the class it truly belongs to is fixed.</p>
   <button class="mlv-button" type="button" data-mlv-new="binary">Randomise everything</button>
   <span class="mlv-hint"><b>Randomise everything</b> draws a fresh sample, true
   classes included, so cases can switch sides. Dragging moves points
-  horizontally — only the predicted probability changes.</span>
+  horizontally; only the predicted probability changes.</span>
 </div>
 
 <h3 id="brier-score">Brier score</h3>
@@ -188,8 +196,8 @@ outcome treated as 0 or 1:</p>
 {% endraw %}
 
 <p>The squares are back, now measuring the horizontal distance from each point
-to its own class line. A confident mistake — probability 0.95 on a case whose
-outcome is 0 — produces a large square, while an unconfident one near 0.5 stays
+to its own class line. A confident mistake (probability 0.95 on a case whose
+outcome is 0) produces a large square, while an unconfident one near 0.5 stays
 small. The Brier score is a <em>proper</em> scoring rule: it is minimised by
 reporting your honest probability, so it rewards calibration and discrimination
 together.</p>
@@ -214,7 +222,7 @@ actually observed in it:</p>
 <p>The dotted verticals are the bin edges, and each square spans the gap
 between a bin's average prediction and its observed frequency. A model can be
 badly calibrated and still rank cases perfectly, or be beautifully calibrated
-and useless at telling the classes apart — which is why this metric never
+and useless at telling the classes apart, which is why this metric never
 travels alone.</p>
 
 <figure class="mlv-figure" data-mlv="mce">
@@ -258,7 +266,7 @@ whether you have improved the model.</p>
   <span class="mlv-hint"><b>Perfect</b> sends every probability to its own true
   class. <b>Move together</b> is a toggle: dragging then shifts every
   probability by the same amount on the log-odds scale, which keeps them inside
-  0 and 1 and leaves their ordering — and so the AUC — untouched.</span>
+  0 and 1 and leaves their ordering (and so the AUC) untouched.</span>
 </div>
 
 <div class="mlv-trio">
@@ -276,8 +284,8 @@ calibration and overall accuracy of the same 24 predicted probabilities.</p>
     <li>Switch on <em>Move predictions together</em> and slide everything
     toward one end of the axis. The Brier score and the calibration error
     deteriorate steadily; the AUC readout never so much as flickers.</li>
-    <li><b>Suppose the Brier score is stuck at a distinctly unimpressive 0.25 —
-    the value you would get by predicting the base rate for every case. How
+    <li><b>Suppose the Brier score is stuck at a distinctly unimpressive 0.25
+    (the value you would get by predicting the base rate for every case). How
     good can you make the AUC then? And the calibration error? Can you have
     both at once?</b></li>
     <li>Now the mirror image: make the predictions perfect, then break the
@@ -305,5 +313,5 @@ calibration and overall accuracy of the same 24 predicted probabilities.</p>
 each throws away something different on the way. Rank metrics discard the
 scale; squared metrics let one observation speak for the sample; calibration
 metrics ignore ordering entirely. Reporting one alone is a choice about which
-failures you are willing not to see — which is the argument for reporting at
+failures you are willing not to see, which is the argument for reporting at
 least two, chosen so that their blind spots do not coincide.</p>
